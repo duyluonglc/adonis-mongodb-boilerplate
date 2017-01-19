@@ -1,0 +1,45 @@
+{
+  "name": "adonis-app",
+  "version": "3.2.0",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon --watch app --watch bootstrap --watch config --watch .env -x node server.js",
+    "start": "node server.js",
+    "lint": "standard"
+  },
+  "author": "",
+  "license": "MIT",
+  "description": "",
+  "private": true,
+  "dependencies": {
+    "adonis-ace": "^3.0.5",
+    "adonis-ally": "^1.0.0",
+    "adonis-auth": "^1.0.5",
+    "adonis-commands": "^2.1.3",
+    "adonis-fold": "^3.0.3",
+    "adonis-framework": "^3.0.7",
+    "adonis-generators": "^0.7.0",
+    "adonis-lucid": "^3.0.12",
+    "adonis-middleware": "^1.0.10",
+    "adonis-mongorito": "^0.0.2",
+    "adonis-validation-provider": "^3.0.5",
+    "adonis-websocket": "^1.0.2",
+    "standard": "^8.6.0",
+    "swagger-jsdoc": "^1.8.4",
+    "swagger-ui": "^2.2.10",
+    "youch": "^1.0.1"
+  },
+  "standard": {
+    "global": [
+      "use",
+      "make"
+    ]
+  },
+  "autoload": {
+    "App": "./app"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0",
+    "standard": "^8.6.0"
+  }
+}
