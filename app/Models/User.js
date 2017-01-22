@@ -22,12 +22,6 @@ const languages = Config.get('locale.languages')
  *       password:
  *         type: string
  *         format: password
- *       language:
- *         type: string
- *         enum:
- *           - en
- *           - ja
- *           - vi
  *   User:
  *     allOf:
  *       - $ref: '#/definitions/NewUser'
@@ -40,12 +34,11 @@ const languages = Config.get('locale.languages')
  */
 class User extends Model {
 
-  static get rules() {
+  static rules(id) {
     return {
       name: 'required',
-      email: 'required|email',
-      password: 'required|min:6|max:255',
-      language: `required|in:${languages.join(',')}`
+      email: 'required|email|unique:users,email' + (id ? (`,_id,${id}`) : ''),
+      password: 'required|min:6|max:255'
     }
   }
 

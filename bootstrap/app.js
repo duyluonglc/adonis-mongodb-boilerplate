@@ -35,7 +35,8 @@ const providers = [
   'adonis-mongorito/providers/MongoritoProvider',
   'adonis-validation-provider/providers/ValidatorProvider',
   'adonis-ally/providers/AllyProvider',
-  // path.join(__dirname, '../providers/ExtendValidatorProvider')
+  path.join(__dirname, '../providers/ExceptionsProvider'),
+  path.join(__dirname, '../providers/ExtendValidatorProvider'),
 ]
 
 /*
@@ -85,7 +86,8 @@ const aliases = {
   View: 'Adonis/Src/View',
   Ws: 'Adonis/Addons/Ws',
   MongoritoModel: 'Adonis/Addons/MongoritoModel',
-  Validator: 'Adonis/Addons/Validator'
+  Validator: 'Adonis/Addons/Validator',
+  Exceptions: 'Adonis/Provider/Exceptions'
 }
 
 /*

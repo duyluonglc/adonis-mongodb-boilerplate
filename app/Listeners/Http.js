@@ -2,8 +2,11 @@
 
 const Env = use('Env')
 const Ouch = use('youch')
-const Http = exports = module.exports = {}
 const _ = use('lodash')
+const Exceptions = use('node-exceptions')
+const Http = exports = module.exports = {}
+const Model = use('App/Models/Model')
+const Config = use('Config')
 
 /**
  * handle errors occured during a Http request.
@@ -28,7 +31,6 @@ Http.handleError = function* (error, request, response) {
     let responseObject = {
       status_code: status,
       message: error.message,
-      data: [],
     }
     if (error.name === 'ValidateErrorException') {
       responseObject.errors = error.message
@@ -71,11 +73,11 @@ Http.onStart = function () {
   const Response = use('Adonis/Src/Response')
 
   Response.macro('apiCreated', function (item, meta) {
-    console.log(item);
+
     this.status(201).json({
       status_code: 201,
       message: 'Created successfully',
-      data: [item],
+      data: item,
       meta: meta
     })
   })
@@ -84,7 +86,7 @@ Http.onStart = function () {
     this.status(202).json({
       status_code: 202,
       message: 'Updated successfully',
-      data: [item],
+      data: item,
       meta: meta
     })
   })
@@ -93,7 +95,7 @@ Http.onStart = function () {
     this.status(202).json({
       status_code: 202,
       message: 'Deleted successfully',
-      data: [],
+      data: null,
       meta: meta
     })
   })
@@ -102,7 +104,7 @@ Http.onStart = function () {
     this.status(200).json({
       status_code: 200,
       message: 'Data retrieval successfully',
-      data: [item],
+      data: item,
       meta: meta
     })
   })
@@ -111,7 +113,7 @@ Http.onStart = function () {
     this.status(200).json({
       status_code: 200,
       message: 'Data retrieval successfully',
-      data: [items],
+      data: items,
       meta: meta
     })
   })
@@ -120,8 +122,47 @@ Http.onStart = function () {
     this.status(200).json({
       status_code: 200,
       message: message || 'Success',
-      data,
+      data: data,
       meta
     })
   })
+
+  const Request = use('Adonis/Src/Request')
+  Request.macro('getQuery', function () {
+    let query = {}
+    if (this.input('query')) {
+      try {
+        query = JSON.parse(this.input('query'))
+      } catch (error) {
+        throw new Exceptions.InvalidArgumentException(error.message)
+      }
+      if (!_.isObject(query)) {
+        throw new Exceptions.InvalidArgumentException(`'${query}' is not JSON`)
+      }
+    }
+    query.limit = query.limit || Config.get('api.limit')
+    query.skip = query.skip || 0
+    let includes = query.include || []
+    if (_.isString(includes)) {
+      includes = [{ relation: includes }]
+    } else if (_.isArray(includes)) {
+      includes = includes.map(include => {
+        if (_.isString(include)) {
+          return { relation: include }
+        } else if (_.isObject(include)) {
+          if (!include.relation) {
+            throw new Exceptions.InvalidArgumentException('`include` require relation property')
+          }
+          return include
+        } else {
+          throw new Exceptions.InvalidArgumentException('`include` is not valid')
+        }
+      })
+    } else {
+      throw new Exceptions.InvalidArgumentException('`include` is not valid')
+    }
+
+    return query
+  })
+
 }

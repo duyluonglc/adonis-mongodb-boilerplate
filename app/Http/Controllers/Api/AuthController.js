@@ -1,7 +1,7 @@
 'use strict'
 const User = use('App/Models/User')
 const Validator = use('Validator')
-const Exceptions = use('App/Exceptions')
+const Exceptions = use('Exceptions')
 const Config = use('Config')
 const Hash = use('Hash')
 
@@ -27,7 +27,7 @@ class AuthController {
     const token = yield request.auth.attempt(email, password)
     const user = yield User.findOne({ email })
     user.set({ token })
-    response.apiSuccess([user.toJson()])
+    response.apiSuccess(user)
 
   }
 
@@ -58,7 +58,7 @@ class AuthController {
   * me(request, response) {
     const user = yield request.auth.getUser()
 
-    return response.apiSuccess([user.toJson()])
+    return response.apiSuccess(user)
   }
 
 
@@ -75,7 +75,7 @@ class AuthController {
     const social = request.param('social')
     const socialUser = yield request.ally.driver(social).getUser()
 
-    return response.apiSuccess([socialUser.toJson()])
+    return response.apiSuccess(socialUser)
   }
 
 }

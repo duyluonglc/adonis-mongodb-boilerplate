@@ -7,7 +7,7 @@ const swaggerJSDoc = use('swagger-jsdoc')
 /**
  * Swagger jsDoc
  */
-Route.get('api-docs.json', function (request, response) {
+Route.get('api-docs.json', function* (request, response) {
   const options = {
     swaggerDefinition: {
       info: {

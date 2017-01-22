@@ -1,7 +1,7 @@
 'use strict'
 const User = use('App/Models/User')
 const Validator = use('Validator')
-const Exceptions = use('App/Exceptions')
+const Exceptions = use('Exceptions')
 const Config = use('Config')
 const Hash = use('Hash')
 
@@ -20,8 +20,11 @@ class UsersController {
    * @memberOf UsersController
    */
   * index(request, response) {
-    const users = yield User.all()
-    response.apiCollection(users)
+    const query = request.getQuery()
+    const users = yield User.limit(query.limit)
+      .skip(query.skip)
+      .find(query.where)
+    return response.apiCollection(users)
   }
 
   /**
@@ -34,19 +37,7 @@ class UsersController {
    * @memberOf UsersController
    */
   * store(request, response) {
-    const validation = yield Validator.validateAll(request.all(), User.rules)
-    if (!validation.fails()) {
-      const exist = yield User.findOne({ email: request.input('email') })
-      if (exist) {
-        throw new Exceptions.ValidateErrorException([
-          {
-            "field": "email",
-            "validation": "unique",
-            "message": "Email already existed"
-          }
-        ])
-      }
-    }
+    const validation = yield Validator.validateAll(request.all(), User.rules())
     if (validation.fails()) {
       throw new Exceptions.ValidateErrorException(validation.messages())
     }
@@ -66,11 +57,14 @@ class UsersController {
    * @memberOf UsersController
    */
   * show(request, response) {
-    const user = yield User.findById(request.params().id)
-    if (user)
-      response.apiItem(user)
-    else
-      throw new Exceptions.ResourceNotFoundException(`Cannot find user with id "${request.params('id')}"`)
+    const userId = request.param('id')
+    const user = yield User.findById(userId)
+    if (!user) {
+      throw new Exceptions.ResourceNotFoundException(`Cannot find user with id "${userId}"`)
+    }
+    // const query = request.getQuery()
+
+    return response.apiItem(user)
   }
 
   /**
@@ -83,18 +77,18 @@ class UsersController {
    * @memberOf UsersController
    */
   * update(request, response) {
-    const user = yield User.findById(request.param('id'))
-    if (!user)
-      throw new Exceptions.ResourceNotFoundException(`Cannot find user with id "${request.param('id')}"`)
-
-    const validation = yield Validator.validateAll(request.all(), {
-      name: 'min:1',
-      language: `in:${Config.get('locale.languages').join(',')}`,
-    })
+    const userId = request.param('id')
+    const validation = yield Validator.validateAll(request.all(), User.rules(userId))
+    const user = yield User.findById(userId)
+    if (!user) {
+      throw new Exceptions.ResourceNotFoundException(`Cannot find user with id "${userId}"`)
+    }
 
     if (validation.fails()) {
       throw new Exceptions.ValidateErrorException(validation.messages())
     }
+
+    user.set(request.only('name', 'phone'))
 
     yield user.save()
     return response.apiCreated(user)
@@ -109,11 +103,14 @@ class UsersController {
    * @memberOf UsersController
    */
   * destroy(request, response) {
-    const user = yield User.findById(request.param('id'))
+    const userId = request.param('id')
+    const user = yield User.findById(userId)
     if (!user)
-      throw new Exceptions.ResourceNotFoundException(`Cannot find user with id "${request.param('id')}"`)
+      throw new Exceptions.ResourceNotFoundException(`Cannot find user with id "${userId}"`)
     yield user.remove()
-    response.apiUpdated()
+    return response.apiUpdated()
+  }
+
   }
 
 }
