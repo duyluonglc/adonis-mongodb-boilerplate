@@ -32,11 +32,14 @@ const providers = [
   'adonis-middleware/providers/AppMiddlewareProvider',
   'adonis-auth/providers/AuthManagerProvider',
   'adonis-websocket/providers/WsProvider',
+  'adonis-mail-provider/providers/MailProvider',
   'adonis-mongorito/providers/MongoritoProvider',
   'adonis-validation-provider/providers/ValidatorProvider',
   'adonis-ally/providers/AllyProvider',
   path.join(__dirname, '../providers/ExceptionsProvider'),
   path.join(__dirname, '../providers/ExtendValidatorProvider'),
+  // path.join(__dirname, '../providers/ExtendRequestProvider'),
+  // path.join(__dirname, '../providers/ExtendResponseProvider'),
 ]
 
 /*
@@ -85,6 +88,7 @@ const aliases = {
   Schema: 'Adonis/Src/Schema',
   View: 'Adonis/Src/View',
   Ws: 'Adonis/Addons/Ws',
+  Mail: 'Adonis/Addons/Mail',
   MongoritoModel: 'Adonis/Addons/MongoritoModel',
   Validator: 'Adonis/Addons/Validator',
   Exceptions: 'Adonis/Provider/Exceptions'

@@ -7,6 +7,8 @@ class ResourceNotFoundException extends Exceptions.RuntimeException { }
 
 class ValidateErrorException extends Exceptions.RuntimeException { }
 
+class BadRequestException extends Exceptions.HttpException { }
+
 class ExceptionsProvider extends ServiceProvider {
 
   * register() {
@@ -14,6 +16,7 @@ class ExceptionsProvider extends ServiceProvider {
     this.app.bind('Adonis/Provider/Exceptions', function () {
       Exceptions.ResourceNotFoundException = ResourceNotFoundException
       Exceptions.ValidateErrorException = ValidateErrorException
+      Exceptions.BadRequestException = BadRequestException
       return Exceptions
     })
   }

@@ -4,6 +4,8 @@ const Env = use('Env')
 
 module.exports = {
 
+  baseUrl: Env.get('BASE_URL'),
+
   /*
   |--------------------------------------------------------------------------
   | App Key

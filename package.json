@@ -20,6 +20,7 @@
     "adonis-framework": "^3.0.7",
     "adonis-generators": "^0.7.0",
     "adonis-lucid": "^3.0.12",
+    "adonis-mail-provider": "^2.0.2",
     "adonis-middleware": "^1.0.10",
     "adonis-mongorito": "^0.0.2",
     "adonis-validation-provider": "^3.0.5",

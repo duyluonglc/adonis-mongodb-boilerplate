@@ -21,6 +21,7 @@ Http.handleError = function* (error, request, response) {
    */
   if (request.url().indexOf('/api/') === 0) {
     const statusCodes = {
+      BadRequestException: 400,
       ResourceNotFoundException: 404,
       ValidateErrorException: 422,
       PasswordMisMatchException: 401,
@@ -42,6 +43,11 @@ Http.handleError = function* (error, request, response) {
     }
 
     return response.status(status).json(responseObject)
+  }
+
+  if (error.name === 'ValidateErrorException') {
+    request.withAll().andWith({ errors: error.message }).flash()
+    return response.redirect('back')
   }
 
   /**
@@ -140,7 +146,7 @@ Http.onStart = function () {
         throw new Exceptions.InvalidArgumentException(`'${query}' is not JSON`)
       }
     }
-    query.limit = query.limit || Config.get('api.limit')
+    query.limit = query.limit || Config.get('api.limit', 20)
     query.skip = query.skip || 0
     let includes = query.include || []
     if (_.isString(includes)) {
@@ -165,4 +171,8 @@ Http.onStart = function () {
     return query
   })
 
+  const View = use('View')
+  View.global('url', function (path) {
+    return `${Config.get('app.baseUrl')}${path || ''}`
+  })
 }

@@ -3,7 +3,6 @@
 const Model = use('App/Models/Model')
 const Hash = use('Hash')
 const Config = use('Config')
-const languages = Config.get('locale.languages')
 
 /**
  * @swagger
@@ -43,7 +42,7 @@ class User extends Model {
   }
 
   static get hidden() {
-    return ['password', 'emailVerified', 'isDeleted']
+    return ['password', 'emailVerified', 'isDeleted', 'verificationToken']
   }
 
   // configure() {

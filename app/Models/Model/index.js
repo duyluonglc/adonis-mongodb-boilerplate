@@ -3,15 +3,11 @@ require('harmony-reflect')
 const mixin = require('es6-class-mixin')
 const Serializer = require('./Mixins/Serializer')
 const MongoritoModel = use('MongoritoModel')
+const Exceptions = use('Exceptions')
 const _ = use('lodash')
 
 class Model extends MongoritoModel {
-  // constructor() {
-  //   super()
-  //   if (this.constructor === Model) {
-  //     throw new TypeError("Cannot construct Abstract instances directly");
-  //   }
-  // }
+
   get id() { return this.get('_id') }
 
   static get primaryKey() { return 'id' }
@@ -30,21 +26,14 @@ class Model extends MongoritoModel {
     return []
   }
 
-  // toJson() {
-  //   let obj = _.omit(this.attributes, this.constructor.hidden)
-  //   _.forEach(obj, (value, key) => {
-  //     if (_.isObject(value) && _.isFunction(value.toJson))
-  //       obj[key] = value.toJson()
-  //     else if (_.isArray(value)) {
-  //       _.forEach(value, (v, k) => {
-  //         if (_.isObject(v) && _.isFunction(v.toJson)) {
-  //           obj[key][k] = v.toJson()
-  //         }
-  //       })
-  //     }
-  //   })
-  //   return obj
-  // }
+  static * findOrFail(where) {
+    const instance = yield this.findOne(where)
+    if (!instance) {
+      throw new Exceptions.ResourceNotFoundException('Can not find instance')
+    }
+    return instance
+  }
+
 }
 
 class ExtendedModel extends mixin(

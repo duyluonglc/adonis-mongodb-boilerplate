@@ -1,0 +1,34 @@
+{% extends 'master' %}
+
+{% block content %}
+  <div class="">
+
+    {% if old('errors') %}
+      <div class="alert alert-danger">
+        {% for error in old('errors') %}
+          <li> {{ error.message }} </li>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {{ form.open({action: 'Api/AuthController.postReset'}) }}
+
+      {{ csrfField }}
+
+      <div class="field">
+        {{ form.label('password', 'Enter your passwod') }}
+        {{ form.password('password') }}
+      </div>
+
+      <div class="field">
+        {{ form.label('passwordConfirmation', 'Confirm your passwod') }}
+        {{ form.password('passwordConfirmation') }}
+      </div>
+
+      <div class="button">
+        {{ form.submit('Change password') }}
+      </div>
+
+    {{ form.close() }}
+  </div>
+{% endblock %}
