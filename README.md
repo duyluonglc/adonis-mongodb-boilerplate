@@ -1,4 +1,4 @@
-# AdonisJs + Mongorito + Swagger jsdoc Application
+# AdonisJs + LucidMongo + Swagger jsdoc Application
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
 
 ## :arrow_up: How to Setup
@@ -17,3 +17,5 @@
 
 1. cd to the repo
 2. Run `npm start`
+
+
