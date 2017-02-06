@@ -16,6 +16,9 @@
 ## :arrow_forward: How to Run App
 
 1. cd to the repo
-2. Run `npm start`
+2. Run `npm run dev`
+
+**Explore to Swagger page:**
+ [http://localhost:3333/docs](http://localhost:3333/docs)
 
 
