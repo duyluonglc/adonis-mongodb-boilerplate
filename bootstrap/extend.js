@@ -1,8 +1,7 @@
 'use strict'
 
-const Ioc = require('adonis-fold').Ioc
-const MongoSerializer = require('../serializers/MongoSerializer')
-// const FingerPrint = require('../serializers/FingerPrint')
+// const Ioc = require('adonis-fold').Ioc
+
 /*
 |--------------------------------------------------------------------------
 | Extend Providers
@@ -23,11 +22,3 @@ const MongoSerializer = require('../serializers/MongoSerializer')
 |
 */
 
-Ioc.extend('Adonis/Src/AuthManager', 'mongo', function (app) {
-  return new MongoSerializer()
-}, 'serializer')
-
-// Ioc.extend('Adonis/Src/AuthManager', 'fingerprint', function (app) {
-//   // adonis will initiate the scheme itself for each request.
-//   return FingerPrint
-// }, 'scheme')

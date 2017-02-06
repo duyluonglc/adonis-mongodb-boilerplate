@@ -1,16 +1,14 @@
 'use strict'
+const BaseController = use('App/Http/Controllers/Api/BaseController')
 const User = use('App/Models/User')
-const Venue = use('App/Models/Venue')
-const Validator = use('Validator')
-const Exceptions = use('Exceptions')
-const Config = use('Config')
-const Hash = use('Hash')
-
+// const Validator = use('Validator')
+// const Exceptions = use('Exceptions')
+// const Config = use('Config')
 /**
  *
  * @class UsersController
  */
-class UsersController {
+class UsersController extends BaseController {
 
   /**
    * Index
@@ -28,10 +26,12 @@ class UsersController {
    *     summary: Get users
    *     parameters:
    *       - name: query
-   *         description: json string to query data
+   *         description: Query param with format json
    *         in:  query
    *         required: false
-   *         type: string
+   *         type: object
+   *         schema:
+   *           $ref: '#/definitions/ListQuery'
    *     responses:
    *       200:
    *         description: users
@@ -41,12 +41,11 @@ class UsersController {
    *             schema:
    *               $ref: '#/definitions/User'
    */
-  * index(request, response) {
-    const query = request.getQuery()
-    const users = yield User.limit(query.limit)
-      .skip(query.skip)
-      .find(query.where)
-    return response.apiCollection(users)
+  * index (request, response) {
+    const queryParams = request.getQuery()
+    const users = yield User.query(queryParams).fetch()
+
+    return response.apiCollection(users, queryParams)
   }
 
   /**
@@ -79,24 +78,24 @@ class UsersController {
    *           type: object
    *           $ref: '#/definitions/User'
    */
-  * store(request, response) {
-    yield this.validate(request, User.rules())
-    const user = new User(request.only('name', 'email'))
-    const password = yield Hash.make(request.input('password'))
-    const verificationToken = crypto.createHash('sha256').update(uuid.v4()).digest('hex')
-    user.set({
-      password: password,
-      verificationToken: verificationToken,
-      verified: false
-    })
-    yield user.save()
-    yield Mail.send('emails.verification', { user: user.get() }, (message) => {
-      message.to(user.get('email'), user.get('name'))
-      message.from(Config.get('mail.sender'))
-      message.subject('Please Verify Your Email Address')
-    })
-    return response.apiCreated(user)
-  }
+  // * store (request, response) {
+  //   yield this.validate(request, User.rules())
+  //   const user = new User(request.only('name', 'email'))
+  //   const password = yield Hash.make(request.input('password'))
+  //   const verificationToken = crypto.createHash('sha256').update(uuid.v4()).digest('hex')
+  //   user.set({
+  //     password: password,
+  //     verificationToken: verificationToken,
+  //     verified: false
+  //   })
+  //   yield user.save()
+  //   yield Mail.send('emails.verification', { user: user.get() }, (message) => {
+  //     message.to(user.email, user.name)
+  //     message.from(Config.get('mail.sender'))
+  //     message.subject('Please Verify Your Email Address')
+  //   })
+  //   return response.apiCreated(user)
+  // }
 
   /**
    * Show
@@ -119,20 +118,20 @@ class UsersController {
    *         required: true
    *         type: string
    *       - name: query
-   *         description: json string to query data
+   *         description: Query param with format json
    *         in:  query
    *         required: false
-   *         type: string
+   *         type: object
+   *         schema:
+   *           $ref: '#/definitions/SingleQuery'
    *     responses:
    *       200:
    *         description: user
    *         schema:
    *           $ref: '#/definitions/User'
    */
-  * show(request, response) {
+  * show (request, response) {
     const user = request.instance
-    // const query = request.getQuery()
-
     return response.apiItem(user)
   }
 
@@ -170,7 +169,7 @@ class UsersController {
    *         schema:
    *           $ref: '#/definitions/User'
    */
-  * update(request, response) {
+  * update (request, response) {
     const userId = request.param('id')
     yield this.validate(request, User.rules(userId))
 
@@ -205,13 +204,57 @@ class UsersController {
    *       202:
    *         description: delete success
    */
-  * destroy(request, response) {
-    const userId = request.param('id')
+  * destroy (request, response) {
     const user = request.instance
     yield user.remove()
     return response.apiDeleted()
   }
 
+  /**
+   * Venues
+   *
+   * @param {any} request
+   * @param {any} response
+   *
+   * @memberOf UsersController
+   *
+   * @swagger
+   * /users/{id}/venues:
+   *   get:
+   *     tags:
+   *       - User
+   *     summary: Get venues by user
+   *     parameters:
+   *       - name: id
+   *         description: Id of User object
+   *         in:  path
+   *         required: true
+   *         type: string
+   *       - name: query
+   *         description: Query param with format json
+   *         in:  query
+   *         required: false
+   *         type: object
+   *         schema:
+   *           $ref: '#/definitions/ListQuery'
+   *     responses:
+   *       200:
+   *         description: venues
+   *         schema:
+   *           type: array
+   *           items:
+   *             schema:
+   *               $ref: '#/definitions/Venue'
+   */
+  * venues (request, response) {
+    const user = request.instance
+    const query = request.getQuery()
+    const venues = yield user.venue().where(query.where)
+      .with(query.with)
+      .limit(query.limit)
+      .skip(query.skip)
+      .fetch()
+    return response.apiCollection(venues)
   }
 
 }

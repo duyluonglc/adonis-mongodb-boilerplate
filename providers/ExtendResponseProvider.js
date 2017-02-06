@@ -23,13 +23,12 @@ class ExtendResponseProvider extends ServiceProvider {
   //   }
   // }
 
-  * boot() {
+  * boot () {
     // const Config = this.app.use('Config')
     const Response = this.app.use('Adonis/Src/Response')
-
   }
 
-  * register() {
+  * register () {
 
     // Response.macro('apiCreated', function (item, meta) {
     //   this.status(201).json({

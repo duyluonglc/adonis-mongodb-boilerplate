@@ -3,13 +3,16 @@ const Exceptions = use('Exceptions')
 
 class Instance {
 
-  * handle(request, response, next, modelName) {
-    if(!modelName) {
-      throw new Exceptions.RuntimeError('Instance middleware need modelName parameter')
+  * handle (request, response, next, modelName) {
+    if (!modelName) {
+      throw new Exceptions.InvalidArgumentException('Instance middleware need modelName parameter')
+    }
+    const id = request.param('id')
+    if (!id) {
+      throw new Exceptions.InvalidArgumentException('Instance middleware need :id parameter in router')
     }
     const Model = use(`App/Models/${modelName}`)
-    const id = request.param('id')
-    const instance = yield Model.findById(id)
+    const instance = yield Model.query(request.getQuery()).find(id)
     if (!instance) {
       throw new Exceptions.ResourceNotFoundException(`Can not find model with id "${id}"`)
     }

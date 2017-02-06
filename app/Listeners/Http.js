@@ -5,7 +5,6 @@ const Ouch = use('youch')
 const _ = use('lodash')
 const Exceptions = use('node-exceptions')
 const Http = exports = module.exports = {}
-const Model = use('App/Models/Model')
 const Config = use('Config')
 
 /**
@@ -15,7 +14,7 @@ const Config = use('Config')
  * @param  {Object} request
  * @param  {Object} response
  */
-Http.handleError = function* (error, request, response) {
+Http.handleError = function * (error, request, response) {
   /**
    * Api response
    */
@@ -25,21 +24,21 @@ Http.handleError = function* (error, request, response) {
       ResourceNotFoundException: 404,
       ValidateErrorException: 422,
       PasswordMisMatchException: 401,
-      UserNotFoundException: 404,
+      UserNotFoundException: 404
     }
     const status = statusCodes[error.name] || error.status || 500
     console.error(error.stack)
     let responseObject = {
       status_code: status,
-      message: error.message,
+      message: error.message
     }
     if (error.name === 'ValidateErrorException') {
       responseObject.errors = error.message
-      responseObject.message = _.map(error.message, 'message').join("\n")
+      responseObject.message = _.map(error.message, 'message').join('\n')
     }
 
     if (Env.get('NODE_ENV') === 'development') {
-      responseObject.traces = error.stack.split("\n")
+      responseObject.traces = error.stack.split('\n')
     }
 
     return response.status(status).json(responseObject)
@@ -68,7 +67,7 @@ Http.handleError = function* (error, request, response) {
    */
   const status = error.status || 500
   console.error(error.stack)
-  yield response.status(status).sendView('errors/index', { error })
+  yield response.status(status).sendView('errors/index', { error})
 }
 
 /**
@@ -79,7 +78,6 @@ Http.onStart = function () {
   const Response = use('Adonis/Src/Response')
 
   Response.macro('apiCreated', function (item, meta) {
-
     this.status(201).json({
       status_code: 201,
       message: 'Created successfully',
@@ -129,7 +127,7 @@ Http.onStart = function () {
       status_code: 200,
       message: message || 'Success',
       data: data,
-      meta
+      meta: meta
     })
   })
 
@@ -148,7 +146,8 @@ Http.onStart = function () {
     }
     query.limit = query.limit || Config.get('api.limit', 20)
     query.skip = query.skip || 0
-    let includes = query.include || []
+    query.where = query.where || {}
+    let includes = query.with || []
     if (_.isString(includes)) {
       includes = [{ relation: includes }]
     } else if (_.isArray(includes)) {
@@ -157,18 +156,23 @@ Http.onStart = function () {
           return { relation: include }
         } else if (_.isObject(include)) {
           if (!include.relation) {
-            throw new Exceptions.InvalidArgumentException('`include` require relation property')
+            throw new Exceptions.InvalidArgumentException('`with` require relation property')
           }
           return include
         } else {
-          throw new Exceptions.InvalidArgumentException('`include` is not valid')
+          throw new Exceptions.InvalidArgumentException('`with` is not valid format')
         }
       })
+    } else if (_.isObject(includes)) {
+      if (!includes.relation) {
+        console.log(includes);
+        throw new Exceptions.InvalidArgumentException('`with` require relation property')
+      }
     } else {
-      throw new Exceptions.InvalidArgumentException('`include` is not valid')
+      throw new Exceptions.InvalidArgumentException('`with` is not valid format')
     }
-
-    return query
+    query.with = includes
+    return _.pick(query, ['fields', 'skip', 'limit', 'where', 'sort', 'limit', 'with'])
   })
 
   const View = use('View')

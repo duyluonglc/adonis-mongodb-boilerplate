@@ -1,12 +1,12 @@
 'use strict'
 
 const ServiceProvider = require('adonis-fold').ServiceProvider
-const MongoritoModel = require('mongorito').Model
-const Exceptions = require('node-exceptions')
+const LucidMongo = use('adonis-lucid-mongodb/src/LucidMongo/Model')
+const Exceptions = use('node-exceptions')
 
 class ExtendValidatorProvider extends ServiceProvider {
 
-  uniqueValidator(data, field, message, args, get) {
+  uniqueValidator (data, field, message, args, get) {
     return new Promise((resolve, reject) => {
       /**
        * skip if value is empty, required validation will
@@ -30,7 +30,7 @@ class ExtendValidatorProvider extends ServiceProvider {
        * take them as whereNot key/value pair to ignore
        */
       if (args[2] && args[3]) {
-        where[args[2]] = { neq: args[3] }
+        where[args[2]] = { neq: args[3]}
       }
 
       /**
@@ -41,20 +41,19 @@ class ExtendValidatorProvider extends ServiceProvider {
         where[args[4]] = args[5]
       }
 
-      class Model extends MongoritoModel { get collection() { return tableName } }
-
-      Model.findOne(where).then(exists => {
+      class Model extends LucidMongo {
+        static get table () { return tableName }
+      }
+      Model.findBy(where).then(exists => {
         if (exists)
           reject(message)
         else
           resolve('valid')
       })
     })
-
   }
 
-  existValidator(data, field, message, args, get) {
-
+  existValidator (data, field, message, args, get) {
     return new Promise((resolve, reject) => {
       /**
        * skip if value is empty, required validation will
@@ -81,20 +80,20 @@ class ExtendValidatorProvider extends ServiceProvider {
         where[args[2]] = args[3]
       }
 
-      class Model extends MongoritoModel { get collection() { return tableName } }
+      class Model extends LucidMongo {
+        static get table () { return tableName }
+      }
 
-      Model.findOne(where).then(exists => {
+      Model.findBy(where).then(exists => {
         if (exists)
           resolve('valid')
         else
           reject(message)
       })
-
     })
-
   }
 
-  * boot() {
+  * boot () {
     // register bindings
     const Validator = use('Adonis/Addons/Validator')
     Validator.extend('unique', this.uniqueValidator, '{{field}} already exists')
