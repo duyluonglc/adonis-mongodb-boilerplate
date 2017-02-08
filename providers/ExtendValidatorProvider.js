@@ -1,12 +1,13 @@
 'use strict'
 
 const ServiceProvider = require('adonis-fold').ServiceProvider
-const LucidMongo = use('adonis-lucid-mongodb/src/LucidMongo/Model')
-const Exceptions = use('node-exceptions')
+const co = require('co')
 
 class ExtendValidatorProvider extends ServiceProvider {
 
   uniqueValidator (data, field, message, args, get) {
+    const LucidMongo = use('LucidMongo')
+    const Exceptions = use('Exceptions')
     return new Promise((resolve, reject) => {
       /**
        * skip if value is empty, required validation will
@@ -16,44 +17,49 @@ class ExtendValidatorProvider extends ServiceProvider {
       if (!fieldValue) {
         return resolve('validation skipped')
       }
-      const tableName = args[0]
+      const collectionName = args[0]
       const databaseField = args[1] || field
-      if (!tableName) {
-        throw new Exceptions.RunTimeException('Unique rule require table name')
+      if (!collectionName) {
+        throw new Exceptions.RunTimeException('Unique rule require collection name')
       }
 
-      let where = {}
-      where[databaseField] = fieldValue
+      co(function * () {
+        let query = LucidMongo.query()
+        const connection = yield query.connect()
+        query = query.queryBuilder.collection(connection.collection(collectionName))
+        query = query.where(databaseField).eq(fieldValue)
+        /**
+         * if args[2] and args[3] are available inside the array
+         * take them as whereNot key/value pair to ignore
+         */
+        if (args[2] && args[3]) {
+          query = query.where(args[2]).notEqual(args[3])
+        }
 
-      /**
-       * if args[2] and args[3] are available inside the array
-       * take them as whereNot key/value pair to ignore
-       */
-      if (args[2] && args[3]) {
-        where[args[2]] = { neq: args[3]}
-      }
+        /**
+         * if args[4] and args[5] are available inside the array
+         * take them as where key/value pair to limit scope
+         */
+        if (args[4] && args[5]) {
+          query = query.where(args[4]).eq(args[5])
+        }
 
-      /**
-       * if args[4] and args[5] are available inside the array
-       * take them as where key/value pair to limit scope
-       */
-      if (args[4] && args[5]) {
-        where[args[4]] = args[5]
-      }
-
-      class Model extends LucidMongo {
-        static get table () { return tableName }
-      }
-      Model.findBy(where).then(exists => {
-        if (exists)
+        const exists = yield query.findOne()
+        return yield Promise.resolve(exists)
+      }).then(function (exists) {
+        console.log(exists)
+        if (exists) {
           reject(message)
-        else
+        } else {
           resolve('valid')
-      })
+        }
+      }).catch(reject)
     })
   }
 
   existValidator (data, field, message, args, get) {
+    const LucidMongo = use('LucidMongo')
+    const Exceptions = use('Exceptions')
     return new Promise((resolve, reject) => {
       /**
        * skip if value is empty, required validation will
@@ -63,33 +69,34 @@ class ExtendValidatorProvider extends ServiceProvider {
       if (!fieldValue) {
         return resolve('validation skipped')
       }
-      const tableName = args[0]
+      const collectionName = args[0]
       const databaseField = args[1] || field
-      if (!tableName) {
-        throw new Exceptions.RunTimeException('Unique rule require table name')
+      if (!collectionName) {
+        throw new Exceptions.RunTimeException('Unique rule require collection name')
       }
+      co(function * () {
+        let query = LucidMongo.query()
+        const connection = yield query.connect()
+        query = query.queryBuilder.collection(connection.collection(collectionName))
+        query = query.where(databaseField).eq(fieldValue)
+        /**
+         * if args[2] and args[3] are available inside the array
+         * take them as whereNot key/value pair to limit scope
+         */
+        if (args[2] && args[3]) {
+          query = query.where(args[2]).eq(args[3])
+        }
 
-      let where = {}
-      where[databaseField] = fieldValue
-
-      /**
-       * if args[2] and args[3] are available inside the array
-       * take them as where key/value pair to limit scope
-       */
-      if (args[2] && args[3]) {
-        where[args[2]] = args[3]
-      }
-
-      class Model extends LucidMongo {
-        static get table () { return tableName }
-      }
-
-      Model.findBy(where).then(exists => {
-        if (exists)
-          resolve('valid')
-        else
+        const exists = yield query.findOne()
+        return yield Promise.resolve(exists)
+      }).then(function (exists) {
+        console.log(exists)
+        if (exists) {
           reject(message)
-      })
+        } else {
+          resolve('valid')
+        }
+      }).catch(reject)
     })
   }
 

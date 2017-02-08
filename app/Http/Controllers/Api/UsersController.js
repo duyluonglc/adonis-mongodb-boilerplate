@@ -42,10 +42,8 @@ class UsersController extends BaseController {
    *               $ref: '#/definitions/User'
    */
   * index (request, response) {
-    const queryParams = request.getQuery()
-    const users = yield User.query(queryParams).fetch()
-
-    return response.apiCollection(users, queryParams)
+    const users = yield User.query(request.getQuery()).fetch()
+    return response.apiCollection(users)
   }
 
   /**
@@ -247,13 +245,7 @@ class UsersController extends BaseController {
    *               $ref: '#/definitions/Venue'
    */
   * venues (request, response) {
-    const user = request.instance
-    const query = request.getQuery()
-    const venues = yield user.venue().where(query.where)
-      .with(query.with)
-      .limit(query.limit)
-      .skip(query.skip)
-      .fetch()
+    const venues = yield request.instance.venues().query(request.getQuery()).fetch()
     return response.apiCollection(venues)
   }
 

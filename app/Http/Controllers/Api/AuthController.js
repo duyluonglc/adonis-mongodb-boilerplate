@@ -256,7 +256,6 @@ class AuthController extends BaseController {
    *           $ref: '#/definitions/User'
    */
   * me (request, response) {
-    console.log(request);
     return response.apiSuccess(request.authUser)
   }
 
