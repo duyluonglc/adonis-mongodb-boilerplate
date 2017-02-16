@@ -14,7 +14,7 @@
   "dependencies": {
     "adonis-ace": "^3.0.6",
     "adonis-ally": "^1.1.0",
-    "adonis-auth": "^1.0.5",
+    "adonis-auth": "https://github.com/duyluonglc/adonis-auth",
     "adonis-commands": "^2.1.5",
     "adonis-fold": "^3.0.3",
     "adonis-framework": "^3.0.9",
