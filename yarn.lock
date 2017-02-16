@@ -63,19 +63,6 @@ adonis-ally@^1.1.0:
     node-exceptions "^1.0.3"
     oauth "^0.9.14"
 
-adonis-auth@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/adonis-auth/-/adonis-auth-1.0.5.tgz#e98a0d958e0118d525a0ab5d6695b5c77e90edaa"
-  dependencies:
-    basic-auth "^1.1.0"
-    cat-log "^1.0.2"
-    co-functional "^0.2.1"
-    harmony-reflect "^1.5.0"
-    jsonwebtoken "^7.1.9"
-    ms "^0.7.2"
-    node-exceptions "^1.0.3"
-    uuid "^3.0.0"
-
 "adonis-auth@https://github.com/duyluonglc/adonis-auth":
   version "1.0.5"
   resolved "https://github.com/duyluonglc/adonis-auth#2628d320b3bae027b1c9ba6217acde5bc5e5dc17"
@@ -2444,6 +2431,12 @@ node-csp@^1.0.1:
 node-exceptions@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/node-exceptions/-/node-exceptions-1.0.3.tgz#625a797b92cbe8dd5bd0ae54e93571b7ded90b15"
+
+node-fence@^1.0.0-alpha-2:
+  version "1.0.0-alpha-2"
+  resolved "https://registry.yarnpkg.com/node-fence/-/node-fence-1.0.0-alpha-2.tgz#7fb79ec4a6161bcd80acaf8011d0eb47787111ef"
+  dependencies:
+    node-exceptions "^1.0.3"
 
 node-guard@^1.0.0:
   version "1.0.0"

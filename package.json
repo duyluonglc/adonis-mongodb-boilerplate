@@ -14,7 +14,7 @@
   "dependencies": {
     "adonis-ace": "^3.0.6",
     "adonis-ally": "^1.1.0",
-    "adonis-auth": "https://github.com/duyluonglc/adonis-auth",
+    "adonis-auth": "git+https://github.com/duyluonglc/adonis-auth.git#develop",
     "adonis-commands": "^2.1.5",
     "adonis-fold": "^3.0.3",
     "adonis-framework": "^3.0.9",
@@ -24,6 +24,7 @@
     "adonis-middleware": "^1.0.10",
     "adonis-validation-provider": "^3.0.5",
     "adonis-websocket": "^1.0.2",
+    "node-fence": "^1.0.0-alpha-2",
     "standard": "^8.6.0",
     "swagger-jsdoc": "^1.9.1",
     "swagger-ui": "^2.2.10",
