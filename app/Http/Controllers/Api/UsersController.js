@@ -18,28 +18,6 @@ class UsersController extends BaseController {
    *
    * @memberOf UsersController
    *
-   * @swagger
-   * /users:
-   *   get:
-   *     tags:
-   *       - User
-   *     summary: Get users
-   *     parameters:
-   *       - name: query
-   *         description: Query param with format json
-   *         in:  query
-   *         required: false
-   *         type: object
-   *         schema:
-   *           $ref: '#/definitions/ListQuery'
-   *     responses:
-   *       200:
-   *         description: users
-   *         schema:
-   *           type: array
-   *           items:
-   *             schema:
-   *               $ref: '#/definitions/User'
    */
   * index (request, response) {
     const users = yield User.query(request.getQuery()).fetch()
@@ -55,26 +33,6 @@ class UsersController extends BaseController {
    *
    * @memberOf UsersController
    *
-   * \@swagger
-   * /users:
-   *   post:
-   *     tags:
-   *       - User
-   *     summary: Create user
-   *     parameters:
-   *       - name: body
-   *         description: JSON of user
-   *         in:  body
-   *         required: true
-   *         type: object
-   *         schema:
-   *           $ref: '#/definitions/NewUser'
-   *     responses:
-   *       200:
-   *         description: user
-   *         schema:
-   *           type: object
-   *           $ref: '#/definitions/User'
    */
   // * store (request, response) {
   //   yield this.validate(request, User.rules())
@@ -103,30 +61,6 @@ class UsersController extends BaseController {
    *
    * @memberOf UsersController
    *
-   * @swagger
-   * /users/{id}:
-   *   get:
-   *     tags:
-   *       - User
-   *     summary: Returns user
-   *     parameters:
-   *       - name: id
-   *         description: Id of User object
-   *         in:  path
-   *         required: true
-   *         type: string
-   *       - name: query
-   *         description: Query param with format json
-   *         in:  query
-   *         required: false
-   *         type: object
-   *         schema:
-   *           $ref: '#/definitions/SingleQuery'
-   *     responses:
-   *       200:
-   *         description: user
-   *         schema:
-   *           $ref: '#/definitions/User'
    */
   * show (request, response) {
     const user = request.instance
@@ -142,30 +76,6 @@ class UsersController extends BaseController {
    *
    * @memberOf UsersController
    *
-   * @swagger
-   * /users/{id}:
-   *   put:
-   *     tags:
-   *       - User
-   *     summary: Update users
-   *     parameters:
-   *       - name: id
-   *         description: Id of User object
-   *         in:  path
-   *         required: true
-   *         type: string
-   *       - name: user
-   *         description: User object
-   *         in:  body
-   *         required: true
-   *         type: object
-   *         schema:
-   *           $ref: '#/definitions/NewUser'
-   *     responses:
-   *       202:
-   *         description: user
-   *         schema:
-   *           $ref: '#/definitions/User'
    */
   * update (request, response) {
     const userId = request.param('id')
@@ -186,21 +96,6 @@ class UsersController extends BaseController {
    *
    * @memberOf UsersController
    *
-   * @swagger
-   * /users/{id}:
-   *   delete:
-   *     tags:
-   *       - User
-   *     summary: Delete users
-   *     parameters:
-   *       - name: id
-   *         description: Id of User object
-   *         in:  path
-   *         required: true
-   *         type: string
-   *     responses:
-   *       202:
-   *         description: delete success
    */
   * destroy (request, response) {
     const user = request.instance
@@ -216,33 +111,6 @@ class UsersController extends BaseController {
    *
    * @memberOf UsersController
    *
-   * @swagger
-   * /users/{id}/venues:
-   *   get:
-   *     tags:
-   *       - User
-   *     summary: Get venues by user
-   *     parameters:
-   *       - name: id
-   *         description: Id of User object
-   *         in:  path
-   *         required: true
-   *         type: string
-   *       - name: query
-   *         description: Query param with format json
-   *         in:  query
-   *         required: false
-   *         type: object
-   *         schema:
-   *           $ref: '#/definitions/ListQuery'
-   *     responses:
-   *       200:
-   *         description: venues
-   *         schema:
-   *           type: array
-   *           items:
-   *             schema:
-   *               $ref: '#/definitions/Venue'
    */
   * venues (request, response) {
     const venues = yield request.instance.venues().query(request.getQuery()).fetch()

@@ -1,9 +1,7 @@
 'use strict'
 
 const Model = use('App/Models/Model')
-const Hash = use('Hash')
-const Config = use('Config')
-const languages = Config.get('locale.languages')
+const qs = use('qs')
 
 /**
  * @swagger
@@ -28,6 +26,14 @@ const languages = Config.get('locale.languages')
  *         type: string
  *       phone:
  *         type: string
+ *       description:
+ *         type: string
+ *       status:
+ *         type: string
+ *         enum:
+ *           - restaurant
+ *           - bar
+ *           - pub
  *       location:
  *         type: object
  *         properties:
@@ -35,13 +41,25 @@ const languages = Config.get('locale.languages')
  *             type: number
  *           lat:
  *             type: number
+ *       autoPolicy:
+ *         type: boolean
+ *         default: false
+ *       hasBank:
+ *         type: boolean
+ *         default: false
+ *       currency:
+ *         type: string
+ *         enum:
+ *           - usd
+ *           - jpy
+ *           - vnd
  *
  *   Venue:
  *     allOf:
  *       - $ref: '#/definitions/NewVenue'
  *       - type: object
  *         required:
- *           - id
+ *           - _id
  *         properties:
  *           _id:
  *             type: string
@@ -50,25 +68,25 @@ const languages = Config.get('locale.languages')
  */
 class Venue extends Model {
 
-  static rules(id) {
+  static rules (scope) {
     return {
-      type: 'required|in:restaurant,bar,club',
-      name: 'required|unique:venues,name' + (id ? (`,_id,${id}`) : ''),
+      type: 'required|in:restaurant,cafe,bar,club',
+      name: `required|unique:venues,name,${qs.stringify(scope)}`,
       address: 'required',
       phone: 'required|min:8|max:20',
       status: 'in:enabled,disabled',
       location: 'required|object',
       'location.lng': 'required|range:-90,90',
-      'location.lat': 'required|range:-180,180',
+      'location.lat': 'required|range:-180,180'
     }
   }
 
-  static get hidden() {
+  static get hidden () {
     return []
   }
 
-  user() {
-    return this.hasMany('App/Models/User')
+  owner () {
+    return this.belongsTo('App/Models/User')
   }
 
 }

@@ -24,7 +24,8 @@ Http.handleError = function * (error, request, response) {
       ResourceNotFoundException: 404,
       ValidateErrorException: 422,
       PasswordMisMatchException: 401,
-      UserNotFoundException: 404
+      UserNotFoundException: 404,
+      UnAuthorizeException: 403
     }
     const status = statusCodes[error.name] || error.status || 500
     console.error(error.stack)
@@ -45,7 +46,9 @@ Http.handleError = function * (error, request, response) {
   }
 
   if (error.name === 'ValidateErrorException') {
-    request.withAll().andWith({ errors: error.message }).flash()
+    request.withAll().andWith({
+      errors: error.message
+    }).flash()
     return response.redirect('back')
   }
 
@@ -67,7 +70,7 @@ Http.handleError = function * (error, request, response) {
    */
   const status = error.status || 500
   console.error(error.stack)
-  yield response.status(status).sendView('errors/index', { error})
+  yield response.status(status).sendView('errors/index', {error})
 }
 
 /**
@@ -75,6 +78,16 @@ Http.handleError = function * (error, request, response) {
  * starting http server.
  */
 Http.onStart = function () {
+  registerResponseMacros()
+  registerRequestMacros()
+
+  const View = use('View')
+  View.global('url', function (path) {
+    return `${Config.get('app.baseUrl')}${path || ''}`
+  })
+}
+
+function registerResponseMacros () {
   const Response = use('Adonis/Src/Response')
 
   Response.macro('apiCreated', function (item, meta) {
@@ -130,8 +143,11 @@ Http.onStart = function () {
       meta: meta
     })
   })
+}
 
+function registerRequestMacros () {
   const Request = use('Adonis/Src/Request')
+
   Request.macro('getQuery', function () {
     let query = {}
     if (this.input('query')) {
@@ -149,11 +165,15 @@ Http.onStart = function () {
     query.where = query.where || {}
     let includes = query.with || []
     if (_.isString(includes)) {
-      includes = [{ relation: includes }]
+      includes = [{
+        relation: includes
+      }]
     } else if (_.isArray(includes)) {
       includes = includes.map(include => {
         if (_.isString(include)) {
-          return { relation: include }
+          return {
+            relation: include
+          }
         } else if (_.isObject(include)) {
           if (!include.relation) {
             throw new Exceptions.InvalidArgumentException('`with` require relation property')
@@ -165,7 +185,6 @@ Http.onStart = function () {
       })
     } else if (_.isObject(includes)) {
       if (!includes.relation) {
-        console.log(includes);
         throw new Exceptions.InvalidArgumentException('`with` require relation property')
       }
     } else {
@@ -174,9 +193,5 @@ Http.onStart = function () {
     query.with = includes
     return _.pick(query, ['fields', 'skip', 'limit', 'where', 'sort', 'limit', 'with'])
   })
-
-  const View = use('View')
-  View.global('url', function (path) {
-    return `${Config.get('app.baseUrl')}${path || ''}`
-  })
 }
+

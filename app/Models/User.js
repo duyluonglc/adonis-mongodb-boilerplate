@@ -1,9 +1,10 @@
 'use strict'
 
 const Model = use('App/Models/Model')
-const Hash = use('Hash')
+// const Hash = use('Hash')
 const Config = use('Config')
 const languages = Config.get('locale.languages')
+const qs = require('qs')
 
 /**
  * @swagger
@@ -40,10 +41,10 @@ const languages = Config.get('locale.languages')
  */
 class User extends Model {
 
-  static rules (id) {
+  static rules (scope = {}) {
     return {
       name: 'required',
-      email: 'required|email|unique:users,email' + (id ? (`,_id,${id}`) : ''),
+      email: `required|email|unique:users,email,${qs.stringify(scope)}`,
       password: 'required|min:6|max:255',
       language: `required|in:${languages.join(',')}`
     }
@@ -58,7 +59,7 @@ class User extends Model {
   }
 
   venues () {
-    return this.hasMany('App/Models/Venue', '_id', 'user_id')
+    return this.hasMany('App/Models/Venue', '_id', 'userId')
   }
 
 }

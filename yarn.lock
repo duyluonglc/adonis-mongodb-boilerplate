@@ -1980,8 +1980,8 @@ jsonpointer@^4.0.0:
   resolved "https://registry.yarnpkg.com/jsonpointer/-/jsonpointer-4.0.1.tgz#4fd92cb34e0e9db3c89c8622ecf51f9b978c6cb9"
 
 jsonwebtoken@^7.1.9:
-  version "7.2.1"
-  resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-7.2.1.tgz#0fc7217473fc02b4c9aa1e188aa70b51bba4fccb"
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-7.3.0.tgz#85118d6a70e3fccdf14389f4e7a1c3f9c8a9fbba"
   dependencies:
     joi "^6.10.1"
     jws "^3.1.4"
@@ -2299,9 +2299,9 @@ mongodb-core@2.1.2:
     bson "~1.0.1"
     require_optional "~1.0.0"
 
-mongodb-core@2.1.8:
-  version "2.1.8"
-  resolved "https://registry.yarnpkg.com/mongodb-core/-/mongodb-core-2.1.8.tgz#b33e0370d0a59d97b6cb1ec610527be9e95ca2c0"
+mongodb-core@2.1.7:
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/mongodb-core/-/mongodb-core-2.1.7.tgz#6a27909b98142ef2508d924c274969008954fa29"
   dependencies:
     bson "~1.0.4"
     require_optional "~1.0.0"
@@ -2315,11 +2315,11 @@ mongodb@2.2.16:
     readable-stream "2.1.5"
 
 mongodb@^2.2.22:
-  version "2.2.24"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-2.2.24.tgz#80f40d6ec5bdec0ddecf0f9ce0144e794c46449a"
+  version "2.2.22"
+  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-2.2.22.tgz#d67c588fc08f922db19754b1d2e03e2d7d1319fb"
   dependencies:
     es6-promise "3.2.1"
-    mongodb-core "2.1.8"
+    mongodb-core "2.1.7"
     readable-stream "2.1.5"
 
 mongoose@^4.0.6:
@@ -2804,8 +2804,10 @@ pop-iterate@^1.0.1:
   resolved "https://registry.yarnpkg.com/pop-iterate/-/pop-iterate-1.0.1.tgz#ceacfdab4abf353d7a0f2aaa2c1fc7b3f9413ba3"
 
 pope@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/pope/-/pope-1.0.1.tgz#98cb826cba83945408cfae65755430b8fd27d393"
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/pope/-/pope-1.0.0.tgz#a1393acc70dd09fddc2fe8a3e27483663c821480"
+  dependencies:
+    npmlog "^2.0.0"
 
 prelude-ls@~1.1.2:
   version "1.1.2"

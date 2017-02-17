@@ -19,7 +19,5 @@ const Route = use('Route')
 
 Route.on('/').render('welcome')
 
-use('App/Http/Routes/Swagger')
-use('App/Http/Routes/Auth')
-use('App/Http/Routes/User')
+use('require-all')(use('Helpers').basePath() + '/app/Http/Routes')
 

@@ -12,6 +12,9 @@ class ValidateErrorException extends Exceptions.RuntimeException {
 class BadRequestException extends Exceptions.HttpException {
 }
 
+class UnAuthorizeException extends Exceptions.HttpException {
+}
+
 class ExceptionsProvider extends ServiceProvider {
 
   * register () {
@@ -20,6 +23,7 @@ class ExceptionsProvider extends ServiceProvider {
       Exceptions.ResourceNotFoundException = ResourceNotFoundException
       Exceptions.ValidateErrorException = ValidateErrorException
       Exceptions.BadRequestException = BadRequestException
+      Exceptions.UnAuthorizeException = UnAuthorizeException
       return Exceptions
     })
   }

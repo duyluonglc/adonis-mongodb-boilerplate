@@ -23,26 +23,6 @@ class AuthController extends BaseController {
    *
    * @memberOf UsersController
    *
-   * @swagger
-   * /auth/register:
-   *   post:
-   *     tags:
-   *       - Auth
-   *     summary: Register new user
-   *     parameters:
-   *       - name: body
-   *         description: JSON of user
-   *         in:  body
-   *         required: true
-   *         type: object
-   *         schema:
-   *           $ref: '#/definitions/NewUser'
-   *     responses:
-   *       200:
-   *         description: user
-   *         schema:
-   *           type: object
-   *           $ref: '#/definitions/User'
    */
   * register (request, response) {
     yield this.validate(request, User.rules())
@@ -71,28 +51,6 @@ class AuthController extends BaseController {
    *
    * @memberOf AuthController
    *
-   * @swagger
-   * /auth/login:
-   *   post:
-   *     tags:
-   *       - Auth
-   *     summary: Login to the application
-   *     parameters:
-   *       - name: email
-   *         description: email to use for login.
-   *         in: formData
-   *         required: true
-   *         type: string
-   *       - name: password
-   *         description: User's password.
-   *         in: formData
-   *         required: true
-   *         type: string
-   *     responses:
-   *       200:
-   *         description: login success
-   *         schema:
-   *           $ref: '#/definitions/User'
    */
   * login (request, response) {
     const email = request.input('email')
@@ -114,15 +72,6 @@ class AuthController extends BaseController {
    *
    * @memberOf AuthController
    *
-   * @swagger
-   * /auth/logout:
-   *   post:
-   *     tags:
-   *       - Auth
-   *     summary: Logout the application
-   *     responses:
-   *       200:
-   *         description: logout success
    */
   * logout (request, response) {
     yield request.auth.logout()
@@ -139,33 +88,6 @@ class AuthController extends BaseController {
    *
    * @memberOf AuthController
    *
-   * @swagger
-   * /auth/login/{social}:
-   *   post:
-   *     tags:
-   *       - Auth
-   *     summary: Social login
-   *     parameters:
-   *       - name: social
-   *         description: social.
-   *         in: path
-   *         required: true
-   *         type: string
-   *         enum:
-   *           - facebook
-   *           - google
-   *           - twitter
-   *           - linkedin
-   *       - name: social_token
-   *         description: social token.
-   *         in: formData
-   *         required: true
-   *         type: string
-   *     responses:
-   *       200:
-   *         description: auth
-   *         schema:
-   *           $ref: '#/definitions/User'
    */
   * socialLogin (request, response) {
     const social = request.param('social')
@@ -181,21 +103,6 @@ class AuthController extends BaseController {
    * @param  {Object} request
    * @param  {Object} response
    *
-   * @swagger
-   * /auth/sendVerification:
-   *   post:
-   *     tags:
-   *       - Auth
-   *     summary: Resend verification email
-   *     parameters:
-   *       - name: email
-   *         description: email.
-   *         in: formData
-   *         required: true
-   *         type: string
-   *     responses:
-   *       200:
-   *         description: verify ok
    */
   * sendVerification (request, response) {
     yield this.validate(request, { email: 'required' })
@@ -243,17 +150,6 @@ class AuthController extends BaseController {
    *
    * @memberOf AuthController
    *
-   * @swagger
-   * /auth/me:
-   *   get:
-   *     tags:
-   *       - Auth
-   *     summary: Returns user
-   *     responses:
-   *       200:
-   *         description: auth
-   *         schema:
-   *           $ref: '#/definitions/User'
    */
   * me (request, response) {
     return response.apiSuccess(request.authUser)
@@ -268,21 +164,6 @@ class AuthController extends BaseController {
    *
    * @memberOf AuthController
    *
-   * @swagger
-   * /auth/forgot:
-   *   post:
-   *     tags:
-   *       - Auth
-   *     summary: Get email to reset password
-   *     parameters:
-   *       - name: email
-   *         description: email.
-   *         in: formData
-   *         required: true
-   *         type: string
-   *     responses:
-   *       200:
-   *         description: message
    */
   * forgot (request, response) {
     yield this.validate(request, { email: 'required' })
@@ -331,26 +212,6 @@ class AuthController extends BaseController {
    *
    * @memberOf AuthController
    *
-   * @swagger
-   * /auth/reset:
-   *   post:
-   *     tags:
-   *       - Auth
-   *     summary: Reset password
-   *     parameters:
-   *       - name: verificationToken
-   *         description: verificationToken.
-   *         in: query
-   *         required: true
-   *         type: string
-   *       - name: password
-   *         description: password.
-   *         in: formData
-   *         required: true
-   *         type: string
-   *     responses:
-   *       200:
-   *         description: message
    */
   * postReset (request, response) {
     const token = request.input('token')
@@ -377,26 +238,6 @@ class AuthController extends BaseController {
    *
    * @memberOf AuthController
    *
-   * @swagger
-   * /auth/password:
-   *   post:
-   *     tags:
-   *       - Auth
-   *     summary: Change password
-   *     parameters:
-   *       - name: password
-   *         description: password.
-   *         in: formData
-   *         required: true
-   *         type: string
-   *       - name: newPassword
-   *         description: newPassword.
-   *         in: formData
-   *         required: true
-   *         type: string
-   *     responses:
-   *       200:
-   *         description: message
    */
   * password (request, response) {
     yield this.validate(request, { password: 'required', newPassword: 'required|min:6|max:50' })

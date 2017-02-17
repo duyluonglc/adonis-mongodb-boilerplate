@@ -2,6 +2,8 @@
 
 const ServiceProvider = require('adonis-fold').ServiceProvider
 const co = require('co')
+const _ = require('lodash')
+const qs = require('qs')
 
 class ExtendValidatorProvider extends ServiceProvider {
 
@@ -29,25 +31,16 @@ class ExtendValidatorProvider extends ServiceProvider {
         query = query.queryBuilder.collection(connection.collection(collectionName))
         query = query.where(databaseField).eq(fieldValue)
         /**
-         * if args[2] and args[3] are available inside the array
-         * take them as whereNot key/value pair to ignore
+         * if args[2] are available inside the array
+         * take them as where to limit scope
          */
-        if (args[2] && args[3]) {
-          query = query.where(args[2]).notEqual(args[3])
-        }
-
-        /**
-         * if args[4] and args[5] are available inside the array
-         * take them as where key/value pair to limit scope
-         */
-        if (args[4] && args[5]) {
-          query = query.where(args[4]).eq(args[5])
+        if (args[2]) {
+          query = query.where(qs.parse(args[2]))
         }
 
         const exists = yield query.findOne()
         return yield Promise.resolve(exists)
       }).then(function (exists) {
-        console.log(exists)
         if (exists) {
           reject(message)
         } else {
@@ -80,17 +73,16 @@ class ExtendValidatorProvider extends ServiceProvider {
         query = query.queryBuilder.collection(connection.collection(collectionName))
         query = query.where(databaseField).eq(fieldValue)
         /**
-         * if args[2] and args[3] are available inside the array
-         * take them as whereNot key/value pair to limit scope
+         * if args[2] are available inside the array
+         * take them as where to limit scope
          */
-        if (args[2] && args[3]) {
-          query = query.where(args[2]).eq(args[3])
+        if (args[2]) {
+          query = query.where(qs.parse(args[2]))
         }
 
         const exists = yield query.findOne()
         return yield Promise.resolve(exists)
       }).then(function (exists) {
-        console.log(exists)
         if (exists) {
           reject(message)
         } else {
