@@ -1,10 +1,8 @@
 'use strict'
 
-const Model = use('App/Models/Model')
-// const Hash = use('Hash')
+const Model = use('LucidMongo')
 const Config = use('Config')
 const languages = Config.get('locale.languages')
-const qs = require('qs')
 
 /**
  * @swagger
@@ -33,18 +31,20 @@ const qs = require('qs')
  *     allOf:
  *       - $ref: '#/definitions/NewUser'
  *       - type: object
- *         required:
- *           - id
  *         properties:
  *           _id:
  *             type: string
  */
 class User extends Model {
+  // timestamp
+  static get createTimestamp () { return 'createdAt' }
+  static get updateTimestamp () { return 'updatedAt' }
+  static get deleteTimestamp () { return 'deletedAt' }
 
-  static rules (scope = {}) {
+  static rules (userId) {
     return {
       name: 'required',
-      email: `required|email|unique:users,email,${qs.stringify(scope)}`,
+      email: `required|email|unique:users,email,_id,${userId}`,
       password: 'required|min:6|max:255',
       language: `required|in:${languages.join(',')}`
     }
@@ -54,8 +54,13 @@ class User extends Model {
     return ['password', 'isDeleted', 'verificationToken']
   }
 
+  static boot () {
+    super.boot()
+    this.addHook('beforeCreate', 'App/Models/Hooks/User.encryptPassword')
+  }
+
   tokens () {
-    return this.hasMany('App/Models/Token')
+    return this.hasMany('App/Models/Token', '_id', 'userId')
   }
 
   venues () {

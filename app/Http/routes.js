@@ -19,5 +19,5 @@ const Route = use('Route')
 
 Route.on('/').render('welcome')
 
-use('require-all')(use('Helpers').basePath() + '/app/Http/Routes')
+use('require-all')(`${use('Helpers').appPath()}/Http/Routes`)
 

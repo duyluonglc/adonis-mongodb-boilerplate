@@ -35,7 +35,7 @@ class UsersController extends BaseController {
    *
    */
   // * store (request, response) {
-  //   yield this.validate(request, User.rules())
+  //   yield this.validate(request.all(), User.rules())
   //   const user = new User(request.only('name', 'email'))
   //   const password = yield Hash.make(request.input('password'))
   //   const verificationToken = crypto.createHash('sha256').update(uuid.v4()).digest('hex')
@@ -79,13 +79,13 @@ class UsersController extends BaseController {
    */
   * update (request, response) {
     const userId = request.param('id')
-    yield this.validate(request, User.rules(userId))
+    yield this.validateAttributes(request.all(), User.rules(userId))
 
     const user = request.instance
     user.set(request.only('name', 'phone'))
     yield user.save()
 
-    return response.apiCreated(user)
+    return response.apiUpdated(user)
   }
 
   /**
@@ -101,6 +101,45 @@ class UsersController extends BaseController {
     const user = request.instance
     yield user.remove()
     return response.apiDeleted()
+  }
+
+  /**
+   * Upload
+   *
+   * @param {any} request
+   * @param {any} response
+   *
+   * @memberOf VenuesController
+   *
+   */
+  * upload (request, response) {
+    const File = use('File')
+    const user = request.instance
+    const image = request.file('image', {
+      maxSize: '2mb',
+      allowedExtensions: ['jpg', 'png', 'jpeg']
+    })
+    const fileName = use('uuid').v1().replace('-', '') + image.clientName()
+    const filePath = `uploads/${fileName}`
+    yield File.upload(fileName, image)
+    yield user.images().create({fileName, filePath})
+    yield user.related('images').load()
+    return response.apiUpdated(user)
+  }
+
+  /**
+   * Get images of user
+   *
+   * @param {any} request
+   * @param {any} response
+   *
+   * @memberOf VenuesController
+   *
+   */
+  * images (request, response) {
+    const user = request.instance
+    const images = yield user.images().query(request.getQuery()).fetch()
+    return response.apiCollection(images)
   }
 
   /**

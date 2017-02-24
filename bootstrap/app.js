@@ -35,6 +35,7 @@ const providers = [
   'adonis-mail-provider/providers/MailProvider',
   'adonis-validation-provider/providers/ValidatorProvider',
   'adonis-ally/providers/AllyProvider',
+  'adonis-filesystem/providers/FilesystemProvider',
   path.join(__dirname, '../providers/ExceptionsProvider'),
   path.join(__dirname, '../providers/ExtendValidatorProvider'),
   // path.join(__dirname, '../providers/ExtendRequestProvider'),
@@ -89,7 +90,8 @@ const aliases = {
   Ws: 'Adonis/Addons/Ws',
   Mail: 'Adonis/Addons/Mail',
   Validator: 'Adonis/Addons/Validator',
-  Exceptions: 'Adonis/Provider/Exceptions'
+  Exceptions: 'Adonis/Provider/Exceptions',
+  File: 'AdonisFilesystem/Filesystem'
 }
 
 /*

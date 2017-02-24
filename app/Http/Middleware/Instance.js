@@ -11,7 +11,7 @@ class Instance {
     if (!id) {
       throw new Exceptions.InvalidArgumentException('Instance middleware need :id parameter in router')
     }
-    const Model = use(`App/Models/${modelName}`)
+    const Model = use(modelName)
     const instance = yield Model.query(request.getQuery()).find(id)
     if (!instance) {
       throw new Exceptions.ResourceNotFoundException(`Can not find model with id "${id}"`)

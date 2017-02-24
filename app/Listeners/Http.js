@@ -33,7 +33,7 @@ Http.handleError = function * (error, request, response) {
       status_code: status,
       message: error.message
     }
-    if (error.name === 'ValidateErrorException') {
+    if (_.isArray(error.message)) {
       responseObject.errors = error.message
       responseObject.message = _.map(error.message, 'message').join('\n')
     }

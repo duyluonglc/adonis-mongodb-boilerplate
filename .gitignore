@@ -3,3 +3,4 @@ storage
 !.gitkeep
 .env
 npm-debug.log
+/public/uploads

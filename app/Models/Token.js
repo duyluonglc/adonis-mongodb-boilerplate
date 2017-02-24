@@ -1,11 +1,11 @@
 'use strict'
 
-const Model = use('App/Models/Model')
+const Model = use('LucidMongo')
 
 class Token extends Model {
 
   user () {
-    return this.belongsTo('App/Models/User')
+    return this.belongsTo('App/Models/User', '_id', 'userId')
   }
 
 }

@@ -31,7 +31,6 @@ const globalMiddleware = [
 const namedMiddleware = {
   auth: 'Adonis/Middleware/Auth',
   ally: 'Adonis/Middleware/Ally',
-  acl: 'App/Http/Middleware/Acl',
   instance: 'App/Http/Middleware/Instance',
 }
 

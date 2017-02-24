@@ -1,13 +1,19 @@
 'use strict'
 const Validator = use('Validator')
 const Exceptions = use('Exceptions')
+const _ = use('lodash')
 
 class BaseController {
-  * validate(request, rules) {
-    const validation = yield Validator.validateAll(request.all(), rules)
+  * validate (data, rules, scope) {
+    const validation = yield Validator.validateAll(data, rules)
     if (validation.fails()) {
       throw new Exceptions.ValidateErrorException(validation.messages())
     }
+  }
+
+  * validateAttributes (data, rules) {
+    rules = _.pick(rules, _.keys(data))
+    this.validate(data, rules)
   }
 
 }
