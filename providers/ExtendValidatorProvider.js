@@ -24,16 +24,16 @@ class ExtendValidatorProvider extends ServiceProvider {
       }
 
       co(function * () {
-        let query = LucidMongo.query()
+        const query = LucidMongo.query()
         const connection = yield query.connect()
-        query.queryBuilder.collection(connection.collection(collectionName))
-        query.where(databaseField).eq(fieldValue)
+        const queryBuilder = query.modelQueryBuilder.collection(connection.collection(collectionName))
+        queryBuilder.where(databaseField).eq(fieldValue)
         /**
          * if args[2] and args[3] are available inside the array
          * take them as whereNot key/value pair to ignore
          */
         if (args[2] && args[3]) {
-          query.where(args[2]).ne(args[3])
+          queryBuilder.where(args[2]).ne(args[3])
         }
 
         /**
@@ -41,10 +41,10 @@ class ExtendValidatorProvider extends ServiceProvider {
          * take them as where key/value pair to limit scope
          */
         if (args[4] && args[5]) {
-          query.where(args[4]).eq(args[5])
+          queryBuilder.where(args[4]).eq(args[5])
         }
 
-        const exists = yield query.findOne()
+        const exists = yield queryBuilder.findOne()
         return yield Promise.resolve(exists)
       }).then(function (exists) {
         if (exists) {
@@ -74,19 +74,19 @@ class ExtendValidatorProvider extends ServiceProvider {
         throw new Exceptions.RunTimeException('Unique rule require collection name')
       }
       co(function * () {
-        let query = LucidMongo.query()
+        const query = LucidMongo.query()
         const connection = yield query.connect()
-        query.queryBuilder.collection(connection.collection(collectionName))
-        query.where(databaseField).eq(fieldValue)
+        const queryBuilder = query.queryBuilder.collection(connection.collection(collectionName))
+        queryBuilder.where(databaseField).eq(fieldValue)
         /**
          * if args[2] and args[3] are available inside the array
          * take them as whereNot key/value pair to limit scope
          */
         if (args[2] && args[3]) {
-          query.where(args[2]).eq(args[3])
+          queryBuilder.where(args[2]).eq(args[3])
         }
 
-        const exists = yield query.findOne()
+        const exists = yield queryBuilder.findOne()
         return yield Promise.resolve(exists)
       }).then(function (exists) {
         if (exists) {
