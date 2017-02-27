@@ -26,14 +26,14 @@ class ExtendValidatorProvider extends ServiceProvider {
       co(function * () {
         let query = LucidMongo.query()
         const connection = yield query.connect()
-        query = query.queryBuilder.collection(connection.collection(collectionName))
-        query = query.where(databaseField).eq(fieldValue)
+        query.queryBuilder.collection(connection.collection(collectionName))
+        query.where(databaseField).eq(fieldValue)
         /**
          * if args[2] and args[3] are available inside the array
          * take them as whereNot key/value pair to ignore
          */
         if (args[2] && args[3]) {
-          query = query.where(args[2]).neq(args[3])
+          query.where(args[2]).ne(args[3])
         }
 
         /**
@@ -41,7 +41,7 @@ class ExtendValidatorProvider extends ServiceProvider {
          * take them as where key/value pair to limit scope
          */
         if (args[4] && args[5]) {
-          query = query.where(args[4]).eq(args[5])
+          query.where(args[4]).eq(args[5])
         }
 
         const exists = yield query.findOne()
@@ -76,14 +76,14 @@ class ExtendValidatorProvider extends ServiceProvider {
       co(function * () {
         let query = LucidMongo.query()
         const connection = yield query.connect()
-        query = query.queryBuilder.collection(connection.collection(collectionName))
-        query = query.where(databaseField).eq(fieldValue)
+        query.queryBuilder.collection(connection.collection(collectionName))
+        query.where(databaseField).eq(fieldValue)
         /**
          * if args[2] and args[3] are available inside the array
          * take them as whereNot key/value pair to limit scope
          */
         if (args[2] && args[3]) {
-          query = query.where(args[2]).eq(args[3])
+          query.where(args[2]).eq(args[3])
         }
 
         const exists = yield query.findOne()

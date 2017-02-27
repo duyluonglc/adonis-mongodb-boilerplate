@@ -1,7 +1,7 @@
 'use strict'
 
 const Env = use('Env')
-const Ouch = use('youch')
+const Youch = use('youch')
 const _ = use('lodash')
 const Exceptions = use('node-exceptions')
 const Http = exports = module.exports = {}
@@ -14,20 +14,20 @@ const Config = use('Config')
  * @param  {Object} request
  * @param  {Object} response
  */
-Http.handleError = function * (error, request, response) {
+Http.handleError = function* (error, request, response) {
+  const statusCodes = {
+    BadRequestException: 400,
+    ResourceNotFoundException: 404,
+    ValidateErrorException: 422,
+    PasswordMisMatchException: 401,
+    UserNotFoundException: 404,
+    UnAuthorizeException: 403
+  }
+  const status = statusCodes[error.name] || error.status || 500
   /**
    * Api response
    */
   if (request.url().indexOf('/api/') === 0) {
-    const statusCodes = {
-      BadRequestException: 400,
-      ResourceNotFoundException: 404,
-      ValidateErrorException: 422,
-      PasswordMisMatchException: 401,
-      UserNotFoundException: 404,
-      UnAuthorizeException: 403
-    }
-    const status = statusCodes[error.name] || error.status || 500
     console.error(error.stack)
     let responseObject = {
       status_code: status,
@@ -45,32 +45,31 @@ Http.handleError = function * (error, request, response) {
     return response.status(status).json(responseObject)
   }
 
-  if (error.name === 'ValidateErrorException') {
-    request.withAll().andWith({
-      errors: error.message
-    }).flash()
-    return response.redirect('back')
-  }
-
   /**
    * DEVELOPMENT REPORTER
    */
   if (Env.get('NODE_ENV') === 'development') {
-    const ouch = new Ouch().pushHandler(
-      new Ouch.handlers.PrettyPageHandler('blue', null, 'sublime')
-    )
-    ouch.handleException(error, request.request, response.response, (output) => {
-      console.error(error.stack)
-    })
+    const youch = new Youch(error, request.request)
+    const type = request.accepts('json', 'html')
+    const formatMethod = type === 'json' ? 'toJSON' : 'toHTML'
+    const formattedErrors = yield youch[formatMethod]()
+    response.status(status).send(formattedErrors)
     return
   }
 
   /**
    * PRODUCTION REPORTER
    */
-  const status = error.status || 500
   console.error(error.stack)
-  yield response.status(status).sendView('errors/index', {error})
+  if (error.name === 'ValidateErrorException') {
+    request.withAll().andWith({
+      errors: error.message
+    }).flash()
+    return response.redirect('back')
+  }
+  yield response.status(status).sendView('errors/index', {
+    error
+  })
 }
 
 /**
@@ -87,7 +86,7 @@ Http.onStart = function () {
   })
 }
 
-function registerResponseMacros () {
+function registerResponseMacros() {
   const Response = use('Adonis/Src/Response')
 
   Response.macro('apiCreated', function (item, meta) {
@@ -145,7 +144,7 @@ function registerResponseMacros () {
   })
 }
 
-function registerRequestMacros () {
+function registerRequestMacros() {
   const Request = use('Adonis/Src/Request')
 
   Request.macro('getQuery', function () {
@@ -194,4 +193,3 @@ function registerRequestMacros () {
     return _.pick(query, ['fields', 'skip', 'limit', 'where', 'sort', 'limit', 'with'])
   })
 }
-

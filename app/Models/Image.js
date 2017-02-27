@@ -21,10 +21,7 @@ const Model = use('LucidMongo')
 class Image extends Model {
 
   static get createTimestamp () { return 'createdAt' }
-
   static get updateTimestamp () { return 'updatedAt' }
-
-  static get deleteTimestamp () { return 'deletedAt' }
 
   static get rules () {
     return {

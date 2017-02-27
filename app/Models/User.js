@@ -44,7 +44,7 @@ class User extends Model {
   static rules (userId) {
     return {
       name: 'required',
-      email: `required|email|unique:users,email,_id,${userId}`,
+      email: `required|email|unique:users,email` + (userId ? `,_id,${userId}` : ''),
       password: 'required|min:6|max:255',
       language: `required|in:${languages.join(',')}`
     }

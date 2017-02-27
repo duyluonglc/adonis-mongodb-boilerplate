@@ -2,6 +2,7 @@
 const Validator = use('Validator')
 const Exceptions = use('Exceptions')
 const _ = use('lodash')
+const Guard = require('node-fence').Guard
 
 class BaseController {
   * validate (data, rules, scope) {
@@ -14,6 +15,13 @@ class BaseController {
   * validateAttributes (data, rules) {
     rules = _.pick(rules, _.keys(data))
     this.validate(data, rules)
+  }
+
+  * authorize (action, resource) {
+    const isAllowed = yield Guard.allows(action, resource)
+    if (!isAllowed) {
+      throw new Exceptions.UnAuthorizeException(`Access forbidden: You are not allowed to ${action} ${resource.constructor.name} ${resource._id}`)
+    }
   }
 
 }
