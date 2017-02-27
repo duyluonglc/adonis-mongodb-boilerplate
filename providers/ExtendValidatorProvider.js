@@ -33,7 +33,7 @@ class ExtendValidatorProvider extends ServiceProvider {
          * take them as whereNot key/value pair to ignore
          */
         if (args[2] && args[3]) {
-          query = query.where(args[2]).notEqual(args[3])
+          query = query.where(args[2]).neq(args[3])
         }
 
         /**
