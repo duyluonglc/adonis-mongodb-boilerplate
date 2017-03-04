@@ -15,6 +15,9 @@ class BadRequestException extends Exceptions.HttpException {
 class UnAuthorizeException extends Exceptions.HttpException {
 }
 
+class LoginFailedException extends Exceptions.HttpException {
+}
+
 class ExceptionsProvider extends ServiceProvider {
 
   * register () {
@@ -24,6 +27,7 @@ class ExceptionsProvider extends ServiceProvider {
       Exceptions.ValidateErrorException = ValidateErrorException
       Exceptions.BadRequestException = BadRequestException
       Exceptions.UnAuthorizeException = UnAuthorizeException
+      Exceptions.LoginFailedException = LoginFailedException
       return Exceptions
     })
   }

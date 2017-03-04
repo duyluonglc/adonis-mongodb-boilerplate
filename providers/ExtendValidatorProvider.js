@@ -1,6 +1,7 @@
 'use strict'
 
 const ServiceProvider = require('adonis-fold').ServiceProvider
+
 const co = require('co')
 
 class ExtendValidatorProvider extends ServiceProvider {
@@ -98,10 +99,68 @@ class ExtendValidatorProvider extends ServiceProvider {
     })
   }
 
+  digitValidator (data, field, message, args, get) {
+    return new Promise((resolve, reject) => {
+      const fieldValue = get(data, field)
+      if (/^\d+/i.test(fieldValue)) {
+        resolve('valid')
+      } else {
+        reject(message)
+      }
+    })
+  }
+
+  numericValidator (data, field, message, args, get) {
+    return new Promise((resolve, reject) => {
+      const fieldValue = get(data, field)
+      if (/^[-+]?[0-9]*\.?[0-9]+$/.test(fieldValue)) {
+        resolve('valid')
+      } else {
+        reject(message)
+      }
+    })
+  }
+
+  lengthValidator (data, field, message, args, get) {
+    return new Promise((resolve, reject) => {
+      const fieldValue = get(data, field)
+      if (!fieldValue) {
+        return resolve('validation skipped')
+      }
+      if (fieldValue.length === parseInt(args[0])) {
+        resolve('valid')
+      } else {
+        reject(message)
+      }
+    })
+  }
+
   objectIdValidator (data, field, message, args, get) {
     return new Promise((resolve, reject) => {
       const fieldValue = get(data, field)
       if (/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i.test(fieldValue)) {
+        resolve('valid')
+      } else {
+        reject(message)
+      }
+    })
+  }
+
+  minValueValidator (data, field, message, args, get) {
+    return new Promise((resolve, reject) => {
+      const fieldValue = get(data, field)
+      if (fieldValue >= args[0]) {
+        resolve('valid')
+      } else {
+        reject(message)
+      }
+    })
+  }
+
+  maxValueValidator (data, field, message, args, get) {
+    return new Promise((resolve, reject) => {
+      const fieldValue = get(data, field)
+      if (fieldValue <= args[0]) {
         resolve('valid')
       } else {
         reject(message)
@@ -115,6 +174,11 @@ class ExtendValidatorProvider extends ServiceProvider {
     Validator.extend('unique', this.uniqueValidator, '{{field}} already exists')
     Validator.extend('exist', this.existValidator, '{{field}} is not exists')
     Validator.extend('objectId', this.objectIdValidator, '{{field}} is not valid ObjectID')
+    Validator.extend('digit', this.digitValidator, '{{field}} is not valid digit')
+    Validator.extend('numeric', this.numericValidator, '{{field}} is not valid numeric')
+    Validator.extend('length', this.lengthValidator, '{{field}} is not valid length')
+    Validator.extend('minValue', this.minValueValidator, '{{field}} is not valid minValue')
+    Validator.extend('maxValue', this.maxValueValidator, '{{field}} is not valid maxValue')
   }
 
 }

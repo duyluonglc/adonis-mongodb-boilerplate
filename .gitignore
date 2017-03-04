@@ -4,3 +4,6 @@ storage
 .env
 npm-debug.log
 /public/uploads
+/.idea
+/.env.test
+/.vscode

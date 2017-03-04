@@ -14,12 +14,13 @@ const Config = use('Config')
  * @param  {Object} request
  * @param  {Object} response
  */
-Http.handleError = function* (error, request, response) {
+Http.handleError = function * (error, request, response) {
   const statusCodes = {
     BadRequestException: 400,
     ResourceNotFoundException: 404,
     ValidateErrorException: 422,
     PasswordMisMatchException: 401,
+    LoginFailedException: 401,
     UserNotFoundException: 404,
     UnAuthorizeException: 403
   }
@@ -30,7 +31,7 @@ Http.handleError = function* (error, request, response) {
   if (request.url().indexOf('/api/') === 0) {
     console.error(error.stack)
     let responseObject = {
-      status_code: status,
+      statusCode: status,
       message: error.message
     }
     if (_.isArray(error.message)) {
@@ -41,7 +42,6 @@ Http.handleError = function* (error, request, response) {
     if (Env.get('NODE_ENV') === 'development') {
       responseObject.traces = error.stack.split('\n')
     }
-
     return response.status(status).json(responseObject)
   }
 
@@ -67,9 +67,7 @@ Http.handleError = function* (error, request, response) {
     }).flash()
     return response.redirect('back')
   }
-  yield response.status(status).sendView('errors/index', {
-    error
-  })
+  yield response.status(status).sendView('errors/index', {error})
 }
 
 /**
@@ -86,12 +84,12 @@ Http.onStart = function () {
   })
 }
 
-function registerResponseMacros() {
+function registerResponseMacros () {
   const Response = use('Adonis/Src/Response')
 
   Response.macro('apiCreated', function (item, meta) {
     this.status(201).json({
-      status_code: 201,
+      statusCode: 201,
       message: 'Created successfully',
       data: item,
       meta: meta
@@ -100,7 +98,7 @@ function registerResponseMacros() {
 
   Response.macro('apiUpdated', function (item, meta) {
     this.status(202).json({
-      status_code: 202,
+      statusCode: 202,
       message: 'Updated successfully',
       data: item,
       meta: meta
@@ -109,7 +107,7 @@ function registerResponseMacros() {
 
   Response.macro('apiDeleted', function (item, meta) {
     this.status(202).json({
-      status_code: 202,
+      statusCode: 202,
       message: 'Deleted successfully',
       data: null,
       meta: meta
@@ -118,7 +116,7 @@ function registerResponseMacros() {
 
   Response.macro('apiItem', function (item, meta) {
     this.status(200).json({
-      status_code: 200,
+      statusCode: 200,
       message: 'Data retrieval successfully',
       data: item,
       meta: meta
@@ -127,7 +125,7 @@ function registerResponseMacros() {
 
   Response.macro('apiCollection', function (items, meta) {
     this.status(200).json({
-      status_code: 200,
+      statusCode: 200,
       message: 'Data retrieval successfully',
       data: items,
       meta: meta
@@ -136,7 +134,7 @@ function registerResponseMacros() {
 
   Response.macro('apiSuccess', function (data, meta, message) {
     this.status(200).json({
-      status_code: 200,
+      statusCode: 200,
       message: message || 'Success',
       data: data,
       meta: meta
@@ -144,7 +142,7 @@ function registerResponseMacros() {
   })
 }
 
-function registerRequestMacros() {
+function registerRequestMacros () {
   const Request = use('Adonis/Src/Request')
 
   Request.macro('getQuery', function () {
