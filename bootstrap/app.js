@@ -131,4 +131,4 @@ const commands = [
   'AdonisGenerators/Generate:JsonApiResource'
 ]
 
-module.exports = { providers, aceProviders, aliases, commands}
+module.exports = {providers, aceProviders, aliases, commands}
