@@ -1,6 +1,5 @@
 const Env = use('Env')
 
-
 module.exports = {
   ally: {
     facebook: {

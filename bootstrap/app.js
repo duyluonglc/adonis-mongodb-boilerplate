@@ -37,9 +37,9 @@ const providers = [
   'adonis-ally/providers/AllyProvider',
   'adonis-filesystem/providers/FilesystemProvider',
   path.join(__dirname, '../providers/ExceptionsProvider'),
-  path.join(__dirname, '../providers/ExtendValidatorProvider'),
-  // path.join(__dirname, '../providers/ExtendRequestProvider'),
-  // path.join(__dirname, '../providers/ExtendResponseProvider'),
+  path.join(__dirname, '../providers/ExtendValidatorProvider')
+// path.join(__dirname, '../providers/ExtendRequestProvider'),
+// path.join(__dirname, '../providers/ExtendResponseProvider'),
 ]
 
 /*
@@ -60,7 +60,7 @@ const aceProviders = [
   'adonis-commands/providers/GeneratorsProvider',
   'adonis-commands/providers/HelperCommandsProvider',
   'adonis-commands/providers/ReplProvider',
-  'adonis-generators/providers/GeneratorsProvider',
+  'adonis-generators/providers/GeneratorsProvider'
 ]
 
 /*
@@ -131,4 +131,4 @@ const commands = [
   'AdonisGenerators/Generate:JsonApiResource'
 ]
 
-module.exports = { providers, aceProviders, aliases, commands }
+module.exports = { providers, aceProviders, aliases, commands}
