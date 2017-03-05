@@ -13,6 +13,9 @@ before_script:
 sudo: false
 install:
 - npm install --no-optional
-- cp .env .env.test
+- cp .env.example .env.test
+- cp .env.example .env
 script:
+- ./ace migration:run
+- npm run lint
 - npm run test
