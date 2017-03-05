@@ -1,9 +1,4 @@
 language: node_js
-env:
-  - DB_HOST: mongo
-  - DB_USER: admin
-  - DB_PASSWORD: ''
-  - DB_DATABASE: dbtest
 addons:
   apt:
     sources:
