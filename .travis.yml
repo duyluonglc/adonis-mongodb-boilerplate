@@ -1,13 +1,13 @@
 language: node_js
 env:
-  - CXX=g++-4.8
-  - 
+  - DB_HOST: mongo
+  - DB_USER: admin
+  - DB_PASSWORD: ''
+  - DB_DATABASE: dbtest
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
-    packages:
-      - g++-4.8
 node_js:
 - node
 - 5.3.0
@@ -18,5 +18,6 @@ before_script:
 sudo: false
 install:
 - npm install --no-optional
+- cp .env .env.test
 script:
 - npm run test
