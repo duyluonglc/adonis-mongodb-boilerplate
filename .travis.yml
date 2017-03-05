@@ -16,6 +16,6 @@ install:
 - cp .env.example .env.test
 - cp .env.example .env
 script:
-- ./ace migration:run
+#- ./ace migration:run
 - npm run lint
 - npm run test
