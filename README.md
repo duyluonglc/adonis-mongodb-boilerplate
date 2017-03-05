@@ -20,5 +20,9 @@
 
 **Explore to Swagger page:**
  [http://localhost:3333/docs](http://localhost:3333/docs)
-
-
+ 
+ ## test
+ 
+ copy file `.env.example` to `.env.test`
+ 
+ `npm run test`
