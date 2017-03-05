@@ -14,10 +14,10 @@ class BaseController {
 
   * validateAttributes (data, rules) {
     rules = _.pick(rules, _.keys(data))
-    this.validate(data, rules)
+    yield this.validate(data, rules)
   }
 
-  * authorize (action, resource) {
+  * can (action, resource) {
     const isAllowed = yield Guard.allows(action, resource)
     if (!isAllowed) {
       throw new Exceptions.UnAuthorizeException(`Access forbidden: You are not allowed to ${action} ${resource.constructor.name} ${resource._id}`)

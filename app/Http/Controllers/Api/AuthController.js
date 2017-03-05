@@ -34,7 +34,8 @@ class AuthController extends BaseController {
     })
     yield user.save()
     response.apiCreated(user)
-    yield Mail.send('emails.verification', { user: user.toJSON() }, (message) => {
+    console.log(user.verificationToken);
+    yield Mail.send('emails.verification', { user: user }, (message) => {
       message.to(user.email, user.name)
       message.from(Config.get('mail.sender'))
       message.subject('Please Verify Your Email Address')
@@ -57,6 +58,9 @@ class AuthController extends BaseController {
     // Attempt to login with email and password
     const token = yield request.auth.attempt(email, password)
     const user = yield User.findBy({email})
+    if (!user.verified) {
+      throw new Exceptions.LoginFailedException('Email is not verified')
+    }
     user.token = token
     response.apiSuccess(user)
   }
@@ -112,7 +116,7 @@ class AuthController extends BaseController {
     user.verificationToken = verificationToken
     yield user.save()
     response.apiSuccess(null, 'Email sent successfully')
-    yield Mail.send('emails.verification', { user: user.get() }, (message) => {
+    yield Mail.send('emails.verification', { user: user }, (message) => {
       message.to(user.email, user.name)
       message.from(Config.get('mail.sender'))
       message.subject('Please Verify Your Email Address')
@@ -175,7 +179,7 @@ class AuthController extends BaseController {
 
     response.apiSuccess(null, 'Email sent successfully')
 
-    yield Mail.send('emails.reset', { user: user.get() }, (message) => {
+    yield Mail.send('emails.reset', { user: user }, (message) => {
       message.to(user.email, user.name)
       message.from(Config.get('mail.sender'))
       message.subject('Reset your password')
