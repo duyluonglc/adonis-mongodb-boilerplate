@@ -45,7 +45,7 @@ class UsersController extends BaseController {
   //     verified: false
   //   })
   //   yield user.save()
-  //   yield Mail.send('emails.verification', { user: user.get() }, (message) => {
+  //   Mail.send('emails.verification', { user: user.get() }, (message) => {
   //     message.to(user.email, user.name)
   //     message.from(Config.get('mail.sender'))
   //     message.subject('Please Verify Your Email Address')
@@ -64,6 +64,7 @@ class UsersController extends BaseController {
    */
   * show (request, response) {
     const user = request.instance
+    yield user.related(request.getQuery().with).load()
     return response.apiItem(user)
   }
 
@@ -99,7 +100,7 @@ class UsersController extends BaseController {
    */
   * destroy (request, response) {
     const user = request.instance
-    yield user.remove()
+    yield user.delete()
     return response.apiDeleted()
   }
 
@@ -109,7 +110,7 @@ class UsersController extends BaseController {
    * @param {any} request
    * @param {any} response
    *
-   * @memberOf VenuesController
+   * @memberOf UsersController
    *
    */
   * upload (request, response) {
@@ -133,7 +134,7 @@ class UsersController extends BaseController {
    * @param {any} request
    * @param {any} response
    *
-   * @memberOf VenuesController
+   * @memberOf UsersController
    *
    */
   * images (request, response) {

@@ -27,6 +27,17 @@ const languages = Config.get('locale.languages')
  *           - en
  *           - ja
  *           - vi
+ *   UpdateUser:
+ *     type: object
+ *     properties:
+ *       name:
+ *         type: string
+ *       language:
+ *         type: string
+ *         enum:
+ *           - en
+ *           - ja
+ *           - vi
  *   User:
  *     allOf:
  *       - $ref: '#/definitions/NewUser'

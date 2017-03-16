@@ -1,5 +1,7 @@
 'use strict'
 
+const Env = use('Env')
+
 module.exports = {
   /*
   |--------------------------------------------------------------------------
@@ -81,7 +83,7 @@ module.exports = {
   |
   */
   csrf: {
-    enable: true,
+    enable: Env.get('CSRF_PROTECTION', true),
     methods: ['POST', 'PUT', 'DELETE'],
     filterUris: ['/api/*'],
     compareHostAndOrigin: true

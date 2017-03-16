@@ -26,7 +26,7 @@ Route.group('auth', () => {
    *         schema:
    *           $ref: '#/definitions/NewUser'
    *     responses:
-   *       200:
+   *       201:
    *         description: user
    *         schema:
    *           type: object

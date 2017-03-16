@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon --watch app --watch bootstrap --watch config --watch providers --watch .env -x node server.js",
     "start": "node server.js",
-    "lint": "standard app/* config/* bootstrap/* database/* provider/*",
+    "lint": "standard app/** config/* bootstrap/* database/** provider/* test/**",
     "test": "node bin/test.js"
   },
   "author": "",
@@ -21,7 +21,7 @@
     "adonis-fold": "^3.0.3",
     "adonis-framework": "^3.0.11",
     "adonis-generators": "^0.7.0",
-    "adonis-lucid-mongodb": "^1.0.12",
+    "adonis-lucid-mongodb": "^1.0.24",
     "adonis-mail-provider": "^2.0.2",
     "adonis-middleware": "^1.0.11",
     "adonis-validation-provider": "^3.0.5",
@@ -30,7 +30,9 @@
     "lint": "^1.1.2",
     "lodash": "^4.17.4",
     "mailparser": "^0.6.2",
-    "node-fence": "^1.0.0-alpha-5",
+    "ms": "^0.7.3",
+    "node-exceptions": "^2.0.0",
+    "node-fence": "^1.0.0-alpha-7",
     "require-all": "^2.2.0",
     "standard": "^8.6.0",
     "swagger-jsdoc": "^1.9.2",
@@ -40,7 +42,14 @@
   "standard": {
     "global": [
       "use",
-      "make"
+      "make",
+      "it",
+      "describe",
+      "context",
+      "before",
+      "after",
+      "beforeEach",
+      "afterEach"
     ]
   },
   "autoload": {

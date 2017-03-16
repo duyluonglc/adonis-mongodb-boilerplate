@@ -1,9 +1,10 @@
 node_modules
-storage
+public/uploads/*
+credentials/*
+storage/tmp/*
 !.gitkeep
 .env
+.env.test
 npm-debug.log
-/public/uploads
-/.idea
-/.env.test
-/.vscode
+.idea
+.vscode

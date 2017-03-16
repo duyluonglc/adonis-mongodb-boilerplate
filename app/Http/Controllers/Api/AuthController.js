@@ -34,8 +34,7 @@ class AuthController extends BaseController {
     })
     yield user.save()
     response.apiCreated(user)
-    console.log(user.verificationToken);
-    yield Mail.send('emails.verification', { user: user }, (message) => {
+    Mail.send('emails.verification', { user: user }, (message) => {
       message.to(user.email, user.name)
       message.from(Config.get('mail.sender'))
       message.subject('Please Verify Your Email Address')
@@ -59,7 +58,7 @@ class AuthController extends BaseController {
     const token = yield request.auth.attempt(email, password)
     const user = yield User.findBy({email})
     if (!user.verified) {
-      throw new Exceptions.LoginFailedException('Email is not verified')
+      throw new Exceptions.AccountNotVerifiedException('Email is not verified')
     }
     user.token = token
     response.apiSuccess(user)
@@ -116,7 +115,7 @@ class AuthController extends BaseController {
     user.verificationToken = verificationToken
     yield user.save()
     response.apiSuccess(null, 'Email sent successfully')
-    yield Mail.send('emails.verification', { user: user }, (message) => {
+    Mail.send('emails.verification', { user: user }, (message) => {
       message.to(user.email, user.name)
       message.from(Config.get('mail.sender'))
       message.subject('Please Verify Your Email Address')
@@ -179,7 +178,7 @@ class AuthController extends BaseController {
 
     response.apiSuccess(null, 'Email sent successfully')
 
-    yield Mail.send('emails.reset', { user: user }, (message) => {
+    Mail.send('emails.reset', { user: user }, (message) => {
       message.to(user.email, user.name)
       message.from(Config.get('mail.sender'))
       message.subject('Reset your password')
@@ -199,7 +198,7 @@ class AuthController extends BaseController {
   * getReset (request, response) {
     const token = request.input('token')
     const user = yield User.findBy({ verificationToken: token })
-    if (!user) {
+    if (!token || !user) {
       throw new Exceptions.BadRequestException(`Invalid token`)
     }
     yield response.sendView('reset', { token: token })
@@ -217,10 +216,13 @@ class AuthController extends BaseController {
    */
   * postReset (request, response) {
     const token = request.input('token')
-    yield this.validate(request.all(), { password: 'required|min:6|max:50' })
+    yield this.validate(request.all(), {
+      password: 'required|min:6|max:50',
+      passwordConfirmation: 'same:password'
+    })
     const password = request.input('password')
     const user = yield User.findBy({ verificationToken: token })
-    if (!user) {
+    if (!token || !user) {
       throw new Exceptions.BadRequestException(`Invalid token`)
     }
     const hashPassword = yield Hash.make(password)
@@ -245,8 +247,8 @@ class AuthController extends BaseController {
     yield this.validate(request.all(), { password: 'required', newPassword: 'required|min:6|max:50' })
     const password = request.input('password')
     const newPassword = request.input('newPassword')
-    const user = yield request.auth.getUser()
-    const check = yield Hash.verify(password, user.get('password'))
+    const user = request.authUser
+    const check = yield Hash.verify(password, user.password)
     if (!check) {
       throw new Exceptions.ValidateErrorException('Password does not match')
     }

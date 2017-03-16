@@ -17,7 +17,7 @@ const globalMiddleware = [
   'Adonis/Middleware/Shield',
   'Adonis/Middleware/Flash',
   'Adonis/Middleware/AuthInit',
-  'App/Http/Middleware/FenceInit',
+  'App/Http/Middleware/FenceInit'
 ]
 
 /*
@@ -32,7 +32,7 @@ const globalMiddleware = [
 const namedMiddleware = {
   auth: 'Adonis/Middleware/Auth',
   ally: 'Adonis/Middleware/Ally',
-  instance: 'App/Http/Middleware/Instance',
+  instance: 'App/Http/Middleware/Instance'
 }
 
 /*

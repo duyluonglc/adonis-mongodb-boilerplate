@@ -102,6 +102,9 @@ class ExtendValidatorProvider extends ServiceProvider {
   digitValidator (data, field, message, args, get) {
     return new Promise((resolve, reject) => {
       const fieldValue = get(data, field)
+      if (!fieldValue) {
+        return resolve('validation skipped')
+      }
       if (/^\d+/i.test(fieldValue)) {
         resolve('valid')
       } else {
@@ -112,8 +115,12 @@ class ExtendValidatorProvider extends ServiceProvider {
 
   numericValidator (data, field, message, args, get) {
     return new Promise((resolve, reject) => {
-      const fieldValue = get(data, field)
+      let fieldValue = get(data, field)
+      if (!fieldValue) {
+        return resolve('validation skipped')
+      }
       if (/^[-+]?[0-9]*\.?[0-9]+$/.test(fieldValue)) {
+        fieldValue = Number.parseFloat(fieldValue)
         resolve('valid')
       } else {
         reject(message)
@@ -138,6 +145,9 @@ class ExtendValidatorProvider extends ServiceProvider {
   objectIdValidator (data, field, message, args, get) {
     return new Promise((resolve, reject) => {
       const fieldValue = get(data, field)
+      if (!fieldValue) {
+        return resolve('validation skipped')
+      }
       if (/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i.test(fieldValue)) {
         resolve('valid')
       } else {
@@ -149,6 +159,9 @@ class ExtendValidatorProvider extends ServiceProvider {
   minValueValidator (data, field, message, args, get) {
     return new Promise((resolve, reject) => {
       const fieldValue = get(data, field)
+      if (!fieldValue) {
+        return resolve('validation skipped')
+      }
       if (fieldValue >= args[0]) {
         resolve('valid')
       } else {
@@ -160,6 +173,9 @@ class ExtendValidatorProvider extends ServiceProvider {
   maxValueValidator (data, field, message, args, get) {
     return new Promise((resolve, reject) => {
       const fieldValue = get(data, field)
+      if (!fieldValue) {
+        return resolve('validation skipped')
+      }
       if (fieldValue <= args[0]) {
         resolve('valid')
       } else {

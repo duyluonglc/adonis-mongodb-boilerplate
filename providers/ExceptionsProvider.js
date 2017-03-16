@@ -18,6 +18,9 @@ class UnAuthorizeException extends Exceptions.HttpException {
 class LoginFailedException extends Exceptions.HttpException {
 }
 
+class AccountNotVerifiedException extends Exceptions.HttpException {
+}
+
 class ExceptionsProvider extends ServiceProvider {
 
   * register () {
@@ -28,6 +31,7 @@ class ExceptionsProvider extends ServiceProvider {
       Exceptions.BadRequestException = BadRequestException
       Exceptions.UnAuthorizeException = UnAuthorizeException
       Exceptions.LoginFailedException = LoginFailedException
+      Exceptions.AccountNotVerifiedException = AccountNotVerifiedException
       return Exceptions
     })
   }

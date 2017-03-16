@@ -17,7 +17,7 @@ class BaseController {
     yield this.validate(data, rules)
   }
 
-  * can (action, resource) {
+  * guard (action, resource) {
     const isAllowed = yield Guard.allows(action, resource)
     if (!isAllowed) {
       throw new Exceptions.UnAuthorizeException(`Access forbidden: You are not allowed to ${action} ${resource.constructor.name} ${resource._id}`)

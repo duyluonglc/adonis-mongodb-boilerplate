@@ -21,6 +21,7 @@ Http.handleError = function * (error, request, response) {
     ValidateErrorException: 422,
     PasswordMisMatchException: 401,
     LoginFailedException: 401,
+    AccountNotVerifiedException: 401,
     UserNotFoundException: 404,
     UnAuthorizeException: 403
   }
@@ -32,6 +33,7 @@ Http.handleError = function * (error, request, response) {
     console.error(error.stack)
     let responseObject = {
       statusCode: status,
+      name: error.name,
       message: error.message
     }
     if (_.isArray(error.message)) {
