@@ -21,8 +21,6 @@ describe('Account Register', function () {
       .expect('Content-Type', /json/)
       .expect(422)
     assert.equal(response.body.statusCode, 422)
-  // assert.equal(response.body.message, 'Validation failed')
-  // assert.deepEqual(response.body.fields, [{field: 'email', 'validation': 'required', message: 'Enter email address to be used for login'}])
   })
 
   it('should throw validation error when user name is missing', function * () {
@@ -98,13 +96,13 @@ describe('Account verification', function () {
   })
 
   it('should throw error if token is invalid', function * () {
-    const response = yield request(baseUrl)
+    yield request(baseUrl)
       .get(`auth/verify?token=foo`)
       .expect(400)
   })
 
   it('should verify user and redirect to home page', function * () {
-    const response = yield request(baseUrl)
+    yield request(baseUrl)
       .get(`auth/verify?token=hash-verification-token`)
       .expect(302)
     const user = yield User.first()
@@ -120,11 +118,12 @@ describe('Auth login', function () {
     yield User.query().remove()
   })
 
-  it('should throw 404 error when user email is not registerd', function * () {
+  it('should throw 404 error when user email is not registered', function * () {
     const response = yield request(baseUrl)
       .post(`api/auth/login`)
       .send({email: 'foo@email', password: 'test@password'})
       .expect(404)
+    assert.equal(response.body.statusCode, 404)
   })
 
   it('should throw 401 error if password is invalid', function * () {
@@ -135,6 +134,7 @@ describe('Auth login', function () {
       .post(`api/auth/login`)
       .send({email: user.email, password: 'foo@password'})
       .expect(401)
+    assert.equal(response.body.statusCode, 401)
   })
 
   it('should throw 401 error when user email is not verified', function * () {
@@ -145,6 +145,7 @@ describe('Auth login', function () {
       .post(`api/auth/login`)
       .send({email: user.email, password: user.password})
       .expect(401)
+    assert.equal(response.body.statusCode, 401)
   })
 
   it('should generate jwt token if password is valid', function * () {
@@ -155,6 +156,7 @@ describe('Auth login', function () {
       .post(`api/auth/login`)
       .send({email: user.email, password: user.password})
       .expect(200)
+    assert.equal(response.body.statusCode, 200)
     assert.isNotNull(response.body.data.token)
     assert.equal(response.body.data.email, user.email)
   })
@@ -176,6 +178,7 @@ describe('Auth me', function () {
     const response = yield request(baseUrl)
       .get(`api/auth/me`)
       .expect(401)
+    assert.equal(response.body.statusCode, 401)
   })
 
   it('should response user if jwt is valid', function * () {
@@ -183,7 +186,217 @@ describe('Auth me', function () {
       .get(`api/auth/me`)
       .login(user)
       .expect(200)
+    assert.equal(response.body.statusCode, 200)
     assert.equal(response.body.data.email, user.email)
     assert.equal(response.body.data.name, user.name)
+  })
+})
+
+describe('Auth change password', function () {
+  beforeEach(function * () {
+    user = use('Factory').model('App/Models/User').make()
+    user.verified = false
+    yield user.save()
+  })
+
+  afterEach(function * () {
+    const User = use('App/Models/User')
+    yield User.query().remove()
+  })
+
+  it('should throw 401 error if jwt is not provided', function * () {
+    const response = yield request(baseUrl)
+      .post(`api/auth/password`)
+      .expect(401)
+    assert.equal(response.body.statusCode, 401)
+  })
+
+  it('should throw 422 error password is not provided', function * () {
+    const response = yield request(baseUrl)
+      .post(`api/auth/password`)
+      .send({newPassword: 'test-password'})
+      .login(user)
+      .expect(422)
+    assert.equal(response.body.statusCode, 422)
+  })
+
+  it('should throw 422 error new password is not provided', function * () {
+    const response = yield request(baseUrl)
+      .post(`api/auth/password`)
+      .send({password: 'test-password'})
+      .login(user)
+      .expect(422)
+    assert.equal(response.body.statusCode, 422)
+  })
+
+  it('should throw 422 error password is not match', function * () {
+    const response = yield request(baseUrl)
+      .post(`api/auth/password`)
+      .send({password: 'test-password', newPassword: 'new-password'})
+      .login(user)
+      .expect(422)
+    assert.equal(response.body.statusCode, 422)
+  })
+
+  it('should change the password if password is valid', function * () {
+    const oldUser = yield User.find(user._id)
+    const response = yield request(baseUrl)
+      .post(`api/auth/password`)
+      .send({password: user.password, newPassword: 'new-password'})
+      .login(user)
+      .expect(200)
+    assert.equal(response.body.statusCode, 200)
+    const newUser = yield User.find(user._id)
+    assert.notEqual(newUser.password, oldUser.password)
+  })
+})
+
+describe('Auth forgot', function () {
+  beforeEach(function * () {
+    user = use('Factory').model('App/Models/User').make()
+    user.verified = false
+    yield user.save()
+  })
+
+  afterEach(function * () {
+    const User = use('App/Models/User')
+    yield User.query().remove()
+  })
+
+  it('should throw 422 error if email is not provided', function * () {
+    const response = yield request(baseUrl)
+      .post(`api/auth/forgot`)
+      .expect(422)
+    assert.equal(response.body.statusCode, 422)
+  })
+
+  it('should throw 404 error if email is not found', function * () {
+    const response = yield request(baseUrl)
+      .post(`api/auth/forgot`)
+      .send({email: 'test@gmail.com'})
+      .expect(404)
+    assert.equal(response.body.statusCode, 404)
+  })
+
+  it('should send email and response 200 success if email is registered', function * () {
+    const response = yield request(baseUrl)
+      .post(`api/auth/forgot`)
+      .send({email: user.email})
+      .expect(200)
+    assert.equal(response.body.statusCode, 200)
+  })
+})
+
+describe('Auth resend verification email', function () {
+  beforeEach(function * () {
+    user = use('Factory').model('App/Models/User').make()
+    user.verified = false
+    yield user.save()
+  })
+
+  afterEach(function * () {
+    const User = use('App/Models/User')
+    yield User.query().remove()
+  })
+
+  it('should throw 422 error if email is not provided', function * () {
+    const response = yield request(baseUrl)
+      .post(`api/auth/sendVerification`)
+      .expect(422)
+    assert.equal(response.body.statusCode, 422)
+  })
+
+  it('should throw 404 error if email is not found', function * () {
+    const response = yield request(baseUrl)
+      .post(`api/auth/sendVerification`)
+      .send({email: 'test@gmail.com'})
+      .expect(404)
+    assert.equal(response.body.statusCode, 404)
+  })
+
+  it('should send email and response 200 success if email is registered', function * () {
+    const response = yield request(baseUrl)
+      .post(`api/auth/sendVerification`)
+      .send({email: user.email})
+      .expect(200)
+    assert.equal(response.body.statusCode, 200)
+  })
+})
+
+describe('Auth get reset', function () {
+  beforeEach(function * () {
+    user = use('Factory').model('App/Models/User').make()
+    user.verificationToken = 'very-long-hash-string'
+    yield user.save()
+  })
+
+  afterEach(function * () {
+    const User = use('App/Models/User')
+    yield User.query().remove()
+  })
+
+  it('should throw 400 error if token is invalid', function * () {
+    yield request(baseUrl)
+      .get(`auth/reset?token=long-hash-token`)
+      .expect(400)
+  })
+
+  it('should throw 400 error if token is invalid', function * () {
+    yield request(baseUrl)
+      .get(`auth/reset?token=${user.verificationToken}`)
+      .expect(200)
+  })
+})
+
+describe('Auth post reset', function () {
+  beforeEach(function * () {
+    user = use('Factory').model('App/Models/User').make()
+    user.verificationToken = 'very-long-hash-string'
+    yield user.save()
+  })
+
+  afterEach(function * () {
+    const User = use('App/Models/User')
+    yield User.query().remove()
+  })
+
+  it('should go back with error if password is not provided', function * () {
+    yield request(baseUrl).post(`auth/reset`)
+      .send({token: user.verificationToken})
+      .expect(422)
+  })
+
+  it('should go back with error if password confirmation is not match', function * () {
+    yield request(baseUrl).post(`auth/reset`)
+      .send({
+        token: user.verificationToken,
+        password: 'new-password',
+        passwordConfirmation: 'password-confirmation'
+      })
+      .expect(422)
+  })
+
+  it('should throw 400 error if token is invalid', function * () {
+    yield request(baseUrl).post(`auth/reset?token=long-hash-token`)
+      .send({
+        token: 'invalid-token',
+        password: 'new-password',
+        passwordConfirmation: 'new-password'
+      })
+      .expect(400)
+  })
+
+  it('should change password and redirect when token is valid', function * () {
+    const oldUser = yield User.find(user._id)
+    yield request(baseUrl).post(`auth/reset`)
+      .send({
+        token: user.verificationToken,
+        password: 'new-password',
+        passwordConfirmation: 'new-password'
+      })
+      .expect(302)
+    const newUser = yield User.find(user._id)
+    assert.isUndefined(newUser.verificationToken)
+    assert.notEqual(newUser.password, oldUser.password)
   })
 })
