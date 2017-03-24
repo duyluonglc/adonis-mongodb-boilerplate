@@ -18,6 +18,9 @@ class BaseController {
   }
 
   * guard (action, resource) {
+    if (!_.isObject(resource)) {
+      throw new Exceptions.InvalidArgumentException('Can not check permission of null')
+    }
     const isAllowed = yield Guard.allows(action, resource)
     if (!isAllowed) {
       throw new Exceptions.UnAuthorizeException(`Access forbidden: You are not allowed to ${action} ${resource.constructor.name} ${resource._id}`)

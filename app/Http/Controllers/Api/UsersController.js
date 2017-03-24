@@ -45,7 +45,7 @@ class UsersController extends BaseController {
   //     verified: false
   //   })
   //   yield user.save()
-  //   Mail.send('emails.verification', { user: user.get() }, (message) => {
+  //   yield Mail.send('emails.verification', { user: user.get() }, (message) => {
   //     message.to(user.email, user.name)
   //     message.from(Config.get('mail.sender'))
   //     message.subject('Please Verify Your Email Address')
@@ -83,6 +83,7 @@ class UsersController extends BaseController {
     yield this.validateAttributes(request.all(), User.rules(userId))
 
     const user = request.instance
+    yield this.guard('owner', user)
     user.set(request.only('name', 'phone'))
     yield user.save()
 
@@ -100,6 +101,7 @@ class UsersController extends BaseController {
    */
   * destroy (request, response) {
     const user = request.instance
+    yield this.guard('owner', user)
     yield user.delete()
     return response.apiDeleted()
   }
@@ -116,6 +118,7 @@ class UsersController extends BaseController {
   * upload (request, response) {
     const File = use('File')
     const user = request.instance
+    yield this.guard('owner', user)
     const image = request.file('image', {
       maxSize: '2mb',
       allowedExtensions: ['jpg', 'png', 'jpeg']

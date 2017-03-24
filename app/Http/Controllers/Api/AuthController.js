@@ -34,7 +34,7 @@ class AuthController extends BaseController {
     })
     yield user.save()
     response.apiCreated(user)
-    Mail.send('emails.verification', { user: user }, (message) => {
+    yield Mail.send('emails.verification', { user: user }, (message) => {
       message.to(user.email, user.name)
       message.from(Config.get('mail.sender'))
       message.subject('Please Verify Your Email Address')
@@ -93,8 +93,27 @@ class AuthController extends BaseController {
   * socialLogin (request, response) {
     const social = request.param('social')
     const socialUser = yield request.ally.driver(social).getUser()
-
-    return response.apiSuccess(socialUser)
+    yield this.validate({social: request.param('social')}, {social: 'required|in:facebook,google'})
+    const Social = use('Adonis/Auth/Social')
+    const socialToken = request.input('socialToken')
+    const socialUser = yield Social.verifyToken(network, socialToken)
+    if (!socialUser) {
+      throw new Exceptions.LoginFailedException(Antl.formatMessage('invalidSocialToken'))
+    }
+    let user = yield User.where('email', socialUser.email).first()
+    if (!user) {
+      user = yield User.create({
+        name: socialUser.name,
+        email: socialUser.email,
+        language: socialUser.locale.substring(2),
+        verified: true,
+        socialId: socialUser.id,
+        password: use('uuid').v4(),
+        avatar: network === 'facebook' ? socialUser.picture.data.url : socialUser.picture
+      })
+    }
+    user.token = yield request.auth.generate(user)
+    return response.apiSuccess(user)
   }
 
   /**
@@ -115,7 +134,7 @@ class AuthController extends BaseController {
     user.verificationToken = verificationToken
     yield user.save()
     response.apiSuccess(null, 'Email sent successfully')
-    Mail.send('emails.verification', { user: user }, (message) => {
+    yield Mail.send('emails.verification', { user: user }, (message) => {
       message.to(user.email, user.name)
       message.from(Config.get('mail.sender'))
       message.subject('Please Verify Your Email Address')
@@ -178,7 +197,7 @@ class AuthController extends BaseController {
 
     response.apiSuccess(null, 'Email sent successfully')
 
-    Mail.send('emails.reset', { user: user }, (message) => {
+    yield Mail.send('emails.reset', { user: user }, (message) => {
       message.to(user.email, user.name)
       message.from(Config.get('mail.sender'))
       message.subject('Reset your password')

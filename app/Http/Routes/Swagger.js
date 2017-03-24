@@ -13,6 +13,7 @@ Route.get('api-docs.json', function * (request, response) {
         title: 'iOrder', // Title (required)
         version: '1.0.0' // Version (required)
       },
+      host: `${use('Config').get('app.host')}:${use('Config').get('app.port')}`,
       basePath: '/api',
       securityDefinitions: {
         'jwt': {
@@ -42,46 +43,27 @@ Route.get('docs', function * (request, response) {
 
 /**
  * @swagger
- * definitions:
+ * parameters:
+ *   Id:
+ *     name: id
+ *     description: id of instance
+ *     in:  path
+ *     required: true
+ *     type: string
+ *
  *   ListQuery:
- *     type: object
- *     properties:
- *       where:
- *         type: object
- *       with:
- *         type: array
- *         items:
- *           type:
- *             string
- *       select:
- *         type: array
- *         items:
- *           type:
- *             string
- *       limit:
- *         type: number
- *         default: 20
- *       skip:
- *         type: number
- *         default: 0
- *       sort:
- *         type: string
- */
-
-/**
- * @swagger
- * definitions:
+ *     name: query
+ *     description: '{ "where": { },  "with": ["string"], "select": ["string"], "limit": 20, "skip": 0, "sort": "string" }'
+ *     in:  query
+ *     required: false
+ *     type: string
+ *     #default: '{ "where": { },  "with": ["string"], "select": ["string"], "limit": 20, "skip": 0, "sort": "string" }'
+ *
  *   SingleQuery:
- *     type: object
- *     properties:
- *       with:
- *         type: array
- *         items:
- *           type:
- *             string
- *       select:
- *         type: array
- *         items:
- *           type:
- *             string
+ *     name: query
+ *     description: '<pre>{ "with": ["string"], "select": ["string"] }</pre>'
+ *     in:  query
+ *     required: false
+ *     type: string
+ *     #default: '<pre>{ "with": ["string"], "select": ["string"] }</pre>'
  */

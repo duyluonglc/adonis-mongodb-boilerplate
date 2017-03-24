@@ -1,0 +1,399 @@
+.swagger-section .token-generator {
+    min-width: 320px;
+    background: #5c666f;
+    padding: 15px 20px;
+    box-shadow: 0 1px 10px 0 rgba(0, 0, 0, .25);
+    position: relative;
+    max-height: 270px;
+    overflow-y: auto
+}
+
+@media (min-width: 992px) {
+    .swagger-section .token-generator {
+        padding-top: 40px;
+        padding-right: 20px;
+        box-shadow: none;
+        background: #f3f3f4;
+        color: #5c666f;
+        max-height: none;
+        min-width: 100%;
+        width: 100%;
+        margin-bottom: 30px;
+        border-bottom: 1px solid #e8eaeb
+    }
+}
+
+@media (min-width: 992px) {
+    .swagger-section .token-generator.hide {
+        display: block !important
+    }
+}
+
+.swagger-section .token-generator .tg-link {
+    color: #fff;
+    font-size: 13px;
+    text-decoration: underline;
+    padding-top: 10px;
+    display: inline-block;
+    cursor: pointer
+}
+
+.swagger-section .token-generator .tg-link + .tg-link {
+    margin-left: 15px
+}
+
+@media (min-width: 992px) {
+    .swagger-section .token-generator .tg-link {
+        color: #5c666f;
+        margin-bottom: 20px
+    }
+
+    .swagger-section .token-generator .tg-link:active, .swagger-section .token-generator .tg-link:hover {
+        color: #9da2a8
+    }
+}
+
+.swagger-section .token-generator [data-scope-list] {
+    margin-bottom: 10px
+}
+
+@media (min-width: 992px) {
+    .swagger-section .token-generator [data-scope-list] {
+        margin-bottom: 20px
+    }
+}
+
+.swagger-section .token-generator [data-scope] {
+    color: #fff;
+    padding-bottom: 10px
+}
+
+@media (min-width: 992px) {
+    .swagger-section .token-generator [data-scope] {
+        color: #5c666f;
+        border: 1px solid #dfe2e4;
+        border-radius: 20px;
+        padding: 8px 20px 8px 12px;
+        display: table;
+        margin-bottom: 7px
+    }
+}
+
+.swagger-section .token-generator [data-scope] .name {
+    font-size: 12px
+}
+
+.swagger-section .token-generator [data-scope] [data-remove] {
+    cursor: pointer
+}
+
+@media (min-width: 992px) {
+    .swagger-section .token-generator [data-scope] [data-remove] {
+        color: #333
+    }
+
+    .swagger-section .token-generator [data-scope] [data-remove]:active, .swagger-section .token-generator [data-scope] [data-remove]:hover {
+        color: red
+    }
+}
+
+.swagger-section .token-generator [data-scope] [data-remove]:after {
+    content: "\E179";
+    font-family: budicon-font !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    speak: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 10px;
+    position: relative;
+    left: 7px;
+    top: 2px;
+    opacity: .5
+}
+
+.swagger-section .token-generator [data-close] {
+    color: #fff;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 12px;
+    padding: 14px 20px;
+    cursor: pointer
+}
+
+@media (min-width: 992px) {
+    .swagger-section .token-generator [data-close] {
+        display: none
+    }
+}
+
+.swagger-section .token-generator .btn {
+    background: #fff;
+    border: 0;
+    float: right;
+    padding: 4px 15px;
+}
+
+@media (min-width: 992px) {
+    .swagger-section .token-generator .btn {
+        border: 1px solid #cfd3d5;
+        height: 32px
+    }
+}
+
+.swagger-section .token-generator .btn:active, .swagger-section .token-generator .btn:hover {
+    background: #e8eaeb
+}
+
+@media (min-width: 992px) {
+    .swagger-section .token-generator .btn.disabled {
+        opacity: .3
+    }
+}
+
+.swagger-section .token-generator .btn > span {
+    position: relative;
+    font-size: 14px
+}
+
+.swagger-section .token-generator .custom-select {
+    background: #fff;
+    padding: 0 18px 0 12px;
+    border-radius: 3px;
+    display: inline-block;
+    width: 44.5%;
+    width: calc(50% - 5px);
+    height: 32px;
+    line-height: 32px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 13px;
+    vertical-align: top
+}
+
+@media (min-width: 992px) {
+    .swagger-section .token-generator .custom-select {
+        border: 1px solid #cfd3d5
+    }
+}
+
+@media (min-width: 992px) {
+    .swagger-section .token-generator .custom-select.disabled {
+        opacity: .3
+    }
+}
+
+.swagger-section .token-generator .custom-select:after {
+    content: "\E16E";
+    font-family: budicon-font !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    speak: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 12px;
+    position: absolute;
+    top: 12px;
+    right: 10px;
+    opacity: .7;
+    pointer-events: none;
+    color: #5c666f
+}
+
+.swagger-section .token-generator .custom-select + .custom-select {
+    margin-left: 5px
+}
+
+.swagger-section .token-generator .scope-selector {
+    padding: 15px 0
+}
+
+.swagger-section .token-generator .scope-selector:after {
+    clear: both
+}
+
+.swagger-section .token-generator .scope-selector:after, .swagger-section .token-generator .scope-selector:before {
+    content: "";
+    display: table
+}
+
+.swagger-section .token-generator .scope-selector > .area {
+    float: left
+}
+
+.swagger-section .token-generator .scope-selector label {
+    display: none
+}
+
+@media (min-width: 992px) {
+    .swagger-section .token-generator .scope-selector label {
+        display: block
+    }
+}
+
+.swagger-section .token-generator .scope-selector .controls {
+    width: calc(100% - 55px)
+}
+
+.swagger-section .token-generator .scope-selector .cta {
+    width: 55px
+}
+
+.swagger-section .token-generator .scope-selector .cta:after {
+    clear: both
+}
+
+.swagger-section .token-generator .scope-selector .cta:after, .swagger-section .token-generator .scope-selector .cta:before {
+    content: "";
+    display: table
+}
+
+.swagger-section .token-generator label {
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    display: inline-block;
+    margin-bottom: 10px
+}
+
+@media (min-width: 992px) {
+    .swagger-section .token-generator label {
+        color: #5c666f;
+        font-size: 13px;
+        margin-bottom: 15px
+    }
+}
+
+#api2-explorer .btn {
+    outline: 0
+}
+
+#api2-explorer code.json {
+    font-size: 12px
+}
+
+#api2-explorer a.toggle-samples {
+    display: none
+}
+
+#api2-explorer .modal {
+    background: rgba(244, 241, 241, .95)
+}
+
+#api2-explorer .modal h5 {
+    color: #5c666f;
+    text-transform: uppercase;
+    font-size: 12px;
+    margin: 10px 0;
+    letter-spacing: .065em
+}
+
+#api2-explorer .modal pre {
+    border-radius: 3px
+}
+
+#api2-explorer .modal .modal-content {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
+    border: 0
+}
+
+#api2-explorer .modal .modal-title {
+    padding: 0;
+    margin: 0;
+    font-size: 16px
+}
+
+#api2-explorer .modal .modal-title .http_method {
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: .065em
+}
+
+#api2-explorer .modal .modal-title .http_method .text {
+    color: #fff;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-left: 10px
+}
+
+#api2-explorer .modal .modal-dialog {
+    overflow: visible
+}
+
+#api2-explorer .modal .modal-dialog .modal-body {
+    padding: 20px;
+    max-height: none
+}
+
+@media (min-width: 992px) {
+    #api2-explorer .modal .modal-dialog .modal-body {
+        padding: 20px 30px
+    }
+}
+
+.swagger-section .token-generator .btn > span {
+    position: relative;
+    font-family: proxima-nova, sans-serif;
+}
+
+@media (min-width: 768px) {
+  #api2-explorer .modal .modal-dialog {
+      width: 1000px;
+      max-width: 90%;
+  }
+}
+
+#api2-explorer .samples pre code,
+#api2-explorer .samples pre h4.sample-title {
+  cursor: pointer;
+}
+
+@media (min-width: 992px) {
+  #api2-explorer .samples pre code,
+  .swagger-section .operations h4 {
+    cursor: pointer;
+  }
+}
+
+
+#api2-explorer textarea.ui-form-control {
+    font-weight: 500;
+}
+
+@media (min-width: 992px) {
+  #api2-explorer .swagger-section .operation>.content {
+      width: 60%;
+  }
+}
+
+@media (min-width: 992px) {
+  #api2-explorer .swagger-section #resources:before {
+    content: "";
+    background: #5c666f;
+    height: 100%;
+    width: 40%;
+    top: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
+  }
+}
+
+@media (min-width: 992px) {
+  #api2-explorer .swagger-section .operation>.samples {
+      float: left;
+      width: 40%;
+  }
+}
+

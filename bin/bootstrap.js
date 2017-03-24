@@ -68,6 +68,18 @@ module.exports = function (callback) {
 
       /*
       |--------------------------------------------------------------------------
+      | Load Websocket Channels And Middleware
+      |--------------------------------------------------------------------------
+      |
+      | Websocket channels defination should be loaded before firing the Http
+      | server.
+      |
+      */
+      use(Helpers.makeNameSpace('Ws', 'kernel'))
+      use(Helpers.makeNameSpace('Ws', 'socket'))
+
+      /*
+      |--------------------------------------------------------------------------
       | Start Http Server
       |--------------------------------------------------------------------------
       |
@@ -87,4 +99,3 @@ module.exports = function (callback) {
     })
     .catch((error) => console.error(error.stack))
 }
-

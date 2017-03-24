@@ -4,6 +4,8 @@ const Env = use('Env')
 
 module.exports = {
 
+  host: Env.get('HOST'),
+  port: Env.get('PORT'),
   baseUrl: Env.get('BASE_URL'),
 
   /*

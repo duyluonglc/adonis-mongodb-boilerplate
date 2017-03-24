@@ -22,14 +22,12 @@ Route.group('auth', () => {
    *         description: JSON of user
    *         in:  body
    *         required: true
-   *         type: object
    *         schema:
    *           $ref: '#/definitions/NewUser'
    *     responses:
    *       201:
    *         description: user
    *         schema:
-   *           type: object
    *           $ref: '#/definitions/User'
    */
   Route.post('/register', 'Api/AuthController.register')
@@ -91,7 +89,7 @@ Route.group('auth', () => {
    *           - google
    *           - twitter
    *           - linkedin
-   *       - name: social_token
+   *       - name: socialToken
    *         description: social token.
    *         in: formData
    *         required: true
@@ -110,7 +108,7 @@ Route.group('auth', () => {
    *   get:
    *     tags:
    *       - Auth
-   *     summary: Returns user
+   *     summary: Get current user
    *     responses:
    *       200:
    *         description: auth

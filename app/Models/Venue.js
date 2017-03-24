@@ -80,8 +80,8 @@ class Venue extends Model {
       status: `required|in:${Venue.STATUS_ENABLED},${Venue.STATUS_DISABLED}`,
       chatEnabled: 'boolean',
       location: 'required|object',
-      'location.lng': 'required|range:-90,90',
-      'location.lat': 'required|range:-180,180'
+      'location.lat': 'required|range:-90,90',
+      'location.lng': 'required|range:-180,180'
     }
   }
 

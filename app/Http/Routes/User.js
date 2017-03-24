@@ -18,20 +18,13 @@ Route.group('user', () => {
    *       - User
    *     summary: Get users
    *     parameters:
-   *       - name: query
-   *         description: Query param with format json
-   *         in:  query
-   *         required: false
-   *         type: object
-   *         schema:
-   *           $ref: '#/definitions/ListQuery'
+   *       - $ref: '#/parameters/ListQuery'
    *     responses:
    *       200:
    *         description: users
    *         schema:
    *           type: array
    *           items:
-   *             schema:
    *               $ref: '#/definitions/User'
    */
   // Route.get('/', 'Api/UsersController.index')
@@ -48,14 +41,12 @@ Route.group('user', () => {
    *         description: JSON of user
    *         in:  body
    *         required: true
-   *         type: object
    *         schema:
    *           $ref: '#/definitions/NewUser'
    *     responses:
    *       200:
    *         description: user
    *         schema:
-   *           type: object
    *           $ref: '#/definitions/User'
    */
   // Route.post('/', 'Api/UsersController.store')
@@ -68,18 +59,8 @@ Route.group('user', () => {
    *       - User
    *     summary: Returns user
    *     parameters:
-   *       - name: id
-   *         description: Id of User object
-   *         in:  path
-   *         required: true
-   *         type: string
-   *       - name: query
-   *         description: Query param with format json
-   *         in:  query
-   *         required: false
-   *         type: object
-   *         schema:
-   *           $ref: '#/definitions/SingleQuery'
+   *       - $ref: '#/parameters/Id'
+   *       - $ref: '#/parameters/SingleQuery'
    *     responses:
    *       200:
    *         description: user
@@ -96,16 +77,11 @@ Route.group('user', () => {
    *       - User
    *     summary: Update users
    *     parameters:
-   *       - name: id
-   *         description: Id of User object
-   *         in:  path
-   *         required: true
-   *         type: string
+   *       - $ref: '#/parameters/Id'
    *       - name: user
    *         description: User object
    *         in:  body
    *         required: true
-   *         type: object
    *         schema:
    *           $ref: '#/definitions/UpdateUser'
    *     responses:
@@ -124,11 +100,7 @@ Route.group('user', () => {
    *       - User
    *     summary: Delete users
    *     parameters:
-   *       - name: id
-   *         description: Id of User object
-   *         in:  path
-   *         required: true
-   *         type: string
+   *       - $ref: '#/parameters/Id'
    *     responses:
    *       202:
    *         description: delete success
@@ -143,11 +115,7 @@ Route.group('user', () => {
    *       - User
    *     summary: Upload images to user
    *     parameters:
-   *       - name: id
-   *         description: Id of User object
-   *         in:  path
-   *         required: true
-   *         type: string
+   *       - $ref: '#/parameters/Id'
    *       - name: image
    *         description: image files
    *         in:  formData
@@ -172,11 +140,7 @@ Route.group('user', () => {
     *       - User
     *     summary: set featured image
     *     parameters:
-    *       - name: id
-    *         description: Id of User object
-    *         in:  path
-    *         required: true
-    *         type: string
+    *       - $ref: '#/parameters/Id'
     *       - name: imageId
     *         description: Id of Image object
     *         in:  path
@@ -196,11 +160,7 @@ Route.group('user', () => {
     *       - User
     *     summary: Delete an image
     *     parameters:
-    *       - name: id
-    *         description: Id of User object
-    *         in:  path
-    *         required: true
-    *         type: string
+    *       - $ref: '#/parameters/Id'
     *       - name: imageId
     *         description: Id of Image object
     *         in:  path
@@ -208,7 +168,7 @@ Route.group('user', () => {
     *         type: string
     *     responses:
     *       200:
-    *         description: update success
+    *         description: delete success
     */
   Route.delete('/:id/images/:imageId', 'Api/UsersController.deleteImage').middleware(['auth:jwt,basic', 'instance:App/Models/User'])
 
@@ -220,15 +180,13 @@ Route.group('user', () => {
    *       - User
    *     summary: Get images of user
    *     parameters:
-   *       - name: id
-   *         description: Id of User object
-   *         in:  path
-   *         required: true
-   *         type: string
+   *       - $ref: '#/parameters/Id'
    *     responses:
    *       200:
    *         description: success
    *         schema:
+   *           type: array
+   *           items:
    *           $ref: '#/definitions/Image'
    */
   Route.get('/:id/images', 'Api/UsersController.images').middleware(['instance:App/Models/User'])
@@ -241,116 +199,16 @@ Route.group('user', () => {
    *       - User
    *     summary: Get venues by user
    *     parameters:
-   *       - name: id
-   *         description: Id of User object
-   *         in:  path
-   *         required: true
-   *         type: string
-   *       - name: query
-   *         description: Query param with format json
-   *         in:  query
-   *         required: false
-   *         type: object
-   *         schema:
-   *           $ref: '#/definitions/ListQuery'
+   *       - $ref: '#/parameters/Id'
+   *       - $ref: '#/parameters/ListQuery'
    *     responses:
    *       200:
    *         description: venues
    *         schema:
    *           type: array
    *           items:
-   *             schema:
    *               $ref: '#/definitions/Venue'
    */
   Route.get('/:id/venues', 'Api/UsersController.venues').middleware(['auth:jwt,basic', 'instance:App/Models/User'])
 
-  /**
-   * @swagger
-   * /users/{id}/orders:
-   *   get:
-   *     tags:
-   *       - User
-   *     summary: Get orders by user
-   *     parameters:
-   *       - name: id
-   *         description: Id of User object
-   *         in:  path
-   *         required: true
-   *         type: string
-   *       - name: query
-   *         description: Query param with format json
-   *         in:  query
-   *         required: false
-   *         type: object
-   *         schema:
-   *           $ref: '#/definitions/ListQuery'
-   *     responses:
-   *       200:
-   *         description: orders
-   *         schema:
-   *           type: array
-   *           items:
-   *             schema:
-   *               $ref: '#/definitions/Venue'
-   */
-  Route.get('/:id/orders', 'Api/UsersController.orders').middleware(['auth:jwt,basic', 'instance:App/Models/User'])
-
-  /**
-   * @swagger
-   * /users/{id}/bills:
-   *   get:
-   *     tags:
-   *       - User
-   *     summary: Get bills by user
-   *     parameters:
-   *       - name: id
-   *         description: Id of User object
-   *         in:  path
-   *         required: true
-   *         type: string
-   *       - name: query
-   *         description: Query param with format json
-   *         in:  query
-   *         required: false
-   *         type: object
-   *         schema:
-   *           $ref: '#/definitions/ListQuery'
-   *     responses:
-   *       200:
-   *         description: bills
-   *         schema:
-   *           type: array
-   *           items:
-   *             schema:
-   *               $ref: '#/definitions/Venue'
-   */
-  Route.get('/:id/bills', 'Api/UsersController.bills').middleware(['auth:jwt,basic', 'instance:App/Models/User'])
-
-  /**
-   * @swagger
-   * /users/{id}/profile:
-   *   put:
-   *     tags:
-   *       - User
-   *     summary: Update users
-   *     parameters:
-   *       - name: id
-   *         description: Id of User object
-   *         in:  path
-   *         required: true
-   *         type: string
-   *       - name: profile
-   *         description: Profile object
-   *         in:  body
-   *         required: true
-   *         type: object
-   *         schema:
-   *           $ref: '#/definitions/NewProfile'
-   *     responses:
-   *       202:
-   *         description: profile
-   *         schema:
-   *           $ref: '#/definitions/Profile'
-   */
-  Route.put('/:id/profile', 'Api/UsersController.updateProfile').middleware(['auth:jwt,basic', 'instance:App/Models/User'])
 }).prefix('/api/users')

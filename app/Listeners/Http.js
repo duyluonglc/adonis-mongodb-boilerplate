@@ -26,11 +26,13 @@ Http.handleError = function * (error, request, response) {
     UnAuthorizeException: 403
   }
   const status = statusCodes[error.name] || error.status || 500
+  if (!statusCodes[error.name]) {
+    console.log(error.stack)
+  }
   /**
    * Api response
    */
   if (request.url().indexOf('/api/') === 0) {
-    console.error(error.stack)
     let responseObject = {
       statusCode: status,
       name: error.name,
@@ -62,7 +64,7 @@ Http.handleError = function * (error, request, response) {
   /**
    * PRODUCTION REPORTER
    */
-  console.error(error.stack)
+  // console.error(error.stack)
   if (error.name === 'ValidateErrorException') {
     request.withAll().andWith({
       errors: error.message
@@ -146,6 +148,8 @@ function registerResponseMacros () {
 
 function registerRequestMacros () {
   const Request = use('Adonis/Src/Request')
+  const objectId = use('mongodb').ObjectID
+  const moment = use('moment')
 
   Request.macro('getQuery', function () {
     let query = {}
@@ -155,10 +159,24 @@ function registerRequestMacros () {
       } catch (error) {
         throw new Exceptions.InvalidArgumentException(error.message)
       }
-      if (!_.isObject(query)) {
-        throw new Exceptions.InvalidArgumentException(`'${query}' is not JSON`)
       }
+    function convertType (obj) {
+      for (let key in obj) {
+        let element = obj[key]
+        if (_.isObject(element)) {
+          obj[key] = convertType(element)
+        } else if (_.isString(element)) {
+          if (/^objectId:(.*)/.test(element)) {
+            obj[key] = objectId(element.match(/^objectId:(.*)/)[1])
+          } else if (/^date:(.*)/.test(element)) {
+            obj[key] = moment(element.match(/^date:(.*)/)[1]).toDate()
     }
+        }
+      }
+
+      return obj
+    }
+    query = convertType(query)
     query.limit = query.limit || Config.get('api.limit', 20)
     query.skip = query.skip || 0
     query.where = query.where || {}
@@ -190,6 +208,6 @@ function registerRequestMacros () {
       throw new Exceptions.InvalidArgumentException('`with` is not valid format')
     }
     query.with = includes
-    return _.pick(query, ['fields', 'skip', 'limit', 'where', 'sort', 'limit', 'with'])
+    return _.pick(query, ['select', 'skip', 'limit', 'where', 'sort', 'limit', 'with'])
   })
 }
