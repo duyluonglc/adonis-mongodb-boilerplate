@@ -37,9 +37,8 @@ const providers = [
   'adonis-ally/providers/AllyProvider',
   'adonis-filesystem/providers/FilesystemProvider',
   path.join(__dirname, '../providers/ExceptionsProvider'),
-  path.join(__dirname, '../providers/ExtendValidatorProvider')
-// path.join(__dirname, '../providers/ExtendRequestProvider'),
-// path.join(__dirname, '../providers/ExtendResponseProvider'),
+  path.join(__dirname, '../providers/ExtendValidatorProvider'),
+  path.join(__dirname, '../providers/SocialAuthProvider')
 ]
 
 /*
