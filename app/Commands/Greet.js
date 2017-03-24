@@ -3,7 +3,6 @@
 const Command = use('Command')
 
 class Greet extends Command {
-
   /**
    * signature defines the requirements and name
    * of command.
@@ -34,7 +33,6 @@ class Greet extends Command {
   * handle (args, options) {
     this.info(`Hello ${args.name}`)
   }
-
 }
 
 module.exports = Greet

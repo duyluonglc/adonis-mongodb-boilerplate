@@ -6,6 +6,7 @@ const assert = chai.assert
 const baseUrl = `http://${process.env.HOST}:${process.env.PORT}/`
 require('co-mocha')
 const User = use('App/Models/User')
+
 let user = null
 
 describe('Account Register', function () {
@@ -114,7 +115,6 @@ describe('Auth login', function () {
   beforeEach(function * () {})
 
   afterEach(function * () {
-    const User = use('App/Models/User')
     yield User.query().remove()
   })
 
@@ -159,6 +159,46 @@ describe('Auth login', function () {
     assert.equal(response.body.statusCode, 200)
     assert.isNotNull(response.body.data.token)
     assert.equal(response.body.data.email, user.email)
+  })
+})
+
+describe('Auth social login', function () {
+  beforeEach(function * () {})
+
+  afterEach(function * () {
+    yield User.query().remove()
+  })
+
+  it('should throw 422 error token is not provided', function * () {
+    user = use('Factory').model('App/Models/User').make()
+    user.verified = true
+    yield user.save()
+    const response = yield request(baseUrl)
+      .post(`api/auth/login/facebook`)
+      .expect(422)
+    assert.equal(response.body.statusCode, 422)
+  })
+
+  it('should throw 401 error facebook token invalid', function * () {
+    user = use('Factory').model('App/Models/User').make()
+    user.verified = true
+    yield user.save()
+    const response = yield request(baseUrl)
+      .post(`api/auth/login/facebook`)
+      .send({socialToken: 'bad token'})
+      .expect(401)
+    assert.equal(response.body.statusCode, 401)
+  })
+
+  it('should throw 401 error google token invalid', function * () {
+    user = use('Factory').model('App/Models/User').make()
+    user.verified = true
+    yield user.save()
+    const response = yield request(baseUrl)
+      .post(`api/auth/login/google`)
+      .send({socialToken: 'bad token'})
+      .expect(401)
+    assert.equal(response.body.statusCode, 401)
   })
 })
 

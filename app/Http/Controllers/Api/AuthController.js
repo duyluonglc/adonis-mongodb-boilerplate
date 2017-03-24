@@ -13,7 +13,6 @@ const uuid = use('uuid')
  * @class AuthController
  */
 class AuthController extends BaseController {
-
   /**
    * Register
    *
@@ -91,14 +90,13 @@ class AuthController extends BaseController {
    *
    */
   * socialLogin (request, response) {
-    const social = request.param('social')
-    const socialUser = yield request.ally.driver(social).getUser()
+    const network = request.param('social')
     yield this.validate({social: request.param('social')}, {social: 'required|in:facebook,google'})
     const Social = use('Adonis/Auth/Social')
     const socialToken = request.input('socialToken')
     const socialUser = yield Social.verifyToken(network, socialToken)
     if (!socialUser) {
-      throw new Exceptions.LoginFailedException(Antl.formatMessage('invalidSocialToken'))
+      throw new Exceptions.LoginFailedException('Invalid token')
     }
     let user = yield User.where('email', socialUser.email).first()
     if (!user) {
@@ -277,7 +275,6 @@ class AuthController extends BaseController {
     yield user.save()
     response.apiSuccess(user, 'Change password successfully')
   }
-
 }
 
 module.exports = AuthController

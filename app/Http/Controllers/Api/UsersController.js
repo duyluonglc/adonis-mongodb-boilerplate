@@ -9,7 +9,6 @@ const User = use('App/Models/User')
  * @class UsersController
  */
 class UsersController extends BaseController {
-
   /**
    * Index
    *
@@ -126,7 +125,7 @@ class UsersController extends BaseController {
     const fileName = use('uuid').v1().replace('-', '') + image.clientName()
     const filePath = `uploads/${fileName}`
     yield File.upload(fileName, image)
-    yield user.images().create({fileName, filePath})
+    yield user.images().create({ fileName, filePath })
     yield user.related('images').load()
     return response.apiUpdated(user)
   }
@@ -159,7 +158,6 @@ class UsersController extends BaseController {
     const venues = yield request.instance.venues().query(request.getQuery()).fetch()
     return response.apiCollection(venues)
   }
-
 }
 
 module.exports = UsersController

@@ -26,7 +26,6 @@ class BaseController {
       throw new Exceptions.UnAuthorizeException(`Access forbidden: You are not allowed to ${action} ${resource.constructor.name} ${resource._id}`)
     }
   }
-
 }
 
 module.exports = BaseController

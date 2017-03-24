@@ -1,7 +1,6 @@
 'use strict'
 
 class VenuePolicy {
-
   static get model () {
     return use('App/Models/Venue')
   }

@@ -6,7 +6,6 @@ const _ = use('lodash')
 const Policies = use('require-all')(`${use('Helpers').appPath()}/Policies`)
 
 class FenceInit {
-
   * handle (request, response, next) {
     _.map(Policies, Policy => {
       Gate.policy(Policy.model, new Policy())
@@ -15,7 +14,6 @@ class FenceInit {
     Guard.setDefaultUser(currentUser)
     yield next
   }
-
 }
 
 module.exports = FenceInit

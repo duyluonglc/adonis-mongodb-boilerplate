@@ -12,7 +12,6 @@ const ms = require('ms')
 const colors = require('colors')
 
 class AdonisReporter extends Mocha.reporters.base {
-
   constructor (runner) {
     super(runner)
     this.passesCount = 0
@@ -73,7 +72,6 @@ class AdonisReporter extends Mocha.reporters.base {
   getTestDuration (duration, expectedDuration) {
     return duration > expectedDuration ? colors.red(ms(duration)) : colors.yellow(ms(duration))
   }
-
 }
 
 module.exports = AdonisReporter

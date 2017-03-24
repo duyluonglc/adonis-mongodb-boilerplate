@@ -5,7 +5,6 @@ const ServiceProvider = require('adonis-fold').ServiceProvider
 const co = require('co')
 
 class ExtendValidatorProvider extends ServiceProvider {
-
   uniqueValidator (data, field, message, args, get) {
     const LucidMongo = use('LucidMongo')
     const Exceptions = use('Exceptions')
@@ -196,7 +195,6 @@ class ExtendValidatorProvider extends ServiceProvider {
     Validator.extend('minValue', this.minValueValidator, '{{field}} is not valid minValue')
     Validator.extend('maxValue', this.maxValueValidator, '{{field}} is not valid maxValue')
   }
-
 }
 
 module.exports = ExtendValidatorProvider

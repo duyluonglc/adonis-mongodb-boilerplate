@@ -77,7 +77,6 @@ class User extends Model {
   venues () {
     return this.hasMany('App/Models/Venue', '_id', 'userId')
   }
-
 }
 
 module.exports = User

@@ -96,7 +96,6 @@ class Venue extends Model {
   images () {
     return this.morphMany('App/Models/Image', 'imageableType', 'imageableId')
   }
-
 }
 
 module.exports = Venue

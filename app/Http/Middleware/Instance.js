@@ -2,7 +2,6 @@
 const Exceptions = use('Exceptions')
 
 class Instance {
-
   * handle (request, response, next, modelName) {
     if (!modelName) {
       throw new Exceptions.InvalidArgumentException('Instance middleware need modelName parameter')
@@ -20,7 +19,6 @@ class Instance {
     // yield next to pass the request to next middleware or controller
     yield next
   }
-
 }
 
 module.exports = Instance

@@ -19,7 +19,6 @@ const Model = use('LucidMongo')
  *             type: string
  */
 class Image extends Model {
-
   static get createTimestamp () { return 'createdAt' }
   static get updateTimestamp () { return 'updatedAt' }
 
@@ -33,7 +32,6 @@ class Image extends Model {
     super.boot()
     this.addHook('afterDelete', 'App/Models/Hooks/Image.removeFile')
   }
-
 }
 
 module.exports = Image

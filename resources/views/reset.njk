@@ -14,7 +14,7 @@
     {{ form.open({action: 'Api/AuthController.postReset'}) }}
 
       {{ csrfField }}
-
+      {{ form.hidden('token', token) }}
       <div class="field">
         {{ form.label('password', 'Enter your passwod') }}
         {{ form.password('password') }}

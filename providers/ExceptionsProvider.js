@@ -22,7 +22,6 @@ class AccountNotVerifiedException extends Exceptions.HttpException {
 }
 
 class ExceptionsProvider extends ServiceProvider {
-
   * register () {
     // register bindings
     this.app.bind('Adonis/Provider/Exceptions', function () {
@@ -35,7 +34,6 @@ class ExceptionsProvider extends ServiceProvider {
       return Exceptions
     })
   }
-
 }
 
 module.exports = ExceptionsProvider

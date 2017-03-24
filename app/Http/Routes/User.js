@@ -210,5 +210,4 @@ Route.group('user', () => {
    *               $ref: '#/definitions/Venue'
    */
   Route.get('/:id/venues', 'Api/UsersController.venues').middleware(['auth:jwt,basic', 'instance:App/Models/User'])
-
 }).prefix('/api/users')

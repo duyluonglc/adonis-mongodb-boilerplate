@@ -71,7 +71,7 @@ Http.handleError = function * (error, request, response) {
     }).flash()
     return response.redirect('back')
   }
-  yield response.status(status).sendView('errors/index', {error})
+  yield response.status(status).sendView('errors/index', { error })
 }
 
 /**
@@ -159,7 +159,7 @@ function registerRequestMacros () {
       } catch (error) {
         throw new Exceptions.InvalidArgumentException(error.message)
       }
-      }
+    }
     function convertType (obj) {
       for (let key in obj) {
         let element = obj[key]
@@ -170,7 +170,7 @@ function registerRequestMacros () {
             obj[key] = objectId(element.match(/^objectId:(.*)/)[1])
           } else if (/^date:(.*)/.test(element)) {
             obj[key] = moment(element.match(/^date:(.*)/)[1]).toDate()
-    }
+          }
         }
       }
 
