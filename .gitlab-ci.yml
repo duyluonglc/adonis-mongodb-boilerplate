@@ -20,10 +20,14 @@ before_script:
   - cp .env.example .env
   - cp .env.example .env.test
   - chmod 755 ./ace
+  - chmod 777 storage
   - npm install --silent --no-optional
 
 test:
+  stage: test
   script:
     - ./ace migration:run
-    - npm run lint
-    - npm run test
+    - npm run lint && npm run test
+  artifacts:
+    paths:
+      - coverage/

@@ -21,6 +21,8 @@
 **Explore to Swagger page:**
  [http://localhost:3333/docs](http://localhost:3333/docs)
  
+ ![alt tag](screen-shoot.png)
+
  ## test
  
  copy file `.env.example` to `.env.test`

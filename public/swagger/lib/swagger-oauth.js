@@ -138,7 +138,7 @@ function handleLogin() {
       }
     }
     var scopes = [];
-    var o = $('.scopes').find('.active');
+    var o = $(".scopes:last .active");
     for (k = 0; k < o.length; k++) {
       var scope = $(o[k]).attr('data-toggle-scope');
       if (scopes.indexOf(scope) === -1)

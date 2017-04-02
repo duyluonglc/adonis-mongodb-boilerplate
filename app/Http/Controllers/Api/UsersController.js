@@ -83,7 +83,7 @@ class UsersController extends BaseController {
 
     const user = request.instance
     yield this.guard('owner', user)
-    user.set(request.only('name', 'phone'))
+    user.fill(request.only('name', 'phone'))
     yield user.save()
 
     return response.apiUpdated(user)
@@ -155,6 +155,7 @@ class UsersController extends BaseController {
    *
    */
   * venues (request, response) {
+    yield this.guard('owner', request.instance)
     const venues = yield request.instance.venues().query(request.getQuery()).fetch()
     return response.apiCollection(venues)
   }

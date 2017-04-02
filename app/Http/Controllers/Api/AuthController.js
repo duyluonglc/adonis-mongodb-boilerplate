@@ -91,6 +91,7 @@ class AuthController extends BaseController {
    */
   * socialLogin (request, response) {
     const network = request.param('social')
+    yield this.validate(request.all(), {socialToken: 'required|string'})
     yield this.validate({social: request.param('social')}, {social: 'required|in:facebook,google'})
     const Social = use('Adonis/Auth/Social')
     const socialToken = request.input('socialToken')

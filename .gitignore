@@ -8,3 +8,4 @@ storage/tmp/*
 npm-debug.log
 .idea
 .vscode
+coverage
