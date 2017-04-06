@@ -14,10 +14,12 @@ install:
 - npm install --no-optional
 - cp .env.example .env.test
 - cp .env.example .env
+- chmod 755 ./ace
+- chmod 777 storage
 script:
 - ./ace migration:run
 - npm run lint
 - npm run test
 after_success:
-  - npm install -g codeclimate-test-reporter
-  - codeclimate-test-reporter < lcov.info
+- npm install -g codeclimate-test-reporter
+- codeclimate-test-reporter < lcov.info
