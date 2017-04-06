@@ -15,7 +15,7 @@ install:
 - cp .env.example .env.test
 - cp .env.example .env
 - chmod 755 ./ace
-- chmod 777 storage
+#- chmod 777 storage
 script:
 - ./ace migration:run
 - npm run lint
