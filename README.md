@@ -1,4 +1,6 @@
 # AdonisJs + LucidMongo + Swagger jsdoc Application
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/duyluonglc/adonis-mongodb-boilerplate.svg)](https://greenkeeper.io/)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
 
 ## :arrow_up: How to Setup
