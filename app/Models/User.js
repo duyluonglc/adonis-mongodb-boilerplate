@@ -74,6 +74,10 @@ class User extends Model {
     return this.hasMany('App/Models/Token', '_id', 'userId')
   }
 
+  images () {
+    return this.morphMany('App/Models/Image', 'imageableType', 'imageableId')
+  }
+
   venues () {
     return this.hasMany('App/Models/Venue', '_id', 'userId')
   }

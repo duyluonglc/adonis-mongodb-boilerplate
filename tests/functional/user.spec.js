@@ -88,15 +88,6 @@ describe('Upload Image', function () {
     yield Image.query().remove()
   })
 
-  it('should throw validation error file is invalid', function * () {
-    const response = yield request(baseUrl)
-      .post(`api/users/${user._id}/upload`)
-      .login(user)
-      .send({})
-      .expect(422)
-    assert.equal(response.body.statusCode, 422)
-  })
-
   it('should upload user avatar', function * () {
     const response = yield request(baseUrl)
       .post(`api/users/${user._id}/upload`)
@@ -105,9 +96,9 @@ describe('Upload Image', function () {
       .attach('image', 'tests/fixtures/demo.png')
       .expect(202)
     assert.equal(response.body.statusCode, 202)
-    const userTemp = yield User.find(user._id)
-    assert.notEqual(userTemp.avatar, null)
-    const image = yield Image.find(userTemp.avatar._id)
+    const newUser = yield User.find(user._id)
+    const image = yield newUser.images().first()
+    assert.isNotNull(image)
     yield image.delete()
   })
 })
