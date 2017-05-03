@@ -75,6 +75,6 @@
     "nodemon": "^1.11.0",
     "standard": "^10.0.2",
     "supertest": "^3.0.0",
-    "yargs": "^7.1.0"
+    "yargs": "^8.0.1"
   }
 }
