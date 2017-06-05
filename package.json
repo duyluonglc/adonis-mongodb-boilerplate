@@ -59,7 +59,7 @@
     "App": "./app"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
+    "chai": "^4.0.2",
     "chai-as-promised": "^6.0.0",
     "chai-fs": "^1.0.0",
     "co": "^4.6.0",
