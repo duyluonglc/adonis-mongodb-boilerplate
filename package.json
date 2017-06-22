@@ -31,7 +31,7 @@
     "fs-extra": "^3.0.0",
     "lint": "^1.1.2",
     "lodash": "^4.17.4",
-    "ms": "^1.0.0",
+    "ms": "^2.0.0",
     "node-exceptions": "^2.0.0",
     "node-fence": "^1.0.0-alpha-7",
     "require-all": "^2.2.0",
@@ -59,8 +59,8 @@
     "App": "./app"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "chai-as-promised": "^7.0.0",
+    "chai": "^4.0.2",
+    "chai-as-promised": "^7.0.0"
     "chai-fs": "^1.0.0",
     "co": "^4.6.0",
     "co-fs": "^1.2.0",
