@@ -60,7 +60,7 @@
   },
   "devDependencies": {
     "chai": "^4.0.2",
-    "chai-as-promised": "^6.0.0",
+    "chai-as-promised": "^7.0.0"
     "chai-fs": "^1.0.0",
     "co": "^4.6.0",
     "co-fs": "^1.2.0",
