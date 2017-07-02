@@ -68,7 +68,7 @@
     "colors": "^1.1.2",
     "find-remove": "^1.0.0",
     "globby": "^6.1.0",
-    "husky": "^0.13.3",
+    "husky": "^0.14.2",
     "istanbul": "^0.4.5",
     "mailparser": "^2.0.4",
     "mocha": "^3.2.0",
