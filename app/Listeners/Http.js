@@ -148,8 +148,6 @@ function registerResponseMacros () {
 
 function registerRequestMacros () {
   const Request = use('Adonis/Src/Request')
-  const objectId = use('mongodb').ObjectID
-  const moment = use('moment')
 
   Request.macro('getQuery', function () {
     let query = {}
@@ -160,23 +158,6 @@ function registerRequestMacros () {
         throw new Exceptions.InvalidArgumentException(error.message)
       }
     }
-    function convertType (obj) {
-      for (let key in obj) {
-        let element = obj[key]
-        if (_.isObject(element)) {
-          obj[key] = convertType(element)
-        } else if (_.isString(element)) {
-          if (/^objectId:(.*)/.test(element)) {
-            obj[key] = objectId(element.match(/^objectId:(.*)/)[1])
-          } else if (/^date:(.*)/.test(element)) {
-            obj[key] = moment(element.match(/^date:(.*)/)[1]).toDate()
-          }
-        }
-      }
-
-      return obj
-    }
-    query = convertType(query)
     query.limit = query.limit || Config.get('api.limit', 20)
     query.skip = query.skip || 0
     query.where = query.where || {}

@@ -1,9 +1,10 @@
 'use strict'
 
 const ServiceProvider = require('adonis-fold').ServiceProvider
-const request = use('request')
+const apisauce = use('apisauce')
 
 class SocialAuthProvider extends ServiceProvider {
+
   * register () {
     this.app.bind('Adonis/Auth/Social', function () {
       const providers = {
@@ -15,23 +16,18 @@ class SocialAuthProvider extends ServiceProvider {
         }
       }
       return {
-        verifyToken: function (network, socialToken) {
-          return new Promise(function (resolve, reject) {
-            request({
-              url: providers[network].url,
-              qs: { access_token: socialToken }
-            }, function (error, response, body) {
-              if (!error && response.statusCode === 200) {
-                resolve(JSON.parse(body))
-              } else {
-                resolve(null)
-              }
-            })
-          })
+        verifyToken: function * (network, socialToken) {
+          const response = yield apisauce.create({baseURL: providers[network].url})
+            .get('', { access_token: socialToken })
+          if (response.ok) {
+            return response.data
+          }
+          return null
         }
       }
     })
   }
+
 }
 
 module.exports = SocialAuthProvider

@@ -2,6 +2,7 @@
 const Exceptions = use('Exceptions')
 
 class Instance {
+
   * handle (request, response, next, modelName) {
     if (!modelName) {
       throw new Exceptions.InvalidArgumentException('Instance middleware need modelName parameter')
@@ -9,6 +10,9 @@ class Instance {
     const id = request.param('id')
     if (!id) {
       throw new Exceptions.InvalidArgumentException('Instance middleware need :id parameter in router')
+    }
+    if (!/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i.test(id)) {
+      throw new Exceptions.InvalidArgumentException('id is invalid')
     }
     const Model = use(modelName)
     const instance = yield Model.find(id)
@@ -19,6 +23,7 @@ class Instance {
     // yield next to pass the request to next middleware or controller
     yield next
   }
+
 }
 
 module.exports = Instance

@@ -5,16 +5,16 @@ const _ = use('lodash')
 const Guard = require('node-fence').Guard
 
 class BaseController {
-  * validate (data, rules, scope) {
-    const validation = yield Validator.validateAll(data, rules)
+  * validate (data, rules, messages) {
+    const validation = yield Validator.validateAll(data, rules, messages)
     if (validation.fails()) {
       throw new Exceptions.ValidateErrorException(validation.messages())
     }
   }
 
-  * validateAttributes (data, rules) {
+  * validateAttributes (data, rules, messages) {
     rules = _.pick(rules, _.keys(data))
-    yield this.validate(data, rules)
+    yield this.validate(data, rules, messages)
   }
 
   * guard (action, resource) {
