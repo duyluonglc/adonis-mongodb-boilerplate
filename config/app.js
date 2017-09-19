@@ -3,11 +3,6 @@
 const Env = use('Env')
 
 module.exports = {
-
-  host: Env.get('HOST'),
-  port: Env.get('PORT'),
-  baseUrl: Env.get('BASE_URL'),
-
   /*
   |--------------------------------------------------------------------------
   | App Key
@@ -18,22 +13,6 @@ module.exports = {
   |
   */
   appKey: Env.get('APP_KEY'),
-
-  encryption: {
-    /*
-    |--------------------------------------------------------------------------
-    | Encryption algorithm
-    |--------------------------------------------------------------------------
-    |
-    | Encryption algorithm defines the algorithm to be used while encrypting
-    | values. Under the hood adonis makes of node-crypto.
-    |
-    | aes-256-cbc requires 32 characters long string
-    | aes-128-cbc requires 16 characters long string
-    |
-    */
-    algorithm: 'aes-256-cbc'
-  },
 
   http: {
     /*
@@ -79,17 +58,6 @@ module.exports = {
 
     /*
     |--------------------------------------------------------------------------
-    | Set Powered By
-    |--------------------------------------------------------------------------
-    |
-    | Adonis will set response header X-Powered-By if below value is set to
-    | true. Consider this as a way of saying thanks to us.
-    |
-    */
-    setPoweredBy: true,
-
-    /*
-    |--------------------------------------------------------------------------
     | JSONP Callback
     |--------------------------------------------------------------------------
     |
@@ -110,18 +78,7 @@ module.exports = {
     | production to optimize view loading time.
     |
     */
-    cache: Env.get('CACHE_VIEWS', true),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Service Injection
-    |--------------------------------------------------------------------------
-    |
-    | Inside your nunjucks views, you can inject models, services etc using
-    | IoC container. Setting it to false will disable this feature.
-    |
-    */
-    injectServices: true
+    cache: Env.get('CACHE_VIEWS', true)
   },
 
   static: {

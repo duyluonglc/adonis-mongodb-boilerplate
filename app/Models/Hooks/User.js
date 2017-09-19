@@ -1,7 +1,20 @@
-const Hash = use('Hash')
-const User = exports = module.exports = {}
+'use strict'
 
-User.encryptPassword = function * (next) {
-  this.password = yield Hash.make(this.password)
-  yield next
+const Hash = use('Hash')
+
+const UserHook = module.exports = {}
+
+/**
+ * Hash using password as a hook.
+ *
+ * @method
+ *
+ * @param  {Object} userInstance
+ *
+ * @return {void}
+ */
+UserHook.hashPassword = async (userInstance) => {
+  if (userInstance.password) {
+    userInstance.password = await Hash.make(userInstance.password)
+  }
 }

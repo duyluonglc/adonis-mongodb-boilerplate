@@ -1,11 +1,4 @@
 node_modules
-public/uploads/*
-credentials/*
-storage/tmp/*
-!.gitkeep
+tmp
 .env
-.env.test
-npm-debug.log
-.idea
-.vscode
-coverage
+package-lock.json

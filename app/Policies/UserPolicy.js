@@ -1,13 +1,13 @@
 'use strict'
 
-class VenuePolicy {
+class UserPolicy {
   static get model () {
     return use('App/Models/User')
   }
 
-  * owner (user, target) {
+  async update (user, target) {
     return user._id.toString() === target._id.toString()
   }
 }
 
-module.exports = VenuePolicy
+module.exports = UserPolicy

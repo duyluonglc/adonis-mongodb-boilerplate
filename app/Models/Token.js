@@ -1,11 +1,8 @@
 'use strict'
 
-const Model = use('LucidMongo')
+const Model = use('Model')
 
 class Token extends Model {
-  user () {
-    return this.belongsTo('App/Models/User', '_id', 'userId')
-  }
 }
 
 module.exports = Token

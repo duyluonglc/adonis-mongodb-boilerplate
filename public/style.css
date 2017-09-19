@@ -1,102 +1,82 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300');
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
 body {
-  font-family: 'Source Sans Pro', sans-serif;
-  -webkit-font-feature-settings: "kern", "liga", "pnum";
-  -moz-font-feature-settings: "kern", "liga", "pnum";
-  -ms-font-feature-settings: "kern", "liga", "pnum";
-  font-feature-settings: "kern", "liga", "pnum";
-  -webkit-font-smoothing: antialiased;
-  font-weight: lighter;
-  background: #ffffff;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  background-image: url("/splash.png");
+  background-color: #220052;
 }
 
 * {
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
-.__banner {
-  background: #744d82;
-  background: -moz-radial-gradient(top, ellipse cover, #744d82 11%, #503d67 99%, #503d67 100%);
-  background: -webkit-gradient(radial, top center, 0, center center, 100%, color-stop(11%, #744d82), color-stop(99%, #503d67), color-stop(100%, #503d67));
-  background: -webkit-radial-gradient(top, ellipse cover, #744d82 11%, #503d67 99%, #503d67 100%);
-  background: -o-radial-gradient(top, ellipse cover, #744d82 11%, #503d67 99%, #503d67 100%);
-  background: -ms-radial-gradient(top, ellipse cover, #744d82 11%, #503d67 99%, #503d67 100%);
-  background: radial-gradient(ellipse at top, #744d82 11%, #503d67 99%, #503d67 100%);
-}
-
-.__banner {
-  height: 80vh;
-  width: 100%;
-  padding-bottom: 30px;
+section {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  display: flex;
-  text-align: center;
+  max-width: 536px;
+  margin: auto;
+  position: relative;
 }
 
-.__banner .banner__inner h1 {
-  font-weight: 500;
-  font-size: 180px;
-  color: #ffffff;
-}
-
-.__banner .banner__inner h2 {
-  margin-bottom: 25px;
-  text-align: center;
-  letter-spacing: 3px;
-  margin-top: 80px;
-  font-weight: 400;
-  text-transform: uppercase;
-  font-size: 16px;
-  color: #ffffff;
-}
-
-.__banner .banner__inner p,
-.__banner .banner__inner a {
-  color: #fff;
-  font-size: 24px;
-  font-weight: 300;
-}
-
-.__banner .banner__inner h2 span {
-  display: inline-block;
-  margin: 0 30px;
-}
-
-.__footer {
-  text-align: center;
+section:before {
+  content: "";
   position: absolute;
-  bottom: 30px;
-  margin: auto;
-  right: 0;
-  left: 0;
+  background: url("/pyramid.png") no-repeat;
+  background-size: 100%;
+  width: 100%;
+  height: 402px;
+  z-index: -1;
 }
 
-.__footer ul {
-  display: table;
-  margin: auto;
+.logo {
+  background: url("/logo.svg") no-repeat;
+  width: 36px;
+  height: 33px;
+  background-size: 100%;
+  margin-bottom: 35px;
+  opacity: 0;
+  animation: slideUp 1s cubic-bezier(0.19, 1, 0.30, 1) 1.3s forwards;
 }
 
-.__footer li {
-  border-left: solid 2px #ccc;
-  display: table-cell;
+.title {
+  background: url("/title.svg") no-repeat;
+  width: 219px;
+  height: 36px;
+  background-size: 100%;
+  opacity: 0;
+  animation: slideUp 1s cubic-bezier(0.19, 1, 0.30, 1) 0.2s forwards;
 }
 
-.__footer li:first-child {
-  border: none;
+.subtitle {
+  margin-top: 25px;
+  color: #BDB3CB;
+  font-size: 17px;
+  text-align: center;
+  letter-spacing: 0.5;
+  opacity: 0;
+  animation: slideUp 1s cubic-bezier(0.19, 1, 0.30, 1) 0.5s forwards;
 }
 
-.__footer li a {
-  transition: opacity 0.5s;
-  text-decoration: none;
-  display: inline-block;
-  font-weight: bold;
-  padding: 0px 30px;
-  font-size: 13px;
-  opacity: 0.8;
-  color: #ccc;
-}
-
-.__footer li a:hover {
-  opacity: 1;
+@keyframes slideUp {
+  0% {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.2%;
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
 }

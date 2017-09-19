@@ -1,6 +1,6 @@
 'use strict'
 
-const Model = use('LucidMongo')
+const Model = use('Model')
 
 /**
  * @swagger

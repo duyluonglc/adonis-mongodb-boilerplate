@@ -1,6 +1,6 @@
 'use strict'
 
-const Model = use('LucidMongo')
+const Model = use('Model')
 const Config = use('Config')
 const languages = Config.get('locale.languages')
 
@@ -52,22 +52,13 @@ class User extends Model {
   static get updateTimestamp () { return 'updatedAt' }
   static get deleteTimestamp () { return 'deletedAt' }
 
-  static rules (userId) {
-    return {
-      name: 'required',
-      email: `required|email|unique:users,email` + (userId ? `,_id,${userId}` : ''),
-      password: 'required|min:6|max:255',
-      language: `required|in:${languages.join(',')}`
-    }
-  }
-
   static get hidden () {
     return ['password', 'isDeleted', 'verificationToken']
   }
 
   static boot () {
     super.boot()
-    this.addHook('beforeCreate', 'App/Models/Hooks/User.encryptPassword')
+    this.addHook('beforeCreate', 'User.hashPassword')
   }
 
   tokens () {
@@ -76,10 +67,6 @@ class User extends Model {
 
   images () {
     return this.morphMany('App/Models/Image', 'imageableType', 'imageableId')
-  }
-
-  venues () {
-    return this.hasMany('App/Models/Venue', '_id', 'userId')
   }
 }
 
