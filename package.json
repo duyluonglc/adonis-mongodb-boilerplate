@@ -23,7 +23,7 @@
     ]
   },
   "dependencies": {
-    "@adonisjs/ace": "^4.0.4",
+    "@adonisjs/ace": "^4.0.6",
     "@adonisjs/auth": "^2.0.6",
     "@adonisjs/bodyparser": "^1.0.6",
     "@adonisjs/cors": "^1.0.1",
