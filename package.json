@@ -30,14 +30,14 @@
     "@adonisjs/fold": "^4.0.4",
     "@adonisjs/framework": "^4.0.24",
     "@adonisjs/ignitor": "^1.0.12",
-    "@adonisjs/mail": "^3.0.2",
-    "@adonisjs/validator": "^4.0.4",
+    "@adonisjs/mail": "^3.0.3",
+    "@adonisjs/validator": "^4.0.5",
     "@slynova/fence": "^1.0.0-alpha-1",
     "lucid-mongo": "^2.0.9",
     "require-all": "^2.2.0",
     "swagger-jsdoc": "^1.9.7"
   },
   "devDependencies": {
-    "swagger-ui-dist": "^3.3.0"
+    "swagger-ui-dist": "^3.3.1"
   }
 }
