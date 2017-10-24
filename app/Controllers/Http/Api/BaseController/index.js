@@ -1,13 +1,13 @@
 'use strict'
 const Validator = use('Validator')
-const Exceptions = use('Exceptions')
+const ValidateErrorException = use('App/Exceptions/ValidateErrorException')
 const _ = use('lodash')
 
 class BaseController {
   async validate (data, rules, messages) {
     const validation = await Validator.validateAll(data, rules, messages)
     if (validation.fails()) {
-      throw new Exceptions.ValidateErrorException(validation.messages())
+      throw ValidateErrorException.invoke(validation.messages())
     }
   }
 

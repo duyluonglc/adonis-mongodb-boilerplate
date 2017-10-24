@@ -4,7 +4,7 @@ const { ServiceProvider } = require('@adonisjs/fold')
 
 class ExtendValidatorProvider extends ServiceProvider {
   existValidator (data, field, message, args, get) {
-    const Exceptions = use('Exceptions')
+    const InvalidArgumentException = use('App/Exceptions/InvalidArgumentException')
     return new Promise((resolve, reject) => {
       /**
        * skip if value is empty, required validation will
@@ -17,7 +17,7 @@ class ExtendValidatorProvider extends ServiceProvider {
       const collectionName = args[0]
       const databaseField = args[1] || field
       if (!collectionName) {
-        throw new Exceptions.RunTimeException('Unique rule require collection name')
+        throw new InvalidArgumentException('Unique rule require collection name')
       }
       (async () => {
         const database = db.collection(collectionName)

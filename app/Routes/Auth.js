@@ -71,7 +71,7 @@ Route.group('auth', () => {
    *       200:
    *         description: logout success
    */
-  Route.post('/logout', 'Api/AuthController.logout').middleware('auth:jwt,basic')
+  Route.post('/logout', 'Api/AuthController.logout').middleware('auth:jwt')
 
   /**
    * @swagger
@@ -119,7 +119,7 @@ Route.group('auth', () => {
    *         schema:
    *           $ref: '#/definitions/User'
    */
-  Route.get('/me', 'Api/AuthController.me').middleware('auth:jwt,basic')
+  Route.get('/me', 'Api/AuthController.me').middleware('auth:jwt')
 
   /**
    * @swagger
@@ -187,7 +187,7 @@ Route.group('auth', () => {
    *       200:
    *         description: message
    */
-  Route.post('/password', 'Api/AuthController.password').middleware('auth:jwt,basic')
+  Route.post('/password', 'Api/AuthController.password').middleware('auth:jwt')
 }).prefix('/api/auth')
 
 Route.get('auth/reset', 'Api/AuthController.getReset').as('reset')

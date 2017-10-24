@@ -90,7 +90,7 @@ Route.group('user', () => {
    *         schema:
    *           $ref: '#/definitions/User'
    */
-  Route.put('/:id', 'Api/UsersController.update').middleware(['auth:jwt,basic', 'instance:App/Models/User'])
+  Route.put('/:id', 'Api/UsersController.update').middleware(['auth:jwt', 'instance:App/Models/User'])
 
   /**
    * @swagger
@@ -105,7 +105,7 @@ Route.group('user', () => {
    *       202:
    *         description: delete success
    */
-  Route.delete('/:id', 'Api/UsersController.destroy').middleware(['auth:jwt,basic', 'instance:App/Models/User'])
+  Route.delete('/:id', 'Api/UsersController.destroy').middleware(['auth:jwt', 'instance:App/Models/User'])
 
   /**
    * @swagger
@@ -130,7 +130,7 @@ Route.group('user', () => {
    *       200:
    *         description: upload success
    */
-  Route.post('/:id/upload', 'Api/UsersController.upload').middleware(['auth:jwt,basic', 'instance:App/Models/User'])
+  Route.post('/:id/upload', 'Api/UsersController.upload').middleware(['auth:jwt', 'instance:App/Models/User'])
 
   /**
     * @swagger
@@ -150,7 +150,7 @@ Route.group('user', () => {
     *       200:
     *         description: update success
     */
-  Route.put('/:id/images/:imageId/setFeatured', 'Api/UsersController.setFeatured').middleware(['auth:jwt,basic', 'instance:App/Models/User'])
+  Route.put('/:id/images/:imageId/setFeatured', 'Api/UsersController.setFeatured').middleware(['auth:jwt', 'instance:App/Models/User'])
 
   /**
     * @swagger
@@ -170,7 +170,7 @@ Route.group('user', () => {
     *       200:
     *         description: delete success
     */
-  Route.delete('/:id/images/:imageId', 'Api/UsersController.deleteImage').middleware(['auth:jwt,basic', 'instance:App/Models/User'])
+  Route.delete('/:id/images/:imageId', 'Api/UsersController.deleteImage').middleware(['auth:jwt', 'instance:App/Models/User'])
 
   /**
    * @swagger

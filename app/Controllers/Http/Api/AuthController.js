@@ -1,7 +1,11 @@
 'use strict'
 const BaseController = use('App/Controllers/Http/Api/BaseController')
 const User = use('App/Models/User')
-const Exceptions = use('Exceptions')
+const AccountNotVerifiedException = use('App/Exceptions/AccountNotVerifiedException')
+const LoginFailedException = use('App/Exceptions/LoginFailedException')
+const ResourceNotFoundException = use('App/Exceptions/ResourceNotFoundException')
+const BadRequestException = use('App/Exceptions/BadRequestException')
+const ValidateErrorException = use('App/Exceptions/ValidateErrorException')
 const Config = use('Config')
 const Hash = use('Hash')
 const Mail = use('Mail')
@@ -53,14 +57,17 @@ class AuthController extends BaseController {
     const password = request.input('password')
     await this.validate(request.all(), { email: 'required', password: 'required' })
     // Attempt to login with email and password
-    const { token, refreshToken } = await auth.withRefreshToken().attempt(email, password)
-    const user = await User.findBy({ email })
-    if (!user.verified) {
-      throw new Exceptions.AccountNotVerifiedException('Email is not verified')
+    let data = null
+    try {
+      data = await auth.withRefreshToken().attempt(email, password)
+      data.user = await User.findBy({ email })
+    } catch (error) {
+      throw LoginFailedException.invoke('Invalid email or password')
     }
-    user.token = token
-    user.refreshToken = refreshToken
-    response.apiSuccess(user)
+    if (!data.user.verified) {
+      // throw AccountNotVerifiedException.invoke('Email is not verified')
+    }
+    response.apiSuccess(data)
   }
 
   /**
@@ -97,7 +104,7 @@ class AuthController extends BaseController {
     const socialToken = request.input('socialToken')
     const socialUser = await Social.verifyToken(network, socialToken)
     if (!socialUser) {
-      throw new Exceptions.LoginFailedException('Invalid token')
+      throw LoginFailedException.invoke('Invalid token')
     }
     let user = await User.where('email', socialUser.email).first()
     if (!user) {
@@ -127,7 +134,7 @@ class AuthController extends BaseController {
     await this.validate(request.all(), { email: 'required' })
     const user = await User.findBy({ email: request.input('email') })
     if (!user) {
-      throw new Exceptions.ResourceNotFoundException(`Can not find user with email "${request.input('email')}"`)
+      throw ResourceNotFoundException.invoke(`Can not find user with email "${request.input('email')}"`)
     }
     const verificationToken = crypto.createHash('sha256').update(uuid.v4()).digest('hex')
     user.verificationToken = verificationToken
@@ -151,7 +158,7 @@ class AuthController extends BaseController {
     const token = request.input('token')
     const user = await User.findBy({ verificationToken: token })
     if (!user) {
-      throw new Exceptions.BadRequestException(`Invalid token`)
+      throw BadRequestException.invoke(`Invalid token`)
     }
     user.verified = true
     user.unset('verificationToken')
@@ -189,7 +196,7 @@ class AuthController extends BaseController {
     await this.validate(request.all(), { email: 'required' })
     const user = await User.findBy({ email: request.input('email') })
     if (!user) {
-      throw new Exceptions.ResourceNotFoundException(`Can not find user with email "${request.input('email')}"`)
+      throw ResourceNotFoundException.invoke(`Can not find user with email "${request.input('email')}"`)
     }
     const verificationToken = crypto.createHash('sha256').update(uuid.v4()).digest('hex')
     user.verificationToken = verificationToken
@@ -218,7 +225,7 @@ class AuthController extends BaseController {
     const token = request.input('token')
     const user = await User.findBy({ verificationToken: token })
     if (!token || !user) {
-      throw new Exceptions.BadRequestException(`Invalid token`)
+      throw BadRequestException.invoke(`Invalid token`)
     }
     await response.sendView('reset', { token: token })
   }
@@ -242,7 +249,7 @@ class AuthController extends BaseController {
     const password = request.input('password')
     const user = await User.findBy({ verificationToken: token })
     if (!token || !user) {
-      throw new Exceptions.BadRequestException(`Invalid token`)
+      throw BadRequestException.invoke(`Invalid token`)
     }
     const hashPassword = await Hash.make(password)
     user.password = hashPassword
@@ -269,7 +276,7 @@ class AuthController extends BaseController {
     const user = await auth.getUser()
     const check = await Hash.verify(password, user.password)
     if (!check) {
-      throw new Exceptions.ValidateErrorException('Password does not match')
+      throw ValidateErrorException.invoke({password: 'Password does not match'})
     }
     const hashPassword = await Hash.make(newPassword)
     user.set('password', hashPassword)

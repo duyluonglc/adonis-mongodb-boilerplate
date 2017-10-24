@@ -21,10 +21,6 @@ Route.get('api-specs', async ({ request, response }) => {
           'description': "add 'Bearer ' before jwt token",
           'name': 'Authorization',
           'in': 'header'
-        },
-        'basicAuth': {
-          'type': 'basic',
-          'description': 'HTTP Basic Authentication. Works over `HTTP` and `HTTPS`'
         }
       }
     },

@@ -4,6 +4,15 @@ class ExtendResponseProvider extends ServiceProvider {
   boot () {
     const Response = use('Adonis/Src/Response')
 
+    Response.macro('validateFailed', function (errorMessages) {
+      this.status(422).json({
+        status: 422,
+        code: 'E_VALIDATE_FAILED',
+        message: 'Validation failed',
+        errors: errorMessages
+      })
+    })
+
     Response.macro('apiCreated', function (item, meta) {
       this.status(201).json({
         status_code: 201,
