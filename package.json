@@ -1,7 +1,7 @@
 {
-  "name": "adonis-slim-app",
+  "name": "adonis-mongo-boilerplate",
   "version": "4.0.0",
-  "description": "Smallest possible application for adonisjs",
+  "description": "A boilerplate Rest API build on Adonisjs FW with LucidMongo and swagger-jsdoc Edit",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
@@ -14,14 +14,6 @@
   "author": "",
   "license": "UNLICENSED",
   "private": true,
-  "standard": {
-    "global": [
-      "use"
-    ],
-    "ignore": [
-      "/public"
-    ]
-  },
   "dependencies": {
     "@adonisjs/ace": "^4.0.6",
     "@adonisjs/auth": "^2.0.7",
@@ -32,12 +24,24 @@
     "@adonisjs/ignitor": "^1.0.12",
     "@adonisjs/mail": "^3.0.3",
     "@adonisjs/validator": "^4.0.5",
-    "@slynova/fence": "^1.0.0-alpha-1",
-    "lucid-mongo": "^2.0.9",
+    "lucid-mongo": "^2.0.10",
     "require-all": "^2.2.0",
     "swagger-jsdoc": "^1.9.7"
   },
   "devDependencies": {
+    "standard": "^10.0.3",
     "swagger-ui-dist": "^3.4.0"
+  },
+  "standard": {
+    "global": [
+      "use",
+      "make"
+    ],
+    "ignore": [
+      "/public"
+    ]
+  },
+  "autoload": {
+    "App": "./app"
   }
 }

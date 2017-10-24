@@ -126,7 +126,7 @@ class ExtendValidatorProvider extends ServiceProvider {
     })
   }
 
-  * boot () {
+  async boot () {
     // register bindings
     const Validator = use('Adonis/Addons/Validator')
     Validator.extend('exist', this.existValidator, '{{field}} is not exists')

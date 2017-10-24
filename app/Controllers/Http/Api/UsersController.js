@@ -82,7 +82,6 @@ class UsersController extends BaseController {
     await this.validateAttributes(request.all(), User.rules(userId))
 
     const user = request.instance
-    await this.guard('owner', user)
     user.fill(request.only('name', 'phone'))
     await user.save()
 

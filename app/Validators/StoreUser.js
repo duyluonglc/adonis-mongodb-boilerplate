@@ -1,6 +1,8 @@
 'use strict'
 
-class StoreUser {
+const BaseValidator = require('./BaseValidator')
+
+class StoreUser extends BaseValidator {
   get rules () {
     return {
       name: 'required|min:2|max:100',

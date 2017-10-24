@@ -1,28 +1,28 @@
-const Exceptions = require('node-exceptions')
+const GE = require('@adonisjs/generic-exceptions')
 
-class ResourceNotFoundException extends Exceptions.RuntimeException {
+class ResourceNotFoundException extends GE.RuntimeException {
 }
 
-class ValidateErrorException extends Exceptions.RuntimeException {
+class ValidateErrorException extends GE.RuntimeException {
 }
 
-class BadRequestException extends Exceptions.HttpException {
+class BadRequestException extends GE.HttpException {
 }
 
-class UnAuthorizeException extends Exceptions.HttpException {
+class UnAuthorizeException extends GE.HttpException {
 }
 
-class LoginFailedException extends Exceptions.HttpException {
+class LoginFailedException extends GE.HttpException {
 }
 
-class AccountNotVerifiedException extends Exceptions.HttpException {
+class AccountNotVerifiedException extends GE.HttpException {
 }
 
-Exceptions.ResourceNotFoundException = ResourceNotFoundException
-Exceptions.ValidateErrorException = ValidateErrorException
-Exceptions.BadRequestException = BadRequestException
-Exceptions.UnAuthorizeException = UnAuthorizeException
-Exceptions.LoginFailedException = LoginFailedException
-Exceptions.AccountNotVerifiedException = AccountNotVerifiedException
+GE.ResourceNotFoundException = ResourceNotFoundException
+GE.ValidateErrorException = ValidateErrorException
+GE.BadRequestException = BadRequestException
+GE.UnAuthorizeException = UnAuthorizeException
+GE.LoginFailedException = LoginFailedException
+GE.AccountNotVerifiedException = AccountNotVerifiedException
 
-module.exports = Exceptions
+module.exports = GE

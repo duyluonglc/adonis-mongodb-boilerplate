@@ -30,7 +30,7 @@ Route.group('auth', () => {
    *         schema:
    *           $ref: '#/definitions/User'
    */
-  Route.post('/register', 'Api/AuthController.register')
+  Route.post('/register', 'Api/AuthController.register').validator('StoreUser')
 
   /**
    * @swagger

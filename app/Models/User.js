@@ -18,6 +18,8 @@ const languages = Config.get('locale.languages')
  *         type: string
  *       email:
  *         type: string
+ *       phone:
+ *         type: string
  *       password:
  *         type: string
  *         format: password

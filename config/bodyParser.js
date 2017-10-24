@@ -45,7 +45,6 @@ module.exports = {
     */
     types: [
       'application/json',
-      'application/json',
       'application/json-patch+json',
       'application/vnd.api+json',
       'application/csp-report'

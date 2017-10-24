@@ -6,7 +6,7 @@ class ExtendResponseProvider extends ServiceProvider {
 
     Response.macro('apiCreated', function (item, meta) {
       this.status(201).json({
-        statusCode: 201,
+        status_code: 201,
         message: 'Created successfully',
         data: item,
         meta: meta
@@ -15,7 +15,7 @@ class ExtendResponseProvider extends ServiceProvider {
 
     Response.macro('apiUpdated', function (item, meta) {
       this.status(202).json({
-        statusCode: 202,
+        status_code: 202,
         message: 'Updated successfully',
         data: item,
         meta: meta
@@ -24,7 +24,7 @@ class ExtendResponseProvider extends ServiceProvider {
 
     Response.macro('apiDeleted', function (item, meta) {
       this.status(202).json({
-        statusCode: 202,
+        status_code: 202,
         message: 'Deleted successfully',
         data: null,
         meta: meta
@@ -33,7 +33,7 @@ class ExtendResponseProvider extends ServiceProvider {
 
     Response.macro('apiItem', function (item, meta) {
       this.status(200).json({
-        statusCode: 200,
+        status_code: 200,
         message: 'Data retrieval successfully',
         data: item,
         meta: meta
@@ -42,7 +42,7 @@ class ExtendResponseProvider extends ServiceProvider {
 
     Response.macro('apiCollection', function (items, meta) {
       this.status(200).json({
-        statusCode: 200,
+        status_code: 200,
         message: 'Data retrieval successfully',
         data: items,
         meta: meta
@@ -51,7 +51,7 @@ class ExtendResponseProvider extends ServiceProvider {
 
     Response.macro('apiSuccess', function (data, meta, message) {
       this.status(200).json({
-        statusCode: 200,
+        status_code: 200,
         message: message || 'Success',
         data: data,
         meta: meta

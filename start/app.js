@@ -15,8 +15,8 @@ const providers = [
   '@adonisjs/framework/providers/AppProvider',
   '@adonisjs/framework/providers/ViewProvider',
   '@adonisjs/bodyparser/providers/BodyParserProvider',
-  '@adonisjs/auth/providers/AuthProvider',
   '@adonisjs/cors/providers/CorsProvider',
+  '@adonisjs/auth/providers/AuthProvider',
   '@adonisjs/mail/providers/MailProvider',
   '@adonisjs/validator/providers/ValidatorProvider',
   'lucid-mongo/providers/LucidMongoProvider',
@@ -50,7 +50,6 @@ const aceProviders = [
 |
 */
 const aliases = {
-  Model: 'Adonis/Src/Model',
   Exceptions: 'App/Exceptions'
 }
 
