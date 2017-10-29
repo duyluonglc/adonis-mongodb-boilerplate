@@ -10,9 +10,9 @@ install:
   - npm -g install @adonisjs/cli
   - npm install --no-optional
   - cp .env.example .env
-  - chmod 755 ./ace
   #- chmod 777 storage
 script:
-  - ./ace migration:run
+  - adonis key:generate --env testing
+  - adonis migration:run --env testing
   - npm run lint
-  - npm run test
+  - adonis test
