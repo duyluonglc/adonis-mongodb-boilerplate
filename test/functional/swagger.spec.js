@@ -20,15 +20,15 @@
   })
 }
 
-{
-  const { test, trait } = use('Test/Suite')('Get swagger ui')
+// {
+//   const { test, trait } = use('Test/Suite')('Get swagger ui')
 
-  trait('Test/Browser')
+//   trait('Test/Browser')
 
-  test('should response swagger ui page', async ({ browser }) => {
-    // const page = await browser.visit(`/docs`)
-    // await page.assertHas('swagger')
-    // await page
-    //   .waitForElement('My REST API')
-  })
-}
+//   test('should response swagger ui page', async ({ browser }) => {
+//     const page = await browser.visit(`/docs`)
+//     await page.assertHas('swagger')
+//     await page
+//       .waitForElement('My REST API')
+//   })
+// }
