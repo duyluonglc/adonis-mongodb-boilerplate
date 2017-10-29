@@ -1,27 +1,27 @@
 'use strict'
-const InvalidArgumentException = use('App/Exceptions/InvalidArgumentException')
+const InvalidArgumentException = require('@adonisjs/generic-exceptions').InvalidArgumentException
 const ResourceNotFoundException = use('App/Exceptions/ResourceNotFoundException')
 
 class Instance {
-  async handle (request, response, next, modelName) {
+  async handle (ctx, next, modelName) {
     if (!modelName) {
-      throw new InvalidArgumentException('Instance middleware need modelName parameter')
+      throw InvalidArgumentException.invoke(`${modelName} not found!`)
     }
-    const id = request.param('id')
+    const id = ctx.params.id
     if (!id) {
-      throw new InvalidArgumentException('Instance middleware need :id parameter in router')
+      throw InvalidArgumentException.invoke('Instance require :id parameter on router')
     }
     if (!/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i.test(id)) {
-      throw new InvalidArgumentException('id is invalid')
+      throw InvalidArgumentException.invoke('id is invalid')
     }
     const Model = use(modelName)
     const instance = await Model.find(id)
     if (!instance) {
       throw new ResourceNotFoundException(`Can not find model with id "${id}"`)
     }
-    request.instance = instance
+    ctx.instance = instance
     // await next to pass the request to next middleware or controller
-    await next
+    await next()
   }
 }
 

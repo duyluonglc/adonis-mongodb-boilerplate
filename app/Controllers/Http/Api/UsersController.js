@@ -2,7 +2,7 @@
 const BaseController = use('App/Controllers/Http/Api/BaseController')
 const User = use('App/Models/User')
 // const Validator = use('Validator')
-// const Exceptions = use('Exceptions')
+const UnAuthorizeException = use('App/Exceptions/UnAuthorizeException')
 // const Config = use('Config')
 /**
  *
@@ -61,9 +61,9 @@ class UsersController extends BaseController {
    * @memberOf UsersController
    *
    */
-  async show ({ request, response }) {
-    const user = request.instance
-    await user.related(request.getQuery().with).load()
+  async show ({ request, response, instance }) {
+    const user = instance
+    // await user.related(request.getQuery().with).load()
     return response.apiItem(user)
   }
 
@@ -77,14 +77,16 @@ class UsersController extends BaseController {
    * @memberOf UsersController
    *
    */
-  async update ({ request, response }) {
-    const userId = request.param('id')
-    await this.validateAttributes(request.all(), User.rules(userId))
+  async update ({ request, response, params, instance, auth }) {
+    // const userId = params.id
+    // await this.validateAttributes(request.all(), User.rules(userId))
 
-    const user = request.instance
-    user.merge(request.only('name', 'phone'))
+    const user = instance
+    if (String(auth.user._id) !== String(user._id)) {
+      throw UnAuthorizeException.invoke()
+    }
+    user.merge(request.only(['name', 'language']))
     await user.save()
-
     return response.apiUpdated(user)
   }
 
@@ -97,9 +99,11 @@ class UsersController extends BaseController {
    * @memberOf UsersController
    *
    */
-  async destroy ({ request, response }) {
-    const user = request.instance
-    await this.guard('owner', user)
+  async destroy ({ request, response, instance, auth }) {
+    const user = instance
+    if (String(auth.user._id) !== String(user._id)) {
+      throw UnAuthorizeException.invoke()
+    }
     await user.delete()
     return response.apiDeleted()
   }
@@ -113,19 +117,20 @@ class UsersController extends BaseController {
    * @memberOf UsersController
    *
    */
-  async upload ({ request, response }) {
-    const File = use('File')
-    const user = request.instance
-    await this.guard('owner', user)
+  async upload ({ request, response, instance, auth }) {
+    const user = instance
+    if (String(auth.user._id) !== String(user._id)) {
+      throw UnAuthorizeException.invoke()
+    }
     const image = request.file('image', {
       maxSize: '2mb',
       allowedExtensions: ['jpg', 'png', 'jpeg']
     })
-    const fileName = use('uuid').v1().replace('-', '') + image.clientName()
+    const fileName = use('uuid').v1().replace('-', '') + image.filename
     const filePath = `uploads/${fileName}`
-    await File.upload(fileName, image)
+    await image.move(filePath)
     await user.images().create({ fileName, filePath })
-    await user.related('images').load()
+    // await user.related('images').load()
     return response.apiUpdated(user)
   }
 
@@ -138,8 +143,8 @@ class UsersController extends BaseController {
    * @memberOf UsersController
    *
    */
-  async images ({ request, response }) {
-    const user = request.instance
+  async images ({ request, response, instance }) {
+    const user = instance
     const images = await user.images().query(request.getQuery()).fetch()
     return response.apiCollection(images)
   }

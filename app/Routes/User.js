@@ -90,7 +90,9 @@ Route.group('user', () => {
    *         schema:
    *           $ref: '#/definitions/User'
    */
-  Route.put('/:id', 'Api/UsersController.update').middleware(['auth:jwt', 'instance:App/Models/User'])
+  Route.put('/:id', 'Api/UsersController.update')
+    .middleware(['auth:jwt', 'instance:App/Models/User'])
+    // .validator('StoreUser')
 
   /**
    * @swagger
