@@ -1,0 +1,25 @@
+language: node_js
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+node_js:
+- node
+- 6.9.0
+services: mongodb
+before_script:
+- mongo dbtest --eval 'db.addUser("test", "test");'
+sudo: false
+install:
+- npm -g install @adonisjs/cli
+- npm install --no-optional
+- cp .env.example .env
+- chmod 755 ./ace
+#- chmod 777 storage
+script:
+- ./ace migration:run
+- npm run lint
+- npm run test
+after_success:
+- npm install -g codeclimate-test-reporter
+- codeclimate-test-reporter < lcov.info

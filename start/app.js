@@ -19,6 +19,9 @@ const providers = [
   '@adonisjs/auth/providers/AuthProvider',
   '@adonisjs/mail/providers/MailProvider',
   '@adonisjs/validator/providers/ValidatorProvider',
+  '@adonisjs/vow/providers/VowProvider',
+  '@adonisjs/session/providers/SessionProvider',
+  '@adonisjs/ally/providers/AllyProvider',
   'lucid-mongo/providers/LucidMongoProvider',
   Helpers.appRoot('app/Providers/ExtendValidatorProvider'),
   Helpers.appRoot('app/Providers/ExtendResponseProvider')
@@ -34,7 +37,8 @@ const providers = [
 |
 */
 const aceProviders = [
-  'lucid-mongo/providers/MigrationsProvider'
+  'lucid-mongo/providers/MigrationsProvider',
+  '@adonisjs/vow-browser/providers/VowBrowserProvider'
 ]
 
 /*

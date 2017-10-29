@@ -82,7 +82,7 @@ class UsersController extends BaseController {
     await this.validateAttributes(request.all(), User.rules(userId))
 
     const user = request.instance
-    user.fill(request.only('name', 'phone'))
+    user.merge(request.only('name', 'phone'))
     await user.save()
 
     return response.apiUpdated(user)

@@ -28,19 +28,19 @@ class AuthController extends BaseController {
    *
    */
   async register ({ request, response }) {
-    const user = new User(request.only('name', 'email', 'password'))
+    const user = new User(request.only(['name', 'email', 'password', 'language']))
     const verificationToken = crypto.createHash('sha256').update(uuid.v4()).digest('hex')
-    user.fill({
-      verificationToken: verificationToken,
+    user.merge({
+      verificationToken,
       verified: false
     })
     await user.save()
+    Mail.send('emails.verification', { user: user }, (message) => {
+      message.to(user.email, user.name)
+      message.from(Config.get('mail.sender'))
+      message.subject('Please Verify Your Email Address')
+    }).catch(error => console.log(error))
     return response.apiCreated(user)
-    // await Mail.send('emails.verification', { user: user }, (message) => {
-    //   message.to(user.email, user.name)
-    //   message.from(Config.get('mail.sender'))
-    //   message.subject('Please Verify Your Email Address')
-    // })
   }
 
   /**
@@ -154,7 +154,7 @@ class AuthController extends BaseController {
    * @param  {Object} request
    * @param  {Object} response
    */
-  async verify ({ request, response }) {
+  async verify ({ request, response, session }) {
     const token = request.input('token')
     const user = await User.findBy({ verificationToken: token })
     if (!user) {
@@ -163,7 +163,7 @@ class AuthController extends BaseController {
     user.verified = true
     user.unset('verificationToken')
     await user.save()
-    await request.with({ message: 'Account verified successfully' }).flash()
+    await session.flash({ message: 'Account verified successfully' })
     response.redirect('/')
   }
 
@@ -221,13 +221,13 @@ class AuthController extends BaseController {
    * @memberOf AuthController
    *
    */
-  async getReset ({ request, response }) {
+  async getReset ({ request, view }) {
     const token = request.input('token')
     const user = await User.findBy({ verificationToken: token })
     if (!token || !user) {
       throw BadRequestException.invoke(`Invalid token`)
     }
-    await response.sendView('reset', { token: token })
+    await view.render('emails.reset', { token: token })
   }
 
   /**
@@ -240,7 +240,7 @@ class AuthController extends BaseController {
    * @memberOf AuthController
    *
    */
-  async postReset ({ request, response }) {
+  async postReset ({ request, response, session }) {
     const token = request.input('token')
     await this.validate(request.all(), {
       password: 'required|min:6|max:50',
@@ -255,7 +255,7 @@ class AuthController extends BaseController {
     user.password = hashPassword
     user.unset('verificationToken')
     await user.save()
-    await request.with({ message: 'Reset password successfully' }).flash()
+    await session.flash({ message: 'Reset password successfully' })
     response.redirect('/')
   }
 

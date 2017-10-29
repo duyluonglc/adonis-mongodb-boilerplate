@@ -55,7 +55,7 @@ class User extends Model {
   static get deleteTimestamp () { return 'deletedAt' }
 
   static get hidden () {
-    return ['password', 'isDeleted', 'verificationToken']
+    return ['password', 'verified', 'verificationToken']
   }
 
   static boot () {

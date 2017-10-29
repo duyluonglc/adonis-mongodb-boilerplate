@@ -48,7 +48,7 @@ class ExceptionHandler {
    * @return {void}
    */
   async report (error, { request }) {
-    console.log(error)
+    error.status === 500 && console.log(error)
   }
 }
 
