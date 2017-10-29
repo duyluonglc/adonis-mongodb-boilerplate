@@ -21,7 +21,7 @@
     "@adonisjs/bodyparser": "^1.0.8",
     "@adonisjs/cors": "^1.0.2",
     "@adonisjs/fold": "^4.0.5",
-    "@adonisjs/framework": "^4.0.24",
+    "@adonisjs/framework": "^4.0.25",
     "@adonisjs/ignitor": "^1.0.12",
     "@adonisjs/mail": "^3.0.3",
     "@adonisjs/session": "^1.0.16",
