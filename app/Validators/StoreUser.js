@@ -11,15 +11,6 @@ class StoreUser extends BaseValidator {
       language: 'in:en,vi'
     }
   }
-
-  async authorize () {
-    if (String(this.ctx.auth.user._id) !== this.ctx.instance._id) {
-      this.ctx.response.unauthorized('Not authorized')
-      return false
-    }
-
-    return true
-  }
 }
 
 module.exports = StoreUser
