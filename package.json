@@ -15,12 +15,12 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@adonisjs/ace": "^4.0.6",
-    "@adonisjs/ally": "^2.0.1",
-    "@adonisjs/auth": "^2.0.7",
-    "@adonisjs/bodyparser": "^1.0.7",
-    "@adonisjs/cors": "^1.0.1",
-    "@adonisjs/fold": "^4.0.4",
+    "@adonisjs/ace": "^4.0.7",
+    "@adonisjs/ally": "^2.0.2",
+    "@adonisjs/auth": "^2.0.8",
+    "@adonisjs/bodyparser": "^1.0.8",
+    "@adonisjs/cors": "^1.0.2",
+    "@adonisjs/fold": "^4.0.5",
     "@adonisjs/framework": "^4.0.24",
     "@adonisjs/ignitor": "^1.0.12",
     "@adonisjs/mail": "^3.0.3",
@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "standard": "^10.0.3",
-    "swagger-ui-dist": "^3.4.0"
+    "swagger-ui-dist": "^3.4.1"
   },
   "standard": {
     "global": [
