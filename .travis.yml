@@ -4,7 +4,7 @@ node_js:
   - 7.0.0
 services: mongodb
 before_script:
-  - mongo test_lucid --eval 'db.createUser({user:"test",pwd:"test",roles:["dbOwner"]});'
+  - mongo adonis --eval 'db.createUser({user:"test",pwd:"test",roles:["dbOwner"]});'
 sudo: false
 install:
   - npm -g install @adonisjs/cli
@@ -14,5 +14,5 @@ install:
 script:
   - adonis key:generate --env testing
   - adonis migration:run --env testing
-  - npm run lint
+  #- npm run lint
   - adonis test
