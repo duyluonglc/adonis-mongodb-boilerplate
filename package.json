@@ -24,7 +24,7 @@
     "@adonisjs/framework": "^4.0.26",
     "@adonisjs/ignitor": "^1.0.13",
     "@adonisjs/mail": "^3.0.3",
-    "@adonisjs/session": "github:adonisjs/adonis-session",
+    "@adonisjs/session": "git+https://github.com/adonisjs/adonis-session.git#develop",
     "@adonisjs/validator": "^4.0.6",
     "@adonisjs/vow": "^1.0.13",
     "@adonisjs/vow-browser": "^1.0.5",
