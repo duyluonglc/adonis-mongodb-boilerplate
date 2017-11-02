@@ -103,21 +103,23 @@ class AuthController extends BaseController {
     const socialToken = request.input('socialToken')
     let socialUser = null
     try {
-      socialUser = await ally.driver(social).getUser(socialToken)
+      socialUser = await ally.driver(social).fields(['name', 'email']).getUser(socialToken)
     } catch (error) {
       throw LoginFailedException.invoke('Invalid token')
     }
+    console.log(socialUser)
     const user = await User.findOrCreate({ email: socialUser.email }, {
       name: socialUser.name,
       email: socialUser.email,
-      language: socialUser.locale.substring(2),
+      // language: socialUser.locale.substring(2),
       verified: true,
       socialId: socialUser.id,
       password: use('uuid').v4(),
       avatar: socialUser.picture
     })
-    user.token = await auth.generate(user)
-    return response.apiSuccess(user)
+    const data = await auth.generate(user)
+    data.user = user
+    return response.apiSuccess(data)
   }
 
   /**
