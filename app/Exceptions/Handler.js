@@ -32,9 +32,11 @@ class ExceptionHandler {
       return response.status(error.status).json(json)
     }
 
-    session.withErrors(error.errors).flashAll()
-    await session.commit()
-    response.redirect('error')
+    if (use('Env').get('NODE_ENV') !== 'development') {
+      session.withErrors(error.errors).flashAll()
+      await session.commit()
+      response.redirect('/error')
+    }
   }
 
   /**

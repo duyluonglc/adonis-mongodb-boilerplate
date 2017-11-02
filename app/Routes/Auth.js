@@ -104,7 +104,7 @@ Route.group('auth', () => {
    *         schema:
    *           $ref: '#/definitions/User'
    */
-  Route.post('/login/:social', 'Api/AuthController.socialLogin').middleware('ally')
+  Route.post('/login/:social', 'Api/AuthController.socialLogin')
 
   /**
    * @swagger

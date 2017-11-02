@@ -96,28 +96,26 @@ class AuthController extends BaseController {
    * @memberOf AuthController
    *
    */
-  async socialLogin ({ request, response, auth }) {
-    const network = request.param('social')
+  async socialLogin ({ request, response, auth, ally, params }) {
+    const social = params.social
     await this.validate(request.all(), { socialToken: 'required|string' })
-    await this.validate({ social: request.param('social') }, { social: 'required|in:facebook,google' })
-    const Social = use('Adonis/Auth/Social')
+    await this.validate({ social }, { social: 'required|in:facebook,google' })
     const socialToken = request.input('socialToken')
-    const socialUser = await Social.verifyToken(network, socialToken)
-    if (!socialUser) {
+    let socialUser = null
+    try {
+      socialUser = await ally.driver(social).getUser(socialToken)
+    } catch (error) {
       throw LoginFailedException.invoke('Invalid token')
     }
-    let user = await User.where('email', socialUser.email).first()
-    if (!user) {
-      user = await User.create({
-        name: socialUser.name,
-        email: socialUser.email,
-        language: socialUser.locale.substring(2),
-        verified: true,
-        socialId: socialUser.id,
-        password: use('uuid').v4(),
-        avatar: network === 'facebook' ? socialUser.picture.data.url : socialUser.picture
-      })
-    }
+    const user = await User.findOrCreate({ email: socialUser.email }, {
+      name: socialUser.name,
+      email: socialUser.email,
+      language: socialUser.locale.substring(2),
+      verified: true,
+      socialId: socialUser.id,
+      password: use('uuid').v4(),
+      avatar: socialUser.picture
+    })
     user.token = await auth.generate(user)
     return response.apiSuccess(user)
   }
@@ -276,7 +274,7 @@ class AuthController extends BaseController {
     const user = await auth.getUser()
     const check = await Hash.verify(password, user.password)
     if (!check) {
-      throw ValidateErrorException.invoke({password: 'Password does not match'})
+      throw ValidateErrorException.invoke({ password: 'Password does not match' })
     }
     const hashPassword = await Hash.make(newPassword)
     user.set('password', hashPassword)
