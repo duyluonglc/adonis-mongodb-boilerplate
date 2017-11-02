@@ -7,6 +7,7 @@ class StoreUser extends BaseValidator {
     return {
       name: 'required|min:2|max:100',
       email: `required|email|unique:users,email`,
+      phone: 'numeric',
       password: 'required|min:6|max:255',
       language: 'in:en,vi'
     }
