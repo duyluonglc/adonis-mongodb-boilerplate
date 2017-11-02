@@ -107,14 +107,14 @@ class AuthController extends BaseController {
     } catch (error) {
       throw LoginFailedException.invoke('Invalid token')
     }
-    const user = await User.findOrCreate({ email: socialUser.email }, {
-      name: socialUser.name,
-      email: socialUser.email,
+    const user = await User.findOrCreate({ email: socialUser.getEmail() }, {
+      name: socialUser.getName(),
+      email: socialUser.getEmail(),
       // language: socialUser.locale.substring(2),
       verified: true,
-      socialId: socialUser.id,
+      socialId: socialUser.getId(),
       password: use('uuid').v4(),
-      avatar: socialUser.picture
+      avatar: socialUser.getAvatar()
     })
     const data = await auth.generate(user)
     data.user = user
