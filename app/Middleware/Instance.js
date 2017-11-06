@@ -1,5 +1,6 @@
 'use strict'
 const InvalidArgumentException = require('@adonisjs/generic-exceptions').InvalidArgumentException
+const BadRequestException = use('App/Exceptions/BadRequestException')
 const ResourceNotFoundException = use('App/Exceptions/ResourceNotFoundException')
 
 class Instance {
@@ -12,12 +13,12 @@ class Instance {
       throw InvalidArgumentException.invoke('Instance require :id parameter on router')
     }
     if (!/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i.test(id)) {
-      throw InvalidArgumentException.invoke('id is invalid')
+      throw BadRequestException.invoke('id is invalid')
     }
     const Model = use(modelName)
     const instance = await Model.find(id)
     if (!instance) {
-      throw new ResourceNotFoundException(`Can not find model with id "${id}"`)
+      throw ResourceNotFoundException.invoke(`Can not find model with id "${id}"`)
     }
     ctx.instance = instance
     // await next to pass the request to next middleware or controller

@@ -19,6 +19,22 @@ let user = null
     await User.query().delete()
   })
 
+  test('should throw 400 error if invalid id format', async ({ client, assert }) => {
+    const response = await client
+      .get(`api/users/foo`)
+      .accept('json')
+      .end()
+    response.assertStatus(400)
+  })
+
+  test('should throw 404 error if user does not exists', async ({ client, assert }) => {
+    const response = await client
+      .get(`api/users/507f1f77bcf86cd799439011`)
+      .accept('json')
+      .end()
+    response.assertStatus(404)
+  })
+
   test('should get user details', async ({ client, assert }) => {
     const response = await client
       .get(`api/users/${user._id}`)
