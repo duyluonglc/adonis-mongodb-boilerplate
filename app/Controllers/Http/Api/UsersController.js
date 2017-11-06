@@ -126,10 +126,10 @@ class UsersController extends BaseController {
       maxSize: '2mb',
       allowedExtensions: ['jpg', 'png', 'jpeg']
     })
-    const fileName = use('uuid').v1().replace('-', '') + image.filename
+    const fileName = `${use('uuid').v1().replace(/-/g, '')}`
     const filePath = `uploads/${fileName}`
-    await image.move(filePath)
-    await user.images().create({ fileName, filePath })
+    await image.move(use('Helpers').publicPath(filePath))
+    await user.images().create({ fileName, filePath: `${filePath}/${image._clientName}` })
     // await user.related('images').load()
     return response.apiUpdated(user)
   }

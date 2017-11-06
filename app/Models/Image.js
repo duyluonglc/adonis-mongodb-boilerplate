@@ -30,7 +30,7 @@ class Image extends Model {
 
   static boot () {
     super.boot()
-    // this.addHook('afterDelete', 'App/Models/Hooks/Image.removeFile')
+    this.addHook('afterDelete', 'App/Models/Hooks/Image.removeFile')
   }
 }
 
