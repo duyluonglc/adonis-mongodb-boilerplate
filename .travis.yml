@@ -6,6 +6,7 @@ before_script:
   - mongo adonis --eval 'db.createUser({user:"test",pwd:"test",roles:["dbOwner"]});'
 sudo: false
 install:
+  - npm -g install @adonisjs/cli nyc
   - npm install --no-optional
   - cp .env.example .env
   # - chmod 777 storage
