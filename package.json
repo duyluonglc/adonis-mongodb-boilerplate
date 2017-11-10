@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "test:local": "node ace test",
-    "test": "nyc node ace test"
+    "test": "nyc node ace test",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "keywords": [
     "adonisjs",
@@ -34,6 +35,8 @@
     "swagger-jsdoc": "^1.9.7"
   },
   "devDependencies": {
+    "coveralls": "^3.0.0",
+    "nyc": "^11.3.0",
     "standard": "^10.0.3",
     "swagger-ui-dist": "^3.4.1"
   },

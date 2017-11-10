@@ -9,9 +9,9 @@ install:
   - npm -g install @adonisjs/cli nyc
   - npm install --no-optional
   - cp .env.example .env
-  # - chmod 777 storage
-script:
   - adonis key:generate --env testing
   # - adonis migration:run --env testing
+  # - chmod 777 storage
+# script:
   # - npm run lint
-  - npm run test
+  # - npm run test
