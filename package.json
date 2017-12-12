@@ -30,7 +30,7 @@
     "@adonisjs/validator": "^4.0.7",
     "@adonisjs/vow": "^1.0.13",
     "@adonisjs/vow-browser": "^1.0.5",
-    "lucid-mongo": "^2.0.11",
+    "lucid-mongo": "^2.1.1",
     "require-all": "^2.2.0",
     "swagger-jsdoc": "^1.9.7"
   },
