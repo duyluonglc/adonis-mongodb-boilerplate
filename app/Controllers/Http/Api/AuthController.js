@@ -59,9 +59,10 @@ class AuthController extends BaseController {
     // Attempt to login with email and password
     let data = null
     try {
-      data = await auth.withRefreshToken().attempt(email, password)
+      data = await auth.attempt(email, password)
       data.user = await User.findBy({ email })
     } catch (error) {
+      console.log(error)
       throw LoginFailedException.invoke('Invalid email or password')
     }
     if (!data.user.verified) {
