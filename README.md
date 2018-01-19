@@ -17,6 +17,8 @@
 
 **Step 4:** copy file `.env.example` to `.env`
 
+**Step 5:** change default config in `.env` file
+
 ## :arrow_forward: How to Run App
 
 1. cd to the repo
