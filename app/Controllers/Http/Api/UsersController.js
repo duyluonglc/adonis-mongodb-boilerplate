@@ -18,8 +18,8 @@ class UsersController extends BaseController {
    * @memberOf UsersController
    *
    */
-  async index ({ request, response }) {
-    const users = await User.query(request.getQuery()).fetch()
+  async index ({ request, response, decodeQuery }) {
+    const users = await User.query(decodeQuery()).fetch()
     return response.apiCollection(users)
   }
 
@@ -61,9 +61,9 @@ class UsersController extends BaseController {
    * @memberOf UsersController
    *
    */
-  async show ({ request, response, instance }) {
+  async show ({ request, response, instance, decodeQuery }) {
     const user = instance
-    // await user.related(request.getQuery().with).load()
+    // await user.related(decodeQuery().with).load()
     return response.apiItem(user)
   }
 
@@ -143,9 +143,9 @@ class UsersController extends BaseController {
    * @memberOf UsersController
    *
    */
-  async images ({ request, response, instance }) {
+  async images ({ request, response, instance, decodeQuery }) {
     const user = instance
-    const images = await user.images().query(request.getQuery()).fetch()
+    const images = await user.images().query(decodeQuery()).fetch()
     return response.apiCollection(images)
   }
 }

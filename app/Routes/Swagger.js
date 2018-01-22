@@ -60,9 +60,9 @@ Route.get('docs', ({ view }) => {
  *
  *   SingleQuery:
  *     name: query
- *     description: '<pre>{ "with": ["string"], "select": ["string"] }</pre>'
+ *     description: '{ "with": ["string"], "select": ["string"] }'
  *     in:  query
  *     required: false
  *     type: string
- *     #default: '<pre>{ "with": ["string"], "select": ["string"] }</pre>'
+ *     #default: '{ "with": ["string"], "select": ["string"] }'
  */
