@@ -3,7 +3,7 @@ const _ = require('lodash')
 const { InvalidArgumentException } = require('@adonisjs/generic-exceptions')
 
 class DecodeQuery {
-  async handle (ctx, next, [modelName]) {
+  async handle (ctx, next, modelName) {
     ctx.decodeQuery = () => {
       let query = {}
       if (this.input('query')) {
