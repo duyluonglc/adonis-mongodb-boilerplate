@@ -27,7 +27,7 @@
     "@adonisjs/ignitor": "^2.0.2",
     "@adonisjs/mail": "^3.0.3",
     "@adonisjs/session": "^1.0.19",
-    "@adonisjs/validator": "^4.0.9",
+    "@adonisjs/validator": "^5.0.1",
     "@adonisjs/vow": "^1.0.13",
     "@adonisjs/vow-browser": "^1.0.5",
     "lucid-mongo": "^2.2.2",
