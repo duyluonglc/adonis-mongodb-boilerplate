@@ -1,12 +1,12 @@
 {
   "name": "adonis-mongo-boilerplate",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "A boilerplate Rest API build on Adonisjs FW with LucidMongo and swagger-jsdoc Edit",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test:local": "node ace test",
-    "test": "nyc node ace test",
+    "test:local": "node ace test --timeout 10000",
+    "test": "nyc node ace test --timeout 10000",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "keywords": [
@@ -19,14 +19,15 @@
   "dependencies": {
     "@adonisjs/ace": "^5.0.0",
     "@adonisjs/ally": "github:duyluonglc/adonis-ally#develop",
-    "@adonisjs/auth": "^2.0.11",
-    "@adonisjs/bodyparser": "^2.0.0",
-    "@adonisjs/cors": "^1.0.2",
-    "@adonisjs/fold": "^4.0.5",
-    "@adonisjs/framework": "^4.0.31",
-    "@adonisjs/ignitor": "^2.0.2",
+    "@adonisjs/auth": "^3.0.1",
+    "@adonisjs/bodyparser": "^2.0.2",
+    "@adonisjs/cors": "^1.0.5",
+    "@adonisjs/fold": "^4.0.7",
+    "@adonisjs/framework": "^5.0.4",
+    "@adonisjs/ignitor": "^2.0.5",
     "@adonisjs/mail": "^3.0.3",
-    "@adonisjs/session": "^1.0.19",
+    "@adonisjs/session": "^1.0.20",
+    "@adonisjs/shield": "^1.0.6",
     "@adonisjs/validator": "^5.0.1",
     "@adonisjs/vow": "^1.0.13",
     "@adonisjs/vow-browser": "^1.0.5",
@@ -37,7 +38,7 @@
   "devDependencies": {
     "coveralls": "^3.0.0",
     "nyc": "^11.4.1",
-    "standard": "^10.0.3",
+    "standard": "^11.0.0",
     "swagger-ui-dist": "^3.9.1"
   },
   "standard": {

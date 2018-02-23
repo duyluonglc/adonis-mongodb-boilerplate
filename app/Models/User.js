@@ -1,8 +1,8 @@
 'use strict'
 
 const Model = use('Model')
-const Config = use('Config')
-const languages = Config.get('locale.languages')
+// const Config = use('Config')
+// const languages = Config.get('locale.languages')
 
 /**
  * @swagger

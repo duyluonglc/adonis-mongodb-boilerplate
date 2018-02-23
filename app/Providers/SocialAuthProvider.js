@@ -4,7 +4,6 @@ const ServiceProvider = require('adonis-fold').ServiceProvider
 const apisauce = use('apisauce')
 
 class SocialAuthProvider extends ServiceProvider {
-
   register () {
     this.app.bind('Adonis/Auth/Social', function () {
       const providers = {
@@ -27,7 +26,6 @@ class SocialAuthProvider extends ServiceProvider {
       }
     })
   }
-
 }
 
 module.exports = SocialAuthProvider
