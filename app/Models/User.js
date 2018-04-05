@@ -1,8 +1,8 @@
 'use strict'
 
 const Model = use('Model')
-const Config = use('Config')
-const languages = Config.get('locale.languages')
+// const Config = use('Config')
+// const locales = Config.get('locale.locales')
 
 /**
  * @swagger
@@ -23,7 +23,7 @@ const languages = Config.get('locale.languages')
  *       password:
  *         type: string
  *         format: password
- *       language:
+ *       locale:
  *         type: string
  *         enum:
  *           - en
@@ -34,7 +34,7 @@ const languages = Config.get('locale.languages')
  *     properties:
  *       name:
  *         type: string
- *       language:
+ *       locale:
  *         type: string
  *         enum:
  *           - en

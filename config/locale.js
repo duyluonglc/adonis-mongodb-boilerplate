@@ -1,5 +1,5 @@
 module.exports = {
-  languages: [
+  locales: [
     'en',
     'vi',
     'ja'

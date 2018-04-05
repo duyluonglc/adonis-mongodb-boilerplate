@@ -1,12 +1,14 @@
 'use strict'
 
+const BaseExceptionHandler = use('BaseExceptionHandler')
+
 /**
  * This class handles all exceptions thrown during
  * the HTTP request lifecycle.
  *
  * @class ExceptionHandler
  */
-class ExceptionHandler {
+class ExceptionHandler extends BaseExceptionHandler {
   /**
    * Handle exception thrown during the HTTP lifecycle
    *
@@ -32,11 +34,13 @@ class ExceptionHandler {
       return response.status(error.status).json(json)
     }
 
-    if (use('Env').get('NODE_ENV') !== 'development') {
-      session.withErrors(error.errors).flashAll()
-      await session.commit()
-      response.redirect('/error')
+    if (error.code === 'E_INVALID_SESSION') {
+      session.flash({ error: 'You must be authenticated to access this page!' })
+
+      return response.redirect('/login')
     }
+
+    return super.handle(...arguments)
   }
 
   /**
