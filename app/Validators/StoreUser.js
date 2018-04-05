@@ -9,7 +9,7 @@ class StoreUser extends BaseValidator {
       email: `required|email|unique:users,email`,
       phone: 'numeric',
       password: 'required|min:6|max:255',
-      language: 'in:en,vi'
+      locale: 'in:en,vi'
     }
   }
 }

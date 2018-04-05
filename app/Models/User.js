@@ -2,7 +2,7 @@
 
 const Model = use('Model')
 // const Config = use('Config')
-// const languages = Config.get('locale.languages')
+// const locales = Config.get('locale.locales')
 
 /**
  * @swagger
@@ -23,7 +23,7 @@ const Model = use('Model')
  *       password:
  *         type: string
  *         format: password
- *       language:
+ *       locale:
  *         type: string
  *         enum:
  *           - en
@@ -34,7 +34,7 @@ const Model = use('Model')
  *     properties:
  *       name:
  *         type: string
- *       language:
+ *       locale:
  *         type: string
  *         enum:
  *           - en
