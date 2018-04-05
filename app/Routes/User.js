@@ -70,7 +70,7 @@ Route.group('user', () => {
    *         $ref: '#/responses/NotFound'
    */
   Route.get('/:id', 'Api/UsersController.show')
-    .middleware(['instance:App/Models/User'])
+    .instance('App/Models/User')
 
   /**
    * @swagger
@@ -102,7 +102,8 @@ Route.group('user', () => {
    *         $ref: '#/responses/ValidateFailed'
    */
   Route.put('/:id', 'Api/UsersController.update')
-    .middleware(['auth:jwt', 'instance:App/Models/User'])
+    .middleware(['auth:jwt'])
+    .instance('App/Models/User')
     .validator('UpdateUser')
 
   /**
@@ -123,7 +124,8 @@ Route.group('user', () => {
    *         $ref: '#/responses/Unauthorized'
    */
   Route.delete('/:id', 'Api/UsersController.destroy')
-    .middleware(['auth:jwt', 'instance:App/Models/User'])
+    .middleware(['auth:jwt'])
+    .instance('App/Models/User')
 
   /**
    * @swagger
@@ -157,7 +159,8 @@ Route.group('user', () => {
    *         $ref: '#/responses/ValidateFailed'
    */
   Route.post('/:id/upload', 'Api/UsersController.upload')
-    .middleware(['auth:jwt', 'instance:App/Models/User'])
+    .middleware(['auth:jwt'])
+    .instance('App/Models/User')
 
   /**
     * @\swagger
@@ -204,7 +207,8 @@ Route.group('user', () => {
    *         $ref: '#/responses/Forbidden'
    */
   Route.delete('/:id/images/:imageId', 'Api/UsersController.deleteImage')
-    .middleware(['auth:jwt', 'instance:App/Models/User'])
+    .middleware(['auth:jwt'])
+    .instance('App/Models/User')
 
   /**
    * @swagger
@@ -226,5 +230,5 @@ Route.group('user', () => {
    *         $ref: '#/responses/NotFound'
    */
   Route.get('/:id/images', 'Api/UsersController.images')
-    .middleware(['instance:App/Models/User'])
+    .instance('App/Models/User')
 }).prefix('/api/users')
