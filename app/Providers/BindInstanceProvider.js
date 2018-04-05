@@ -1,7 +1,6 @@
 'use strict'
 
-const ServiceProvider = require('adonis-fold').ServiceProvider
-const { ioc } = require('@adonisjs/fold')
+const { ioc, ServiceProvider } = require('@adonisjs/fold')
 
 class BindInstanceProvider extends ServiceProvider {
   async bindMiddleware (ctx, next, [modelName, identifier = 'id']) {
