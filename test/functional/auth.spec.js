@@ -67,10 +67,10 @@ let user = null
     })
   })
 
-  test('should throw validation error if language is invalid', async ({ client, assert }) => {
+  test('should throw validation error if locale is invalid', async ({ client, assert }) => {
     const response = await client
       .post('api/auth/register')
-      .send({ name: 'test user', email: 'newuser@adonisjs.com', password: 'secret', language: 'xx' })
+      .send({ name: 'test user', email: 'newuser@adonisjs.com', password: 'secret', locale: 'xx' })
       .accept('json')
       .end()
     response.assertStatus(422)
@@ -85,7 +85,7 @@ let user = null
     await user.save()
     const response = await client
       .post('api/auth/register')
-      .send({ email: user.email, password: 'secret', language: 'xx' })
+      .send({ email: user.email, password: 'secret', locale: 'xx' })
       .accept('json')
       .end()
 
@@ -100,13 +100,13 @@ let user = null
     Mail.fake()
     const response = await client
       .post('api/auth/register')
-      .send({ name: 'test user', email: 'newuser@adonisjs.com', password: 'secret', language: 'en', age: 10 })
+      .send({ name: 'test user', email: 'newuser@adonisjs.com', password: 'secret', locale: 'en', age: 10 })
       .accept('json')
       .end()
     response.assertStatus(201)
     assert.equal(response.body.data.name, 'test user')
     assert.equal(response.body.data.email, 'newuser@adonisjs.com')
-    assert.equal(response.body.data.language, 'en')
+    assert.equal(response.body.data.locale, 'en')
     assert.isUndefined(response.body.data.age)
     // assert.isUndefined(response.body.data.verificationToken)
     // assert.isUndefined(response.body.data.verified)

@@ -28,7 +28,7 @@ class AuthController extends BaseController {
    *
    */
   async register ({ request, response }) {
-    const user = new User(request.only(['name', 'email', 'password', 'language']))
+    const user = new User(request.only(['name', 'email', 'password', 'locale']))
     const verificationToken = crypto.createHash('sha256').update(uuid.v4()).digest('hex')
     user.merge({
       verificationToken,
@@ -111,7 +111,7 @@ class AuthController extends BaseController {
     const user = await User.findOrCreate({ email: socialUser.getEmail() }, {
       name: socialUser.getName(),
       email: socialUser.getEmail(),
-      // language: socialUser.locale.substring(2),
+      // locale: socialUser.locale.substring(2),
       verified: true,
       socialId: socialUser.getId(),
       password: use('uuid').v4(),

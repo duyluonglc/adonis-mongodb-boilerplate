@@ -62,7 +62,7 @@ let user = null
   test('should throw 401 if not login', async ({ client, assert }) => {
     const response = await client
       .put(`api/users/${user._id}`)
-      .send({ language: 'foo' })
+      .send({ locale: 'foo' })
       .accept('json')
       .end()
     response.assertStatus(401)
@@ -73,17 +73,17 @@ let user = null
     const response = await client
       .put(`api/users/${user._id}`)
       .loginVia(otherUser, 'jwt')
-      .send({ language: 'foo' })
+      .send({ locale: 'foo' })
       .accept('json')
       .end()
     response.assertStatus(403)
   })
 
-  // test('should throw validation error language is invalid', async ({ client, assert }) => {
+  // test('should throw validation error locale is invalid', async ({ client, assert }) => {
   //   const response = await client
   //     .put(`api/users/${user._id}`)
   //     .loginVia(user, 'jwt')
-  //     .send({ language: 'foo' })
+  //     .send({ locale: 'foo' })
   //     .accept('json')
   //     .end()
   //   response.assertStatus(422)
@@ -93,13 +93,13 @@ let user = null
     const response = await client
       .put(`api/users/${user._id}`)
       .loginVia(user, 'jwt')
-      .send({ language: 'vi', name: 'John' })
+      .send({ locale: 'vi', name: 'John' })
       .accept('json')
       .end()
     response.assertStatus(202)
     assert.equal(response.body.data.email, user.email)
     assert.equal(response.body.data.name, 'John')
-    assert.equal(response.body.data.language, 'vi')
+    assert.equal(response.body.data.locale, 'vi')
   })
 }
 
