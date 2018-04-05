@@ -39,7 +39,7 @@
     "coveralls": "^3.0.0",
     "nyc": "^11.6.0",
     "standard": "^11.0.1",
-    "swagger-ui-dist": "^3.13.2
+    "swagger-ui-dist": "^3.13.2"
   },
   "standard": {
     "global": [
