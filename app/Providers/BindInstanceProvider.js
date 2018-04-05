@@ -34,7 +34,7 @@ class BindInstanceProvider extends ServiceProvider {
 
     Server.registerNamed({ instance: this.bindMiddleware })
 
-    Route.macro('instance', function (model, identifier = 'id') {
+    Route.Route.macro('instance', function (model, identifier = 'id') {
       this.middleware(`instance:${model},${identifier}`)
       return this
     })
