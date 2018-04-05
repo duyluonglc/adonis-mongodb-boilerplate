@@ -59,7 +59,7 @@ class AuthController extends BaseController {
     // Attempt to login with email and password
     let data = null
     try {
-      data = await auth.attempt(email, password)
+      data = await auth.withRefreshToken().attempt(email, password)
       data.user = await User.findBy({ email })
     } catch (error) {
       console.log(error)
@@ -69,6 +69,23 @@ class AuthController extends BaseController {
       throw AccountNotVerifiedException.invoke('Email is not verified')
     }
     response.apiSuccess(data)
+  }
+
+  /**
+   * Refresh token
+   *
+   * @param {any} request
+   * @param {any} response
+   * @returns
+   *
+   * @memberOf AuthController
+   *
+   */
+  async refresh ({ request, response, auth }) {
+    const authData = await auth
+      .newRefreshToken()
+      .generateForRefreshToken(request.input('refresh_token'))
+    return response.json(authData)
   }
 
   /**
@@ -111,7 +128,7 @@ class AuthController extends BaseController {
     const user = await User.findOrCreate({ email: socialUser.getEmail() }, {
       name: socialUser.getName(),
       email: socialUser.getEmail(),
-      // locale: socialUser.locale.substring(2),
+      // language: socialUser.locale.substring(2),
       verified: true,
       socialId: socialUser.getId(),
       password: use('uuid').v4(),

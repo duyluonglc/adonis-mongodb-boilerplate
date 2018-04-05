@@ -13,6 +13,7 @@ module.exports = {
   |
   */
   appKey: Env.get('APP_KEY'),
+  baseUrl: Env.get('APP_URL'),
 
   http: {
     /*
@@ -78,7 +79,7 @@ module.exports = {
     | response.send('Hello', { ignoreEtag: true })
     |
     */
-    etag: false
+    etag: true
   },
 
   views: {
@@ -136,16 +137,16 @@ module.exports = {
   locales: {
     /*
     |--------------------------------------------------------------------------
-    | Loader
+    | Driver
     |--------------------------------------------------------------------------
     |
-    | The loader to be used for fetching and updating locales. Below is the
+    | The driver to be used for fetching and updating locales. Below is the
     | list of available options.
     |
     | file, database
     |
     */
-    loader: 'file',
+    driver: 'file',
 
     /*
     |--------------------------------------------------------------------------

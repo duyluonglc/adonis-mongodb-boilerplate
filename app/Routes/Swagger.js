@@ -15,6 +15,9 @@ Route.get('api-specs', async ({ request, response }) => {
       },
       // host: `${Config.get('host')}:${Config.get('port')}`,
       basePath: '/api',
+      security: [{
+        JWT: []
+      }],
       securityDefinitions: {
         'JWT': {
           'type': 'apiKey',
@@ -60,9 +63,62 @@ Route.get('docs', ({ view }) => {
  *
  *   SingleQuery:
  *     name: query
- *     description: '{ "with": ["string"], "select": ["string"] }'
+ *     description: '<pre>{ "with": ["string"], "select": ["string"] }</pre>'
  *     in:  query
  *     required: false
  *     type: string
- *     #default: '{ "with": ["string"], "select": ["string"] }'
+ *     #default: '<pre>{ "with": ["string"], "select": ["string"] }</pre>'
+ * responses:
+ *   Unauthorized:
+ *     description: JWT token invalid or did not provided
+ *     schema:
+ *       type: object
+ *       properties:
+ *         status:
+ *           type: number
+ *           default: 401
+ *         code:
+ *           type: string
+ *         message:
+ *           type: string
+ *   ValidateFailed:
+ *     description: Validation failed
+ *     schema:
+ *       type: object
+ *       properties:
+ *         status:
+ *           type: number
+ *           default: 422
+ *         code:
+ *           type: string
+ *         message:
+ *           type: string
+ *         errors:
+ *           type: array
+ *           items:
+ *             type: object
+ *   NotFound:
+ *     description: Resource not found
+ *     schema:
+ *       type: object
+ *       properties:
+ *         status:
+ *           type: number
+ *           default: 404
+ *         code:
+ *           type: string
+ *         message:
+ *           type: string
+ *   Forbidden:
+ *     description: Access denied
+ *     schema:
+ *       type: object
+ *       properties:
+ *         status:
+ *           type: number
+ *           default: 403
+ *         code:
+ *           type: string
+ *         message:
+ *           type: string
  */

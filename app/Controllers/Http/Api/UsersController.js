@@ -78,9 +78,6 @@ class UsersController extends BaseController {
    *
    */
   async update ({ request, response, params, instance, auth }) {
-    // const userId = params.id
-    // await this.validateAttributes(request.all(), User.rules(userId))
-
     const user = instance
     if (String(auth.user._id) !== String(user._id)) {
       throw UnAuthorizeException.invoke()

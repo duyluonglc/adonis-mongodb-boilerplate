@@ -66,8 +66,11 @@ Route.group('user', () => {
    *         description: user
    *         schema:
    *           $ref: '#/definitions/User'
+   *       404:
+   *         $ref: '#/responses/NotFound'
    */
-  Route.get('/:id', 'Api/UsersController.show').middleware(['instance:App/Models/User'])
+  Route.get('/:id', 'Api/UsersController.show')
+    .middleware(['instance:App/Models/User'])
 
   /**
    * @swagger
@@ -83,16 +86,24 @@ Route.group('user', () => {
    *         in:  body
    *         required: true
    *         schema:
-   *           $ref: '#/definitions/UpdateUser'
+   *           $ref: '#/definitions/NewUser'
    *     responses:
    *       202:
    *         description: user
    *         schema:
    *           $ref: '#/definitions/User'
+   *       404:
+   *         $ref: '#/responses/NotFound'
+   *       401:
+   *         $ref: '#/responses/Unauthorized'
+   *       403:
+   *         $ref: '#/responses/Forbidden'
+   *       422:
+   *         $ref: '#/responses/ValidateFailed'
    */
   Route.put('/:id', 'Api/UsersController.update')
     .middleware(['auth:jwt', 'instance:App/Models/User'])
-    // .validator('StoreUser')
+    .validator('UpdateUser')
 
   /**
    * @swagger
@@ -106,8 +117,13 @@ Route.group('user', () => {
    *     responses:
    *       202:
    *         description: delete success
+   *       404:
+   *         $ref: '#/responses/NotFound'
+   *       401:
+   *         $ref: '#/responses/Unauthorized'
    */
-  Route.delete('/:id', 'Api/UsersController.destroy').middleware(['auth:jwt', 'instance:App/Models/User'])
+  Route.delete('/:id', 'Api/UsersController.destroy')
+    .middleware(['auth:jwt', 'instance:App/Models/User'])
 
   /**
    * @swagger
@@ -131,11 +147,20 @@ Route.group('user', () => {
    *     responses:
    *       200:
    *         description: upload success
+   *       404:
+   *         $ref: '#/responses/NotFound'
+   *       401:
+   *         $ref: '#/responses/Unauthorized'
+   *       403:
+   *         $ref: '#/responses/Forbidden'
+   *       422:
+   *         $ref: '#/responses/ValidateFailed'
    */
-  Route.post('/:id/upload', 'Api/UsersController.upload').middleware(['auth:jwt', 'instance:App/Models/User'])
+  Route.post('/:id/upload', 'Api/UsersController.upload')
+    .middleware(['auth:jwt', 'instance:App/Models/User'])
 
   /**
-    * @swagger
+    * @\swagger
     * /users/{id}/images/{imageId}/setFeatured:
     *   put:
     *     tags:
@@ -152,27 +177,34 @@ Route.group('user', () => {
     *       200:
     *         description: update success
     */
-  Route.put('/:id/images/:imageId/setFeatured', 'Api/UsersController.setFeatured').middleware(['auth:jwt', 'instance:App/Models/User'])
+  // Route.put('/:id/images/:imageId/setFeatured', 'Api/UsersController.setFeatured').middleware(['auth:jwt', 'instance:App/Models/User'])
 
   /**
-    * @swagger
-    * /users/{id}/images/{imageId}:
-    *   delete:
-    *     tags:
-    *       - User
-    *     summary: Delete an image
-    *     parameters:
-    *       - $ref: '#/parameters/Id'
-    *       - name: imageId
-    *         description: Id of Image object
-    *         in:  path
-    *         required: true
-    *         type: string
-    *     responses:
-    *       200:
-    *         description: delete success
-    */
-  Route.delete('/:id/images/:imageId', 'Api/UsersController.deleteImage').middleware(['auth:jwt', 'instance:App/Models/User'])
+   * @swagger
+   * /users/{id}/images/{imageId}:
+   *   delete:
+   *     tags:
+   *       - User
+   *     summary: Delete an image
+   *     parameters:
+   *       - $ref: '#/parameters/Id'
+   *       - name: imageId
+   *         description: Id of Image object
+   *         in:  path
+   *         required: true
+   *         type: string
+   *     responses:
+   *       200:
+   *         description: delete success
+   *       404:
+   *         $ref: '#/responses/NotFound'
+   *       401:
+   *         $ref: '#/responses/Unauthorized'
+   *       403:
+   *         $ref: '#/responses/Forbidden'
+   */
+  Route.delete('/:id/images/:imageId', 'Api/UsersController.deleteImage')
+    .middleware(['auth:jwt', 'instance:App/Models/User'])
 
   /**
    * @swagger
@@ -190,6 +222,9 @@ Route.group('user', () => {
    *           type: array
    *           items:
    *           $ref: '#/definitions/Image'
+   *       404:
+   *         $ref: '#/responses/NotFound'
    */
-  Route.get('/:id/images', 'Api/UsersController.images').middleware(['instance:App/Models/User'])
+  Route.get('/:id/images', 'Api/UsersController.images')
+    .middleware(['instance:App/Models/User'])
 }).prefix('/api/users')

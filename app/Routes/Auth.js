@@ -29,8 +29,11 @@ Route.group('auth', () => {
    *         description: user
    *         schema:
    *           $ref: '#/definitions/User'
+   *       422:
+   *         $ref: '#/responses/ValidateFailed'
    */
-  Route.post('/register', 'Api/AuthController.register').validator('StoreUser')
+  Route.post('/register', 'Api/AuthController.register')
+    .validator('StoreUser')
 
   /**
    * @swagger
@@ -55,8 +58,22 @@ Route.group('auth', () => {
    *     responses:
    *       200:
    *         description: login success
-   *         schema:
-   *           $ref: '#/definitions/User'
+   *         type: object
+   *         properties:
+   *           type:
+   *             type: string
+   *             default: bearer
+   *           token:
+   *             type: string
+   *           refreshToken:
+   *             type: string
+   *           user:
+   *             type: object
+   *             $ref: '#/definitions/User'
+   *       422:
+   *         $ref: '#/responses/ValidateFailed'
+   *       401:
+   *         $ref: '#/responses/Unauthorized'
    */
   Route.post('/login', 'Api/AuthController.login')
 
@@ -70,6 +87,8 @@ Route.group('auth', () => {
    *     responses:
    *       200:
    *         description: logout success
+   *       401:
+   *         $ref: '#/responses/Unauthorized'
    */
   Route.post('/logout', 'Api/AuthController.logout').middleware('auth:jwt')
 
@@ -100,11 +119,57 @@ Route.group('auth', () => {
    *         type: string
    *     responses:
    *       200:
-   *         description: auth
-   *         schema:
-   *           $ref: '#/definitions/User'
+   *         description: login success
+   *         type: object
+   *         properties:
+   *           type:
+   *             type: string
+   *             default: bearer
+   *           token:
+   *             type: string
+   *           refreshToken:
+   *             type: string
+   *           user:
+   *             type: object
+   *             $ref: '#/definitions/User'
+   *       422:
+   *         $ref: '#/responses/ValidateFailed'
+   *       401:
+   *         $ref: '#/responses/Unauthorized'
    */
   Route.post('/login/:social', 'Api/AuthController.socialLogin')
+
+  /**
+   * @swagger
+   * /auth/refresh:
+   *   post:
+   *     tags:
+   *       - Auth
+   *     summary: Refresh token
+   *     consumes:
+   *       - "application/x-www-form-urlencoded"
+   *     parameters:
+   *       - name: refresh_token
+   *         description: refresh token.
+   *         in: formData
+   *         required: true
+   *         type: string
+   *     responses:
+   *       200:
+   *         description: refresh success
+   *         type: object
+   *         properties:
+   *           type:
+   *             type: string
+   *             default: bearer
+   *           token:
+   *             type: string
+   *           refreshToken:
+   *             type: string
+   *       401:
+   *         $ref: '#/responses/Unauthorized'
+   */
+  Route.post('/refresh', 'Api/AuthController.refresh')
 
   /**
    * @swagger
@@ -118,6 +183,10 @@ Route.group('auth', () => {
    *         description: auth
    *         schema:
    *           $ref: '#/definitions/User'
+   *       422:
+   *         $ref: '#/responses/ValidateFailed'
+   *       401:
+   *         $ref: '#/responses/Unauthorized'
    */
   Route.get('/me', 'Api/AuthController.me').middleware('auth:jwt')
 
@@ -139,6 +208,8 @@ Route.group('auth', () => {
    *     responses:
    *       200:
    *         description: message
+   *       401:
+   *         $ref: '#/responses/Unauthorized'
    */
   Route.post('/forgot', 'Api/AuthController.forgot')
 
@@ -186,6 +257,10 @@ Route.group('auth', () => {
    *     responses:
    *       200:
    *         description: message
+   *       422:
+   *         $ref: '#/responses/ValidateFailed'
+   *       401:
+   *         $ref: '#/responses/Unauthorized'
    */
   Route.post('/password', 'Api/AuthController.password').middleware('auth:jwt')
 }).prefix('/api/auth')

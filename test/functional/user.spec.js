@@ -73,7 +73,7 @@ let user = null
     const response = await client
       .put(`api/users/${user._id}`)
       .loginVia(otherUser, 'jwt')
-      .send({ locale: 'foo' })
+      .send({ locale: 'en' })
       .accept('json')
       .end()
     response.assertStatus(403)
