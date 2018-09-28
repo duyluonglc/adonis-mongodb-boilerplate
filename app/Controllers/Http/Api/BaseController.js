@@ -1,7 +1,7 @@
 'use strict'
 const Validator = use('Validator')
 const ValidateErrorException = use('App/Exceptions/ValidateErrorException')
-const _ = use('lodash')
+const _ = require('lodash')
 
 class BaseController {
   async validate (data, rules, messages) {

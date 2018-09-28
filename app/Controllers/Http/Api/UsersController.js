@@ -1,5 +1,10 @@
 'use strict'
+/** @typedef {import('@adonisjs/framework/src/Request')} Request */
+/** @typedef {import('@adonisjs/auth/src/Schemes/Session')} AuthSession */
+
+/** @type {typeof import('./BaseController')} */
 const BaseController = use('App/Controllers/Http/Api/BaseController')
+/** @type {typeof import('../../../Models/User')} */
 const User = use('App/Models/User')
 // const Validator = use('Validator')
 const UnAuthorizeException = use('App/Exceptions/UnAuthorizeException')
@@ -12,11 +17,10 @@ class UsersController extends BaseController {
   /**
    * Index
    *
-   * @param {any} request
-   * @param {any} response
-   *
-   * @memberOf UsersController
-   *
+   * @param {object} ctx
+   * @param {AuthSession} ctx.auth
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
    */
   async index ({ request, response, decodeQuery }) {
     const users = await User.query(decodeQuery()).fetch()
@@ -26,12 +30,10 @@ class UsersController extends BaseController {
   /**
    * Store
    *
-   * @param {any} request
-   * @param {any} response
-   * @returns
-   *
-   * @memberOf UsersController
-   *
+   * @param {object} ctx
+   * @param {AuthSession} ctx.auth
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
    */
   // async store ({request, response}) {
   //   await this.validate(request.all(), User.rules())
@@ -55,11 +57,10 @@ class UsersController extends BaseController {
   /**
    * Show
    *
-   * @param {any} request
-   * @param {any} response
-   *
-   * @memberOf UsersController
-   *
+   * @param {object} ctx
+   * @param {AuthSession} ctx.auth
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
    */
   async show ({ request, response, instance, decodeQuery }) {
     const user = instance
@@ -70,12 +71,9 @@ class UsersController extends BaseController {
   /**
    * Update
    *
-   * @param {any} request
-   * @param {any} response
-   * @returns
-   *
-   * @memberOf UsersController
-   *
+   * @param {object} ctx
+   * @param {AuthSession} ctx.auth
+   * @param {Request} ctx.request
    */
   async update ({ request, response, params, instance, auth }) {
     const user = instance
@@ -90,11 +88,10 @@ class UsersController extends BaseController {
   /**
    * Destroy
    *
-   * @param {any} request
-   * @param {any} response
-   *
-   * @memberOf UsersController
-   *
+   * @param {object} ctx
+   * @param {AuthSession} ctx.auth
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
    */
   async destroy ({ request, response, instance, auth }) {
     const user = instance
@@ -108,11 +105,10 @@ class UsersController extends BaseController {
   /**
    * Upload
    *
-   * @param {any} request
-   * @param {any} response
-   *
-   * @memberOf UsersController
-   *
+   * @param {object} ctx
+   * @param {AuthSession} ctx.auth
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
    */
   async upload ({ request, response, instance, auth }) {
     const user = instance
@@ -134,11 +130,9 @@ class UsersController extends BaseController {
   /**
    * Get images of user
    *
-   * @param {any} request
-   * @param {any} response
-   *
-   * @memberOf UsersController
-   *
+   * @param {object} ctx
+   * @param {AuthSession} ctx.auth
+   * @param {Request} ctx.request
    */
   async images ({ request, response, instance, decodeQuery }) {
     const user = instance

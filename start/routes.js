@@ -12,7 +12,7 @@
 | http://adonisjs.com/guides/routing
 |
 */
-
+/** @type {import('@adonisjs/framework/src/Route/Manager'} */
 const Route = use('Route')
 
 Route.get('/', ({ request }) => {

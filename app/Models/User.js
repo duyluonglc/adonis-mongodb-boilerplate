@@ -1,8 +1,7 @@
 'use strict'
-
+/** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
 // const Config = use('Config')
-// const locales = Config.get('locale.locales')
 
 /**
  * @swagger
@@ -60,7 +59,7 @@ class User extends Model {
 
   static boot () {
     super.boot()
-    this.addHook('beforeCreate', 'User.hashPassword')
+    this.addHook('beforeSave', 'User.hashPassword')
   }
 
   tokens () {

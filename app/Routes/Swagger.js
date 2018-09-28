@@ -1,5 +1,5 @@
 'use strict'
-
+/** @type {import('@adonisjs/framework/src/Route/Manager'} */
 const Route = use('Route')
 // const Config = use('Config')
 const swaggerJSDoc = use('swagger-jsdoc')
