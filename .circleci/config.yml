@@ -29,7 +29,7 @@ jobs:
       - checkout
       - run:
           name: Test
-          command: npm test
+          command: './node_modules/.bin/nyc node ace test --timeout 10000'
       - run:
           name: Generate code coverage
           command: './node_modules/.bin/nyc report --reporter=text-lcov'
