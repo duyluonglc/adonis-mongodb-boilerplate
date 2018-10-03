@@ -27,12 +27,15 @@ jobs:
       - image: mongo:3.6.8
     steps:
       - checkout
+      - run: 
+          name: npm install
+          command: npm install
       - run:
           name: Test
-          command: './node_modules/.bin/nyc node ace test --timeout 10000'
+          command: 'npm test'
       - run:
           name: Generate code coverage
-          command: './node_modules/.bin/nyc report --reporter=text-lcov'
+          command: 'npm run coverage'
       - store_artifacts:
           path: test-results.xml
           prefix: tests
