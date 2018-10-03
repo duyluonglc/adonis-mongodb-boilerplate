@@ -6,7 +6,7 @@ jobs:
     docker:
       - image: circleci/node:latest
     # The secondary container is an instance of the second listed image which is run in a common network where ports exposed on the primary container are available on localhost.
-      - image: mongo:3.4.4-jessie
+      - image: mongo:3.6.8
     steps:
       - checkout
       - run:
