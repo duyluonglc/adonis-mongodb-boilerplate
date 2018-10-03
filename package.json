@@ -36,10 +36,10 @@
     "swagger-jsdoc": "^3.2.1"
   },
   "devDependencies": {
-    "coveralls": "^3.0.0",
+    "coveralls": "^3.0.2",
     "nyc": "^12.0.1",
     "standard": "^12.0.0",
-    "swagger-ui-dist": "^3.13.2"
+    "swagger-ui-dist": "^3.19.2"
   },
   "standard": {
     "global": [

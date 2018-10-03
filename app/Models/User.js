@@ -1,11 +1,14 @@
 'use strict'
+
+/** @type {import('@adonisjs/framework/src/Hash')} */
+const Hash = use('Hash')
+
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
-// const Config = use('Config')
 
 /**
  * @swagger
- * definitions:
+ * components:
  *   NewUser:
  *     type: object
  *     required:
@@ -22,52 +25,51 @@ const Model = use('Model')
  *       password:
  *         type: string
  *         format: password
- *       locale:
- *         type: string
- *         enum:
- *           - en
- *           - ja
- *           - vi
  *   UpdateUser:
  *     type: object
  *     properties:
  *       name:
  *         type: string
- *       locale:
- *         type: string
- *         enum:
- *           - en
- *           - ja
- *           - vi
  *   User:
  *     allOf:
- *       - $ref: '#/definitions/NewUser'
+ *       - $ref: '#/components/schemas/NewUser'
  *       - type: object
  *         properties:
  *           _id:
  *             type: string
  */
+
 class User extends Model {
-  // timestamp
-  static get createTimestamp () { return 'createdAt' }
-  static get updateTimestamp () { return 'updatedAt' }
-  static get deleteTimestamp () { return 'deletedAt' }
-
-  static get hidden () {
-    return ['password', 'verified', 'verificationToken']
-  }
-
   static boot () {
     super.boot()
-    this.addHook('beforeSave', 'User.hashPassword')
+
+    /**
+     * A hook to hash the user password before saving
+     * it to the database.
+     */
+    this.addHook('beforeSave', async (userInstance) => {
+      if (userInstance.dirty.password) {
+        userInstance.password = await Hash.make(userInstance.password)
+      }
+    })
   }
 
+  /**
+   * A relationship on tokens is required for auth to
+   * work. Since features like `refreshTokens` or
+   * `rememberToken` will be saved inside the
+   * tokens table.
+   *
+   * @method tokens
+   *
+   * @return {Object}
+   */
   tokens () {
-    return this.hasMany('App/Models/Token', '_id', 'userId')
+    return this.hasMany('App/Models/Token')
   }
 
   images () {
-    return this.morphMany('App/Models/Image', 'imageableType', 'imageableId')
+    return this.morphMany('App/Models/Image', 'imageable_type', 'imageable_id')
   }
 }
 

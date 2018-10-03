@@ -2,8 +2,7 @@
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/auth/src/Schemes/Session')} AuthSession */
 
-/** @type {typeof import('./BaseController')} */
-const BaseController = use('App/Controllers/Http/Api/BaseController')
+const BaseController = require('./BaseController')
 /** @type {typeof import('../../../Models/User')} */
 const User = use('App/Models/User')
 // const Validator = use('Validator')

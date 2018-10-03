@@ -1,29 +1,37 @@
 'use strict'
 /** @type {import('@adonisjs/framework/src/Route/Manager'} */
 const Route = use('Route')
-// const Config = use('Config')
 const swaggerJSDoc = use('swagger-jsdoc')
 /**
  * Swagger jsDoc
  */
 Route.get('api-specs', async ({ request, response }) => {
   const options = {
-    swaggerDefinition: {
+    definition: {
+      openapi: '3.0.0',
       info: {
         title: 'My REST API', // Title (required)
         version: '1.0.0' // Version (required)
       },
+      servers: [
+        { url: `/api` }
+      ],
       // host: `${Config.get('host')}:${Config.get('port')}`,
       basePath: '/api',
-      security: [{
-        JWT: []
-      }],
-      securityDefinitions: {
-        'JWT': {
-          'type': 'apiKey',
-          'description': "add 'Bearer ' before jwt token",
-          'name': 'Authorization',
-          'in': 'header'
+      security: [
+        { bearerAuth: [] }
+      ],
+      schemes: [
+        'http',
+        'https'
+      ],
+      components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: 'http',
+            scheme: 'bearer',
+            bearerFormat: 'JWT'
+          }
         }
       }
     },
@@ -45,80 +53,81 @@ Route.get('docs', ({ view }) => {
 
 /**
  * @swagger
- * parameters:
- *   Id:
- *     name: id
- *     description: id of instance
- *     in:  path
- *     required: true
- *     type: string
+ * components:
+ *   parameters:
+ *     Id:
+ *       name: id
+ *       description: id of instance
+ *       in:  path
+ *       required: true
+ *       schema:
+ *         type: string
+ *     ListQuery:
+ *       name: query
+ *       description: '{ "where": { },  "with": ["string"], "select": ["string"], "limit": 20, "skip": 0, "sort": "string" }'
+ *       in:  query
+ *       required: false
+ *       schema:
+ *         type: string
+ *     SingleQuery:
+ *       name: query
+ *       description: '{ "with": ["string"], "select": ["string"] }'
+ *       in:  query
+ *       required: false
+ *       schema:
+ *         type: string
  *
- *   ListQuery:
- *     name: query
- *     description: '{ "where": { },  "with": ["string"], "select": ["string"], "limit": 20, "skip": 0, "sort": "string" }'
- *     in:  query
- *     required: false
- *     type: string
- *     #default: '{ "where": { },  "with": ["string"], "select": ["string"], "limit": 20, "skip": 0, "sort": "string" }'
- *
- *   SingleQuery:
- *     name: query
- *     description: '<pre>{ "with": ["string"], "select": ["string"] }</pre>'
- *     in:  query
- *     required: false
- *     type: string
- *     #default: '<pre>{ "with": ["string"], "select": ["string"] }</pre>'
- * responses:
- *   Unauthorized:
- *     description: JWT token invalid or did not provided
- *     schema:
- *       type: object
- *       properties:
- *         status:
- *           type: number
- *           default: 401
- *         code:
- *           type: string
- *         message:
- *           type: string
- *   ValidateFailed:
- *     description: Validation failed
- *     schema:
- *       type: object
- *       properties:
- *         status:
- *           type: number
- *           default: 422
- *         code:
- *           type: string
- *         message:
- *           type: string
- *         errors:
- *           type: array
- *           items:
- *             type: object
- *   NotFound:
- *     description: Resource not found
- *     schema:
- *       type: object
- *       properties:
- *         status:
- *           type: number
- *           default: 404
- *         code:
- *           type: string
- *         message:
- *           type: string
- *   Forbidden:
- *     description: Access denied
- *     schema:
- *       type: object
- *       properties:
- *         status:
- *           type: number
- *           default: 403
- *         code:
- *           type: string
- *         message:
- *           type: string
+ *   responses:
+ *     Unauthorized:
+ *       description: JWT token invalid or did not provided
+ *       schema:
+ *         type: object
+ *         properties:
+ *           status:
+ *             type: number
+ *             default: 401
+ *           code:
+ *             type: string
+ *           message:
+ *             type: string
+ *     ValidateFailed:
+ *       description: Validation failed
+ *       schema:
+ *         type: object
+ *         properties:
+ *           status:
+ *             type: number
+ *             default: 422
+ *           code:
+ *             type: string
+ *           message:
+ *             type: string
+ *           errors:
+ *             type: array
+ *             items:
+ *               type: object
+ *     NotFound:
+ *       description: Resource not found
+ *       schema:
+ *         type: object
+ *         properties:
+ *           status:
+ *             type: number
+ *             default: 404
+ *           code:
+ *             type: string
+ *           message:
+ *             type: string
+ *     Forbidden:
+ *       description: Access denied
+ *       schema:
+ *         type: object
+ *         properties:
+ *           status:
+ *             type: number
+ *             default: 403
+ *           code:
+ *             type: string
+ *           message:
+ *             type: string
  */

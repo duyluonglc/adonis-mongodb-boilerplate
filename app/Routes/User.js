@@ -6,7 +6,7 @@
 |--------------------------------------------------------------------------
 |
 */
-/** @type {import('@adonisjs/framework/src/Route/Manager'} */
+
 const Route = use('Route')
 
 Route.group('user', () => {
@@ -18,14 +18,14 @@ Route.group('user', () => {
    *       - User
    *     summary: Get users
    *     parameters:
-   *       - $ref: '#/parameters/ListQuery'
+   *       - $ref: '#/components/parameters/ListQuery'
    *     responses:
    *       200:
    *         description: users
    *         schema:
    *           type: array
    *           items:
-   *               $ref: '#/definitions/User'
+   *               $ref: '#/components/schemas/User'
    */
   // Route.get('/', 'Api/UsersController.index')
 
@@ -36,18 +36,17 @@ Route.group('user', () => {
    *     tags:
    *       - User
    *     summary: Create user
-   *     parameters:
-   *       - name: body
-   *         description: JSON of user
-   *         in:  body
-   *         required: true
-   *         schema:
-   *           $ref: '#/definitions/NewUser'
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/NewUser'
    *     responses:
    *       200:
    *         description: user
    *         schema:
-   *           $ref: '#/definitions/User'
+   *           $ref: '#/components/schemas/User'
    */
   // Route.post('/', 'Api/UsersController.store')
 
@@ -59,15 +58,15 @@ Route.group('user', () => {
    *       - User
    *     summary: Returns user
    *     parameters:
-   *       - $ref: '#/parameters/Id'
-   *       - $ref: '#/parameters/SingleQuery'
+   *       - $ref: '#/components/parameters/Id'
+   *       - $ref: '#/components/parameters/SingleQuery'
    *     responses:
    *       200:
    *         description: user
    *         schema:
-   *           $ref: '#/definitions/User'
+   *           $ref: '#/components/schemas/User'
    *       404:
-   *         $ref: '#/responses/NotFound'
+   *         $ref: '#/components/responses/NotFound'
    */
   Route.get('/:id', 'Api/UsersController.show')
     .instance('App/Models/User')
@@ -80,26 +79,26 @@ Route.group('user', () => {
    *       - User
    *     summary: Update users
    *     parameters:
-   *       - $ref: '#/parameters/Id'
-   *       - name: user
-   *         description: User object
-   *         in:  body
-   *         required: true
-   *         schema:
-   *           $ref: '#/definitions/NewUser'
+   *       - $ref: '#/components/parameters/Id'
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/NewUser'
    *     responses:
    *       202:
    *         description: user
    *         schema:
-   *           $ref: '#/definitions/User'
+   *           $ref: '#/components/schemas/User'
    *       404:
-   *         $ref: '#/responses/NotFound'
+   *         $ref: '#/components/responses/NotFound'
    *       401:
-   *         $ref: '#/responses/Unauthorized'
+   *         $ref: '#/components/responses/Unauthorized'
    *       403:
-   *         $ref: '#/responses/Forbidden'
+   *         $ref: '#/components/responses/Forbidden'
    *       422:
-   *         $ref: '#/responses/ValidateFailed'
+   *         $ref: '#/components/responses/ValidateFailed'
    */
   Route.put('/:id', 'Api/UsersController.update')
     .middleware(['auth:jwt'])
@@ -114,14 +113,14 @@ Route.group('user', () => {
    *       - User
    *     summary: Delete users
    *     parameters:
-   *       - $ref: '#/parameters/Id'
+   *       - $ref: '#/components/parameters/Id'
    *     responses:
    *       202:
    *         description: delete success
    *       404:
-   *         $ref: '#/responses/NotFound'
+   *         $ref: '#/components/responses/NotFound'
    *       401:
-   *         $ref: '#/responses/Unauthorized'
+   *         $ref: '#/components/responses/Unauthorized'
    */
   Route.delete('/:id', 'Api/UsersController.destroy')
     .middleware(['auth:jwt'])
@@ -135,28 +134,32 @@ Route.group('user', () => {
    *       - User
    *     summary: Upload images to user
    *     parameters:
-   *       - $ref: '#/parameters/Id'
-   *       - name: image
-   *         description: image files
-   *         in:  formData
-   *         required: true
-   *         type: file
-   *       - name: isAvatar
-   *         description: isAvatar
-   *         in:  formData
-   *         required: false
-   *         type: boolean
+   *       - $ref: '#/components/parameters/Id'
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         multipart/form-data:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               image:
+   *                 required: true
+   *                 type: string
+   *                 format: binary
+   *               is_avatar:
+   *                 required: false
+   *                 type: boolean
    *     responses:
    *       200:
    *         description: upload success
    *       404:
-   *         $ref: '#/responses/NotFound'
+   *         $ref: '#/components/responses/NotFound'
    *       401:
-   *         $ref: '#/responses/Unauthorized'
+   *         $ref: '#/components/responses/Unauthorized'
    *       403:
-   *         $ref: '#/responses/Forbidden'
+   *         $ref: '#/components/responses/Forbidden'
    *       422:
-   *         $ref: '#/responses/ValidateFailed'
+   *         $ref: '#/components/responses/ValidateFailed'
    */
   Route.post('/:id/upload', 'Api/UsersController.upload')
     .middleware(['auth:jwt'])
@@ -170,7 +173,7 @@ Route.group('user', () => {
     *       - User
     *     summary: set featured image
     *     parameters:
-    *       - $ref: '#/parameters/Id'
+    *       - $ref: '#/components/parameters/Id'
     *       - name: imageId
     *         description: Id of Image object
     *         in:  path
@@ -190,7 +193,7 @@ Route.group('user', () => {
    *       - User
    *     summary: Delete an image
    *     parameters:
-   *       - $ref: '#/parameters/Id'
+   *       - $ref: '#/components/parameters/Id'
    *       - name: imageId
    *         description: Id of Image object
    *         in:  path
@@ -200,11 +203,11 @@ Route.group('user', () => {
    *       200:
    *         description: delete success
    *       404:
-   *         $ref: '#/responses/NotFound'
+   *         $ref: '#/components/responses/NotFound'
    *       401:
-   *         $ref: '#/responses/Unauthorized'
+   *         $ref: '#/components/responses/Unauthorized'
    *       403:
-   *         $ref: '#/responses/Forbidden'
+   *         $ref: '#/components/responses/Forbidden'
    */
   Route.delete('/:id/images/:imageId', 'Api/UsersController.deleteImage')
     .middleware(['auth:jwt'])
@@ -218,16 +221,16 @@ Route.group('user', () => {
    *       - User
    *     summary: Get images of user
    *     parameters:
-   *       - $ref: '#/parameters/Id'
+   *       - $ref: '#/components/parameters/Id'
    *     responses:
    *       200:
    *         description: success
    *         schema:
    *           type: array
    *           items:
-   *           $ref: '#/definitions/Image'
+   *           $ref: '#/components/schemas/Image'
    *       404:
-   *         $ref: '#/responses/NotFound'
+   *         $ref: '#/components/responses/NotFound'
    */
   Route.get('/:id/images', 'Api/UsersController.images')
     .instance('App/Models/User')

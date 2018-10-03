@@ -4,7 +4,7 @@ const Model = use('Model')
 
 /**
  * @swagger
- * definitions:
+ * components:
  *   NewImage:
  *     type: object
  *     properties:
@@ -12,7 +12,7 @@ const Model = use('Model')
  *         type: string
  *   Image:
  *     allOf:
- *       - $ref: '#/definitions/NewImage'
+ *       - $ref: '#/components/NewImage'
  *       - type: object
  *         properties:
  *           _id:
