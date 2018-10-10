@@ -27,7 +27,13 @@ jobs:
       - store_artifacts:
           path: coverage
           prefix: coverage
-
+  build:	
+    working_directory: ~/mern-starter	
+    # The primary container is an instance of the first image listed. The job's commands run in this container.	
+    docker:	
+      - image: circleci/node:latest
+    steps:	
+      - checkout
 workflows:
   version: 2
   build_and_test:
