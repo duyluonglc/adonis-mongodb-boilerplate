@@ -5,10 +5,10 @@ jobs:
       - image: circleci/node:latest
       - image: mongo:3.6.8
     steps:
-      - run:
-        name: add mongodb test user
-        command: mongo adonis --eval 'db.createUser({user:"test",pwd:"test",roles:["dbOwner"]});'
       - checkout
+      - run:
+          name: add mongodb test user
+          command: mongo adonis --eval 'db.createUser({user:"test",pwd:"test",roles:["dbOwner"]});'
       - run: 
           name: npm install
           command: npm install
