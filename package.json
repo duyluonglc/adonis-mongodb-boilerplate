@@ -20,7 +20,7 @@
     "@adonisjs/ace": "^5.0.1",
     "@adonisjs/ally": "^2.1.2",
     "@adonisjs/auth": "^3.0.5",
-    "@adonisjs/bodyparser": "^2.0.2",
+    "@adonisjs/bodyparser": "^2.0.9",
     "@adonisjs/cors": "^1.0.5",
     "@adonisjs/fold": "^4.0.7",
     "@adonisjs/framework": "^5.0.6",
