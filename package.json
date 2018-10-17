@@ -23,14 +23,14 @@
     "@adonisjs/bodyparser": "^2.0.9",
     "@adonisjs/cors": "^1.0.5",
     "@adonisjs/fold": "^4.0.7",
-    "@adonisjs/framework": "^5.0.6",
+    "@adonisjs/framework": "^5.0.12",
     "@adonisjs/ignitor": "^2.0.8",
     "@adonisjs/mail": "^3.0.3",
-    "@adonisjs/session": "^1.0.23",
+    "@adonisjs/session": "^1.0.28",
     "@adonisjs/shield": "^1.0.6",
-    "@adonisjs/validator": "^5.0.1",
+    "@adonisjs/validator": "^5.0.6",
     "@adonisjs/vow": "^1.0.13",
-    "@adonisjs/vow-browser": "^1.0.5",
+    "@adonisjs/vow-browser": "^1.0.7",
     "lucid-mongo": "^3.1.1",
     "require-all": "^3.0.0",
     "swagger-jsdoc": "^3.2.1"
@@ -39,7 +39,7 @@
     "coveralls": "^3.0.2",
     "nyc": "^12.0.1",
     "standard": "^12.0.0",
-    "swagger-ui-dist": "^3.19.2"
+    "swagger-ui-dist": "^3.19.3"
   },
   "standard": {
     "global": [
