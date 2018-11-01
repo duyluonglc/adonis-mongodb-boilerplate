@@ -9,34 +9,35 @@ const Model = use('Model')
 /**
  * @swagger
  * components:
- *   NewUser:
- *     type: object
- *     required:
- *       - name
- *       - email
- *       - password
- *     properties:
- *       name:
- *         type: string
- *       email:
- *         type: string
- *       phone:
- *         type: string
- *       password:
- *         type: string
- *         format: password
- *   UpdateUser:
- *     type: object
- *     properties:
- *       name:
- *         type: string
- *   User:
- *     allOf:
- *       - $ref: '#/components/schemas/NewUser'
- *       - type: object
- *         properties:
- *           _id:
- *             type: string
+ *   schemas:
+ *     NewUser:
+ *       type: object
+ *       required:
+ *         - name
+ *         - email
+ *         - password
+ *       properties:
+ *         name:
+ *           type: string
+ *         email:
+ *           type: string
+ *         phone:
+ *           type: string
+ *         password:
+ *           type: string
+ *           format: password
+ *     UpdateUser:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *     User:
+ *       allOf:
+ *         - $ref: '#/components/schemas/NewUser'
+ *         - type: object
+ *           properties:
+ *             _id:
+ *               type: string
  */
 
 class User extends Model {
