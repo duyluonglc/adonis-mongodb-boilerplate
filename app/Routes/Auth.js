@@ -21,7 +21,7 @@ Route.group('auth', () => {
    *     requestBody:
    *       required: true
    *       content:
-   *         application/json::
+   *         application/json:
    *           schema:
    *             $ref: '#/components/schemas/NewUser'
    *     responses:
