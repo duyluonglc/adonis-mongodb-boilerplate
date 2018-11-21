@@ -4,6 +4,7 @@
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/duyluonglc/adonis-mongodb-boilerplate.svg)](https://greenkeeper.io/)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fduyluonglc%2Fadonis-mongodb-boilerplate.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fduyluonglc%2Fadonis-mongodb-boilerplate?ref=badge_shield)
 
 ## :arrow_up: How to Setup
 
@@ -34,3 +35,7 @@
  copy file `.env.example` to `.env.test`
  
  `npm run test`
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fduyluonglc%2Fadonis-mongodb-boilerplate.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fduyluonglc%2Fadonis-mongodb-boilerplate?ref=badge_large)
