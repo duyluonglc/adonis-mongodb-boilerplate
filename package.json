@@ -7,7 +7,9 @@
     "start": "node server.js",
     "test:local": "node ace test --timeout 10000",
     "test": "nyc node ace test --timeout 10000",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "keywords": [
     "adonisjs",
@@ -33,7 +35,8 @@
     "@adonisjs/vow-browser": "^1.0.7",
     "lucid-mongo": "^3.1.3",
     "require-all": "^3.0.0",
-    "swagger-jsdoc": "^3.2.3"
+    "swagger-jsdoc": "^3.2.3",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "coveralls": "^3.0.2",
@@ -52,5 +55,6 @@
   },
   "autoload": {
     "App": "./app"
-  }
+  },
+  "snyk": true
 }
