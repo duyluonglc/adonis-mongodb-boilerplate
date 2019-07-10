@@ -16,3 +16,7 @@ patch:
         patched: '2019-07-04T03:41:49.565Z'
     - '@adonisjs/framework > winston > async > lodash':
         patched: '2019-07-04T03:41:49.565Z'
+    - snyk > snyk-mvn-plugin > lodash:
+        patched: '2019-07-10T14:14:11.231Z'
+    - snyk > snyk-php-plugin > @snyk/composer-lockfile-parser > lodash:
+        patched: '2019-07-10T14:14:11.231Z'
