@@ -11,7 +11,7 @@ const Route = use('Route')
 
 Route.group('user', () => {
   /**
-   * @\swagger
+   * @swagger
    * /users:
    *   get:
    *     tags:
@@ -22,12 +22,14 @@ Route.group('user', () => {
    *     responses:
    *       200:
    *         description: users
-   *         schema:
-   *           type: array
-   *           items:
-   *               $ref: '#/components/schemas/User'
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                   $ref: '#/components/schemas/User'
    */
-  // Route.get('/', 'Api/UsersController.index')
+   Route.get('/', 'Api/UsersController.index')
 
   /**
    * \@swagger
@@ -45,8 +47,10 @@ Route.group('user', () => {
    *     responses:
    *       200:
    *         description: user
-   *         schema:
-   *           $ref: '#/components/schemas/User'
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/User'
    */
   // Route.post('/', 'Api/UsersController.store')
 
@@ -63,8 +67,10 @@ Route.group('user', () => {
    *     responses:
    *       200:
    *         description: user
-   *         schema:
-   *           $ref: '#/components/schemas/User'
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/User'
    *       404:
    *         $ref: '#/components/responses/NotFound'
    */
@@ -88,9 +94,11 @@ Route.group('user', () => {
    *             $ref: '#/components/schemas/NewUser'
    *     responses:
    *       202:
-   *         description: user
-   *         schema:
-   *           $ref: '#/components/schemas/User'
+   *         description: update success
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/User'
    *       404:
    *         $ref: '#/components/responses/NotFound'
    *       401:
@@ -225,10 +233,12 @@ Route.group('user', () => {
    *     responses:
    *       200:
    *         description: success
-   *         schema:
-   *           type: array
-   *           items:
-   *           $ref: '#/components/schemas/Image'
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                 $ref: '#/components/schemas/Image'
    *       404:
    *         $ref: '#/components/responses/NotFound'
    */
