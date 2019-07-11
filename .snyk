@@ -1,0 +1,22 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.5
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-450202:
+    - '@adonisjs/validator > lodash':
+        patched: '2019-07-04T03:41:49.565Z'
+    - lucid-mongo > lodash:
+        patched: '2019-07-04T03:41:49.565Z'
+    - '@adonisjs/framework > edge.js > lodash':
+        patched: '2019-07-04T03:41:49.565Z'
+    - '@adonisjs/framework > @adonisjs/middleware-base > lodash':
+        patched: '2019-07-04T03:41:49.565Z'
+    - lucid-mongo > geo-point > lodash:
+        patched: '2019-07-04T03:41:49.565Z'
+    - '@adonisjs/framework > winston > async > lodash':
+        patched: '2019-07-04T03:41:49.565Z'
+    - snyk > snyk-mvn-plugin > lodash:
+        patched: '2019-07-10T14:14:11.231Z'
+    - snyk > snyk-php-plugin > @snyk/composer-lockfile-parser > lodash:
+        patched: '2019-07-10T14:14:11.231Z'
