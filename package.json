@@ -25,7 +25,7 @@
     "@adonisjs/fold": "^4.0.9",
     "@adonisjs/framework": "^5.0.13",
     "@adonisjs/ignitor": "^2.0.8",
-    "@adonisjs/mail": "^3.0.9",
+    "@adonisjs/mail": "3.0.9",
     "@adonisjs/session": "^1.0.28",
     "@adonisjs/shield": "^1.0.8",
     "@adonisjs/validator": "^5.0.6",
