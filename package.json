@@ -36,7 +36,7 @@
     "swagger-jsdoc": "^3.3.0"
   },
   "devDependencies": {
-    "coveralls": "^3.0.4",
+    "coveralls": "3.0.6",
     "nyc": "^14.1.1",
     "standard": "^13.0.0",
     "swagger-ui-dist": "^3.23.0"
