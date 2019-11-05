@@ -19,7 +19,7 @@
   "dependencies": {
     "@adonisjs/ace": "^5.0.8",
     "@adonisjs/ally": "^2.1.3",
-    "@adonisjs/auth": "^3.0.7",
+    "@adonisjs/auth": "3.0.7",
     "@adonisjs/bodyparser": "^2.0.9",
     "@adonisjs/cors": "^1.0.7",
     "@adonisjs/fold": "^4.0.9",
