@@ -32,6 +32,7 @@
     "@adonisjs/vow": "^1.0.17",
     "@adonisjs/vow-browser": "^1.0.7",
     "lucid-mongo": "^3.1.6",
+    "mongodb-core": "^3.2.7",
     "require-all": "^3.0.0",
     "swagger-jsdoc": "^3.3.0"
   },
